@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/verPerfil"
+            android:icon="@drawable/perfil"
+            android:title="Ver perfil" />
+        <item
+            android:id="@+id/meusClientes"
+            android:icon="@drawable/clientesicone"
+            android:title="Meus clientes" />
+        <item
+            android:id="@+id/clientesDisponiveis"
+            android:icon="@drawable/clientes"
+            android:title="Clientes disponiveis" />
+        <item
+            android:id="@+id/sairLogin"
+            android:icon="@drawable/iconesair"
+            android:title="Sair" />
+    </group>
+
+</menu>

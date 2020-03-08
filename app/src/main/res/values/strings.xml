@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NurseCare Work</string>
+    <string name="hintLogin">Email:</string>
+    <string name="hintSenha">Senha:</string>
+    <string name="nome">Nome:</string>
+    <string name="sobrenome">Sobrenome:</string>
+    <string name="title_activity_cadastro_enfermeiro_parte3">cadastro_enfermeiro_parte3</string>
+    <string name="title_activity_cadastro_enfermeiro_parte4">cadastro_enfermeiro_parte4</string>
+    <string name="title_activity_enfermeiro_logado">enfermeiroLogado</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="about">Ver perfil</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_empresa_logado">Empresa_logado</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <string-array name="spinner_banco">
+        <item>Banco Itau</item>
+        <item>Banco Bradesco</item>
+        <item>Banco Santander</item>
+        <item>Banco do Brasil</item>
+        <item>Caixa Economica</item>
+    </string-array>
+
+    <string-array name="spinner_estados">
+        <item>AC</item>
+        <item>AL</item>
+        <item>AP</item>
+        <item>AM</item>
+        <item>BA</item>
+        <item>CE</item>
+        <item>DF</item>
+        <item>ES</item>
+        <item>GO</item>
+        <item>MA</item>
+        <item>MT</item>
+        <item>MS</item>
+        <item>MG</item>
+        <item>PA</item>
+        <item>PB</item>
+        <item>PR</item>
+        <item>PE</item>
+        <item>PI</item>
+        <item>RJ</item>
+        <item>RN</item>
+        <item>RS</item>
+        <item>RO</item>
+        <item>RR</item>
+        <item>SC</item>
+        <item>SP</item>
+        <item>SE</item>
+        <item>TO</item>
+    </string-array>
+
+</resources>

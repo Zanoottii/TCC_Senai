@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/nomePacienteAlert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nome:"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/sobrenomePacienteAlert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sobrenome:"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/dataNascPacienteALert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data de nascimento:"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tipoServicoAlert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tipo de serviço:"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+</LinearLayout>

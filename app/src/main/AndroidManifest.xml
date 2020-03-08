@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.senai.tcc.nursecarework">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".CadastroCooperativa2Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CadastroCooperativa1Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CadastroPaciente3Activity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CadastroPaciente4Activity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CadastroPaciente2Activity"
+            android:label="Dados do Paciente"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CadastroPaciente1Activity"
+            android:label="Dados do Paciente"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".EmpresaLogadoActivity"
+            android:label="Meus Pacientes"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".EnfermeiroLogadoActivity"
+            android:label="Cliente disponiveis"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".CadastroEnfermeiro2Activity"
+            android:label="Dados Pessoais"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CadastroEnfermeiro1Activity"
+            android:label="Dados Pessoais"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".NovoCadastroActivity"
+            android:label="Novo cadastro"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CadastroEnfermeiro4Activity"
+            android:label="Dados Pessoais"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CadastroEnfermeiro3Activity"
+            android:label="Dados Pessoais"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CadastroEnfermeiro5Activity"
+            android:label="Dados Pessoais"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CadastroEnfermeiro6Activity"
+            android:label="Dados Pessoais"
+            android:screenOrientation="portrait"></activity>
+    </application>
+
+</manifest>

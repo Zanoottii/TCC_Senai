@@ -1,0 +1,2 @@
+rootProject.name='NurseCare Work'
+include ':app'
