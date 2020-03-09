@@ -29,7 +29,7 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
     private String barra;
     private Toolbar toolbar;
     private ListView lvListaOpcoes;
-    private ArrayList<InfoClientes> listaOpcoes;
+    private ArrayList<InfoPacientes> listaOpcoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,31 +48,31 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
         lvListaOpcoes = findViewById(R.id.listaClientesDisp);
         listaOpcoes = getListaOpcoes();
 
-        ListaClientesAdapter adapter = new ListaClientesAdapter(EnfermeiroLogadoActivity.this, listaOpcoes);
+        ListaPacientesAdapter adapter = new ListaPacientesAdapter(EnfermeiroLogadoActivity.this, listaOpcoes);
         lvListaOpcoes.setAdapter(adapter);
 
         lvListaOpcoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
-                final InfoClientes infoClientessObj = listaOpcoes.get(i);
+                final InfoPacientes infoClientessObj = listaOpcoes.get(i);
                 final AlertDialog.Builder alertConfig = new AlertDialog.Builder(view.getContext());
-                alertConfig.setTitle("Informações do cliente")
-                        .setMessage("Nome: " + infoClientessObj.getNomeCliente() +
-                                "\nSobrenome: " + infoClientessObj.getSobrenomeCliente() +
-                                "\nData de nascimento: " + infoClientessObj.getDataNascCliente() +
-                                "\nServiço: " + infoClientessObj.getTipoServicoCliente())
+                alertConfig.setTitle("Informações do Paciente")
+                        .setMessage("Nome: " + infoClientessObj.getNome() +
+                                "\nSobrenome: " + infoClientessObj.getSobrenome() +
+                                "\nData de nascimento: " + infoClientessObj.getDataNasc() +
+                                "\nServiço: " + infoClientessObj.getTipoServico())
                         .setPositiveButton("Aceitar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
-                                Toast.makeText(EnfermeiroLogadoActivity.this, "Cliente aceito", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EnfermeiroLogadoActivity.this, "Paciente aceito", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Rejeitar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
-                                Toast.makeText(EnfermeiroLogadoActivity.this, "Cliente rejeitado", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EnfermeiroLogadoActivity.this, "Paciente rejeitado", Toast.LENGTH_SHORT).show();
                             }
                         });
                 final AlertDialog alert = alertConfig.create();
@@ -81,15 +81,15 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
         });
     }
 
-    private ArrayList<InfoClientes> getListaOpcoes() {
-        ArrayList<InfoClientes> infoClientesArray = new ArrayList<>();
-        InfoClientes infoClientesObj = new InfoClientes();
+    private ArrayList<InfoPacientes> getListaOpcoes() {
+        ArrayList<InfoPacientes> infoClientesArray = new ArrayList<>();
+        InfoPacientes infoPacientesObj = new InfoPacientes();
 
-        infoClientesObj.setNomeCliente("Carlos");
-        infoClientesObj.setSobrenomeCliente("Zanotti");
-        infoClientesObj.setDataNascCliente("03/03/2020");
-        infoClientesObj.setTipoServicoCliente("retirada de pontos");
-        infoClientesArray.add(infoClientesObj);
+        infoPacientesObj.setNome("Carlos");
+        infoPacientesObj.setSobrenome("Zanotti");
+        infoPacientesObj.setDataNasc("03/03/2020");
+        infoPacientesObj.setTipoServico("retirada de pontos");
+        infoClientesArray.add(infoPacientesObj);
 
         return infoClientesArray;
     }
@@ -121,16 +121,16 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
             barra = "Meu perfil";
             fragmentTransaction.commit();
         } else if (id == R.id.meusClientes) {
-            MeusClientesFragment frag = new MeusClientesFragment();
+            MeusPacientesFragment frag = new MeusPacientesFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fraClientesDisp, frag);
-            barra = "Meus clientes";
+            barra = "Meus Pacientes";
             fragmentTransaction.commit();
         } else if (id == R.id.clientesDisponiveis) {
-            ClientesDispFragment frag = new ClientesDispFragment();
+            PacientesDispFragment frag = new PacientesDispFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fraClientesDisp, frag);
-            barra = "Clientes disponiveis";
+            barra = "Pacientes disponiveis";
             fragmentTransaction.commit();
         } else if (id == R.id.sairLogin) {
             Intent intent = new Intent(EnfermeiroLogadoActivity.this, MainActivity.class);

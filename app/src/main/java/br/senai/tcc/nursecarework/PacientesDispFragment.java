@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,35 +15,35 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-public class ClientesDispFragment extends Fragment {
+public class PacientesDispFragment extends Fragment {
     private ListView lvListaOpcoes;
-    private ArrayList<InfoClientes> listaOpcoes;
-    private ArrayAdapter<InfoClientes> listaOpcoesAdapter;
+    private ArrayList<InfoPacientes> listaOpcoes;
+    private ListaPacientesAdapter adapter;
 
-    public ClientesDispFragment() {
+    public PacientesDispFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_frag_clientes_disp, container, false);
+        View view = inflater.inflate(R.layout.fragment_frag_pacientes_disp, container, false);
 
         lvListaOpcoes = view.findViewById(R.id.listaClientesDisp);
         listaOpcoes = getListaOpcoes();
 
-        ListaClientesAdapter adapter = new ListaClientesAdapter(getActivity(), listaOpcoes);
+        adapter = new ListaPacientesAdapter(getActivity(), listaOpcoes);
         lvListaOpcoes.setAdapter(adapter);
 
         lvListaOpcoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
-                final InfoClientes infoClientessObj = listaOpcoes.get(i);
+                final InfoPacientes infoPacientesObj = listaOpcoes.get(i);
                 final AlertDialog.Builder alertConfig = new AlertDialog.Builder(view.getContext());
 
                 alertConfig.setTitle("Informações do cliente")
-                        .setMessage("Nome: " + infoClientessObj.getNomeCliente() +
-                                "\nSobrenome: " + infoClientessObj.getSobrenomeCliente() +
-                                "\nData de nascimento: " + infoClientessObj.getDataNascCliente() +
-                                "\nServiço: " + infoClientessObj.getTipoServicoCliente())
+                        .setMessage("Nome: " + infoPacientesObj.getNome() +
+                                "\nSobrenome: " + infoPacientesObj.getSobrenome() +
+                                "\nData de nascimento: " + infoPacientesObj.getDataNasc() +
+                                "\nServiço: " + infoPacientesObj.getTipoServico())
                         .setPositiveButton("Aceitar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -66,15 +65,15 @@ public class ClientesDispFragment extends Fragment {
         return view;
     }
 
-    private ArrayList<InfoClientes> getListaOpcoes() {
-        ArrayList<InfoClientes> infoClientesArray = new ArrayList<>();
-        InfoClientes infoClientesObj = new InfoClientes();
+    private ArrayList<InfoPacientes> getListaOpcoes() {
+        ArrayList<InfoPacientes> infoClientesArray = new ArrayList<>();
+        InfoPacientes infoPacientesObj = new InfoPacientes();
 
-        infoClientesObj.setNomeCliente("Carlos");
-        infoClientesObj.setSobrenomeCliente("Zanotti");
-        infoClientesObj.setDataNascCliente("03/03/2020");
-        infoClientesObj.setTipoServicoCliente("retirada de pontos");
-        infoClientesArray.add(infoClientesObj);
+        infoPacientesObj.setNome("Carlos");
+        infoPacientesObj.setSobrenome("Zanotti");
+        infoPacientesObj.setDataNasc("03/03/2020");
+        infoPacientesObj.setTipoServico("retirada de pontos");
+        infoClientesArray.add(infoPacientesObj);
 
         return infoClientesArray;
     }

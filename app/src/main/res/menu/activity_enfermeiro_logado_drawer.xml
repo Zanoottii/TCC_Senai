@@ -10,11 +10,11 @@
         <item
             android:id="@+id/meusClientes"
             android:icon="@drawable/clientesicone"
-            android:title="Meus clientes" />
+            android:title="Meus pacientes" />
         <item
             android:id="@+id/clientesDisponiveis"
             android:icon="@drawable/clientes"
-            android:title="Clientes disponiveis" />
+            android:title="Pacientes disponiveis" />
         <item
             android:id="@+id/sairLogin"
             android:icon="@drawable/iconesair"

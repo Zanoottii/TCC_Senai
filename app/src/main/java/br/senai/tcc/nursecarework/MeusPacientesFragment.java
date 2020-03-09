@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class MeusPacientesFragment extends Fragment {
     private ListView lvListaOpcoes;
     private ArrayList<InfoPacientes> listaOpcoes;
-    private ArrayAdapter<InfoPacientes> listaOpcoesAdapter;
+    private ListaPacientesAdapter adapter;
 
     public MeusPacientesFragment() {
     }
@@ -31,7 +31,7 @@ public class MeusPacientesFragment extends Fragment {
         lvListaOpcoes = view.findViewById(R.id.listaMeusPacientes);
         listaOpcoes = getListaOpcoes();
 
-        ListaPacientesAdapter adapter = new ListaPacientesAdapter(getActivity(), listaOpcoes);
+        adapter = new ListaPacientesAdapter(getActivity(), listaOpcoes);
         lvListaOpcoes.setAdapter(adapter);
 
         lvListaOpcoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -44,7 +44,7 @@ public class MeusPacientesFragment extends Fragment {
                         .setPositiveButton("Remover paciente", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                listaOpcoesAdapter.notifyDataSetChanged();
+                                adapter.notifyDataSetChanged();
                             }
                         })
                         .setNegativeButton("Ver informações", new DialogInterface.OnClickListener() {

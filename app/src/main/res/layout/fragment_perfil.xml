@@ -139,7 +139,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
-            android:text="Corem:"
+            android:text="Coren:"
             android:textColor="#464646"
             android:textColorHint="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
