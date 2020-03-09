@@ -27,7 +27,7 @@ public class PacientesDispFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_frag_pacientes_disp, container, false);
 
-        lvListaOpcoes = view.findViewById(R.id.listaClientesDisp);
+        lvListaOpcoes = view.findViewById(R.id.listaPacientesDisp);
         listaOpcoes = getListaOpcoes();
 
         adapter = new ListaPacientesAdapter(getActivity(), listaOpcoes);
@@ -39,7 +39,7 @@ public class PacientesDispFragment extends Fragment {
                 final InfoPacientes infoPacientesObj = listaOpcoes.get(i);
                 final AlertDialog.Builder alertConfig = new AlertDialog.Builder(view.getContext());
 
-                alertConfig.setTitle("Informações do cliente")
+                alertConfig.setTitle("Informações do paciente")
                         .setMessage("Nome: " + infoPacientesObj.getNome() +
                                 "\nSobrenome: " + infoPacientesObj.getSobrenome() +
                                 "\nData de nascimento: " + infoPacientesObj.getDataNasc() +
@@ -48,14 +48,14 @@ public class PacientesDispFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
-                                Toast.makeText(getActivity(), "Cliente aceito", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Paciente aceito", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .setNegativeButton("Rejeitar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.cancel();
-                                Toast.makeText(getActivity(), "Cliente rejeitado", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Paciente rejeitado", Toast.LENGTH_SHORT).show();
                             }
                         });
                 final AlertDialog alert = alertConfig.create();

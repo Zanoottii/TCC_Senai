@@ -9,15 +9,15 @@
             android:title="Ver perfil" />
         <item
             android:id="@+id/meusPacientes"
-            android:icon="@drawable/clientesicone"
+            android:icon="@drawable/pacientesicone"
             android:title="Meus pacientes" />
         <item
             android:id="@+id/pacientesAceitos"
-            android:icon="@drawable/clientesicone"
+            android:icon="@drawable/pacientesicone"
             android:title="Pacientes aceitos" />
         <item
             android:id="@+id/pacientesPendentes"
-            android:icon="@drawable/clientesicone"
+            android:icon="@drawable/pacientesicone"
             android:title="Pacientes pendentes" />
         <item
             android:id="@+id/sairLogin2"

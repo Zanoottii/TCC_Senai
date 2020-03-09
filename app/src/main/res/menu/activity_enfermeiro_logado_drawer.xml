@@ -8,12 +8,12 @@
             android:icon="@drawable/perfil"
             android:title="Ver perfil" />
         <item
-            android:id="@+id/meusClientes"
-            android:icon="@drawable/clientesicone"
+            android:id="@+id/meusPacientes"
+            android:icon="@drawable/pacientesicone"
             android:title="Meus pacientes" />
         <item
-            android:id="@+id/clientesDisponiveis"
-            android:icon="@drawable/clientes"
+            android:id="@+id/pacientesDisponiveis"
+            android:icon="@drawable/pacientes"
             android:title="Pacientes disponiveis" />
         <item
             android:id="@+id/sairLogin"

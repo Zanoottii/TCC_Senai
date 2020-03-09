@@ -45,7 +45,7 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        lvListaOpcoes = findViewById(R.id.listaClientesDisp);
+        lvListaOpcoes = findViewById(R.id.listaPacientesDisp);
         listaOpcoes = getListaOpcoes();
 
         ListaPacientesAdapter adapter = new ListaPacientesAdapter(EnfermeiroLogadoActivity.this, listaOpcoes);
@@ -54,13 +54,13 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
         lvListaOpcoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
-                final InfoPacientes infoClientessObj = listaOpcoes.get(i);
+                final InfoPacientes infoPacientesObj = listaOpcoes.get(i);
                 final AlertDialog.Builder alertConfig = new AlertDialog.Builder(view.getContext());
                 alertConfig.setTitle("Informações do Paciente")
-                        .setMessage("Nome: " + infoClientessObj.getNome() +
-                                "\nSobrenome: " + infoClientessObj.getSobrenome() +
-                                "\nData de nascimento: " + infoClientessObj.getDataNasc() +
-                                "\nServiço: " + infoClientessObj.getTipoServico())
+                        .setMessage("Nome: " + infoPacientesObj.getNome() +
+                                "\nSobrenome: " + infoPacientesObj.getSobrenome() +
+                                "\nData de nascimento: " + infoPacientesObj.getDataNasc() +
+                                "\nServiço: " + infoPacientesObj.getTipoServico())
                         .setPositiveButton("Aceitar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -82,16 +82,16 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
     }
 
     private ArrayList<InfoPacientes> getListaOpcoes() {
-        ArrayList<InfoPacientes> infoClientesArray = new ArrayList<>();
+        ArrayList<InfoPacientes> infoPacientesArray = new ArrayList<>();
         InfoPacientes infoPacientesObj = new InfoPacientes();
 
         infoPacientesObj.setNome("Carlos");
         infoPacientesObj.setSobrenome("Zanotti");
         infoPacientesObj.setDataNasc("03/03/2020");
         infoPacientesObj.setTipoServico("retirada de pontos");
-        infoClientesArray.add(infoPacientesObj);
+        infoPacientesArray.add(infoPacientesObj);
 
-        return infoClientesArray;
+        return infoPacientesArray;
     }
 
     @Override
@@ -117,19 +117,19 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
         if (id == R.id.verPerfil) {
             PerfilFragment frag = new PerfilFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fraClientesDisp, frag);
+            fragmentTransaction.replace(R.id.fraPacientesDisp, frag);
             barra = "Meu perfil";
             fragmentTransaction.commit();
-        } else if (id == R.id.meusClientes) {
+        } else if (id == R.id.meusPacientes) {
             MeusPacientesFragment frag = new MeusPacientesFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fraClientesDisp, frag);
+            fragmentTransaction.replace(R.id.fraPacientesDisp, frag);
             barra = "Meus Pacientes";
             fragmentTransaction.commit();
-        } else if (id == R.id.clientesDisponiveis) {
+        } else if (id == R.id.pacientesDisponiveis) {
             PacientesDispFragment frag = new PacientesDispFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fraClientesDisp, frag);
+            fragmentTransaction.replace(R.id.fraPacientesDisp, frag);
             barra = "Pacientes disponiveis";
             fragmentTransaction.commit();
         } else if (id == R.id.sairLogin) {
