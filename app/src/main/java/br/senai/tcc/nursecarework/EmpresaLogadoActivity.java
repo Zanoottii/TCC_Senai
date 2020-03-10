@@ -124,14 +124,6 @@ public class EmpresaLogadoActivity extends AppCompatActivity implements Navigati
         infoPacientesObj.setTipoServico("retirada de pontos");
         infoPacientesArray.add(infoPacientesObj);
 
-        InfoPacientes infoPacientesObj2 = new InfoPacientes();
-
-        infoPacientesObj2.setNome("Carlos");
-        infoPacientesObj2.setSobrenome("Zanotti");
-        infoPacientesObj2.setDataNasc("10/01/2003");
-        infoPacientesObj2.setTipoServico("retirada de pontos");
-        infoPacientesArray.add(infoPacientesObj2);
-
         return infoPacientesArray;
     }
 
@@ -156,28 +148,36 @@ public class EmpresaLogadoActivity extends AppCompatActivity implements Navigati
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.verPerfilEmp) {
-            fab.setVisibility(View.INVISIBLE);
+            fab.setVisibility(View.INVISIBLE); //deixar o floating button ivisivel
+            lvListaOpcoes.setVisibility(View.INVISIBLE); //deixar a listView invisivel
+
             PerfilEmpFragment frag = new PerfilEmpFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragMeusPacientes, frag);
             barra = "Meu perfil";
             fragmentTransaction.commit();
         } else if (id == R.id.meusPacientes) {
-            fab.setVisibility(View.VISIBLE);
+            fab.setVisibility(View.VISIBLE);//deixar o floating button vísivel
+            lvListaOpcoes.setVisibility(View.VISIBLE); //deixar a listView vísivel
+
             MeusPacientesFragment frag = new MeusPacientesFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragMeusPacientes, frag);
             barra = "Meus pacientes";
             fragmentTransaction.commit();
         } else if (id == R.id.pacientesAceitos) {
-            fab.setVisibility(View.INVISIBLE);
+            fab.setVisibility(View.INVISIBLE);//deixar o floating button ivisivel
+            lvListaOpcoes.setVisibility(View.INVISIBLE); //deixar a listView invisivel
+
             PacientesAceitosFragment frag = new PacientesAceitosFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragMeusPacientes, frag);
             barra = "Pacientes aceitos";
             fragmentTransaction.commit();
         } else if (id == R.id.pacientesPendentes) {
-            fab.setVisibility(View.INVISIBLE);
+            fab.setVisibility(View.INVISIBLE);//deixar o floating button ivisivel
+            lvListaOpcoes.setVisibility(View.INVISIBLE); //deixar a listView invisivel
+
             PacientesPendentesFragment frag = new PacientesPendentesFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragMeusPacientes, frag);

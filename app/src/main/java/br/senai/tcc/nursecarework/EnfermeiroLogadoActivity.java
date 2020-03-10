@@ -115,18 +115,21 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.verPerfil) {
+            lvListaOpcoes.setVisibility(View.INVISIBLE); //deixar a listView invisivel
             PerfilFragment frag = new PerfilFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fraPacientesDisp, frag);
             barra = "Meu perfil";
             fragmentTransaction.commit();
         } else if (id == R.id.meusPacientes) {
+            lvListaOpcoes.setVisibility(View.INVISIBLE); //deixar a listView invisivel
             MeusPacientesFragment frag = new MeusPacientesFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fraPacientesDisp, frag);
             barra = "Meus Pacientes";
             fragmentTransaction.commit();
         } else if (id == R.id.pacientesDisponiveis) {
+            lvListaOpcoes.setVisibility(View.VISIBLE); //deixar a listView visivel
             PacientesDispFragment frag = new PacientesDispFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fraPacientesDisp, frag);

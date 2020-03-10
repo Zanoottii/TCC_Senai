@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     editSenha.setError("Preencha a senha");
                     editSenha.requestFocus();
                 } else {
-                    Intent intent = new Intent(MainActivity.this, EnfermeiroLogadoActivity.class);
+                    Intent intent = new Intent(MainActivity.this, EmpresaLogadoActivity.class);
                     startActivity(intent);
                     finish();
                 }
