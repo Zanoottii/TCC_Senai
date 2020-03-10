@@ -34,8 +34,8 @@ public class CadastroEnfermeiro1Activity extends AppCompatActivity {
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches() || email.getText().toString().isEmpty()) {
                     email.setError("Preencha o email corretamente");
                     email.requestFocus();
-                } else if (senha.getText().toString().isEmpty()) {
-                    senha.setError("Preencha a senha");
+                } else if (senha.getText().toString().isEmpty() || senha.length() < 6) {
+                    senha.setError("Preencha a senha Com no minimo 6 caracteres");
                     senha.requestFocus();
                 } else if (conSenha.getText().toString().isEmpty()) {
                     conSenha.setError("Preencha o campo");
