@@ -42,8 +42,8 @@ public class CadastroCooperativa1Activity extends AppCompatActivity {
                 if (nome.getText().toString().isEmpty()) {
                     nome.setError("Preencha o nome");
                     nome.requestFocus();
-                } else if (senha.getText().toString().isEmpty()) {
-                    senha.setError("Preencha a senha");
+                } else if (senha.getText().toString().isEmpty() || senha.length() < 6) {
+                    senha.setError("Preencha a senha com no minimo 6 caracteres");
                     senha.requestFocus();
                 } else if (confirmSenha.getText().toString().isEmpty()) {
                     confirmSenha.setError("Preencha a confirmação de senha");

@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(editEmail.getText().toString()).matches() || editEmail.getText().toString().isEmpty()) {
                     editEmail.setError("Preencha o email corretamente");
                     editEmail.requestFocus();
-                } else if (editSenha.getText().toString().isEmpty()) {
-                    editSenha.setError("Preencha a senha");
+                } else if (editSenha.getText().toString().isEmpty() || editSenha.length() < 6) {
+                    editSenha.setError("Preencha a senha corretamente com no minimo 6 caracteres");
                     editSenha.requestFocus();
                 } else {
-                    Intent intent = new Intent(MainActivity.this, EmpresaLogadoActivity.class);
+                    Intent intent = new Intent(MainActivity.this, EnfermeiroLogadoActivity.class);
                     startActivity(intent);
                     finish();
                 }
