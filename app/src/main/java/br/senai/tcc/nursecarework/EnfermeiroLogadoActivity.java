@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.core.view.GravityCompat;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
@@ -28,8 +30,6 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
 
     private String barra;
     private Toolbar toolbar;
-    private ListView lvListaOpcoes;
-    private ArrayList<InfoPacientes> listaOpcoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,54 +45,10 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        lvListaOpcoes = findViewById(R.id.listaPacientesDisp);
-        listaOpcoes = getListaOpcoes();
+        displaySelectedScreen(R.id.pacientesDisponiveis);
 
-        ListaPacientesAdapter adapter = new ListaPacientesAdapter(EnfermeiroLogadoActivity.this, listaOpcoes);
-        lvListaOpcoes.setAdapter(adapter);
-
-        lvListaOpcoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
-                final InfoPacientes infoPacientesObj = listaOpcoes.get(i);
-                final AlertDialog.Builder alertConfig = new AlertDialog.Builder(view.getContext());
-                alertConfig.setTitle("Informações do Paciente")
-                        .setMessage("Nome: " + infoPacientesObj.getNome() +
-                                "\nSobrenome: " + infoPacientesObj.getSobrenome() +
-                                "\nData de nascimento: " + infoPacientesObj.getDataNasc() +
-                                "\nServiço: " + infoPacientesObj.getTipoServico())
-                        .setPositiveButton("Aceitar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                                Toast.makeText(EnfermeiroLogadoActivity.this, "Paciente aceito", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNegativeButton("Rejeitar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                                Toast.makeText(EnfermeiroLogadoActivity.this, "Paciente rejeitado", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                final AlertDialog alert = alertConfig.create();
-                alert.show();
-            }
-        });
     }
 
-    private ArrayList<InfoPacientes> getListaOpcoes() {
-        ArrayList<InfoPacientes> infoPacientesArray = new ArrayList<>();
-        InfoPacientes infoPacientesObj = new InfoPacientes();
-
-        infoPacientesObj.setNome("Carlos");
-        infoPacientesObj.setSobrenome("Zanotti");
-        infoPacientesObj.setDataNasc("03/03/2020");
-        infoPacientesObj.setTipoServico("retirada de pontos");
-        infoPacientesArray.add(infoPacientesObj);
-
-        return infoPacientesArray;
-    }
 
     @Override
     public void onBackPressed() {
@@ -110,40 +66,50 @@ public class EnfermeiroLogadoActivity extends AppCompatActivity implements Navig
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.verPerfil) {
-            lvListaOpcoes.setVisibility(View.INVISIBLE); //deixar a listView invisivel
-            PerfilFragment frag = new PerfilFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fraPacientesDisp, frag);
-            barra = "Meu perfil";
-            fragmentTransaction.commit();
-        } else if (id == R.id.meusPacientes) {
-            lvListaOpcoes.setVisibility(View.INVISIBLE); //deixar a listView invisivel
-            MeusPacientesFragment frag = new MeusPacientesFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fraPacientesDisp, frag);
-            barra = "Meus Pacientes";
-            fragmentTransaction.commit();
-        } else if (id == R.id.pacientesDisponiveis) {
-            lvListaOpcoes.setVisibility(View.VISIBLE); //deixar a listView visivel
-            PacientesDispFragment frag = new PacientesDispFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fraPacientesDisp, frag);
-            barra = "Pacientes disponiveis";
-            fragmentTransaction.commit();
-        } else if (id == R.id.sairLogin) {
-            Intent intent = new Intent(EnfermeiroLogadoActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+    private void displaySelectedScreen(int itemId){
+
+        Fragment fragment = null;
+
+        switch(itemId){
+            case R.id.verPerfil:
+                barra = "Meu perfil";
+                fragment = new PacientesAceitosFragment();
+                break;
+
+            case R.id.meusPacientes:
+                barra = "Meus Pacientes";
+                fragment = new PacientesPendentesFragment();
+                break;
+
+            case R.id.pacientesDisponiveis:
+                barra = "Pacientes disponiveis";
+                fragment = new PacientesPendentesFragment();
+                break;
+
+            case R.id.sairLogin:
+                Intent intent = new Intent(EnfermeiroLogadoActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
+
+        if(fragment != null){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fraPacientesDisp, fragment);
+            ft.commit();
         }
 
         toolbar.setTitle(barra);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        displaySelectedScreen(item.getItemId());
         return true;
+
     }
 }
