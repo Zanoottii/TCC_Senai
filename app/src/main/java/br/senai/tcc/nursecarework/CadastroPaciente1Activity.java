@@ -36,7 +36,7 @@ public class CadastroPaciente1Activity extends AppCompatActivity {
         voltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CadastroPaciente1Activity.this, EmpresaLogadoActivity.class);
+                Intent intent = new Intent(CadastroPaciente1Activity.this, CooperativaLogadoActivity.class);
                 startActivity(intent);
                 finish();
             }

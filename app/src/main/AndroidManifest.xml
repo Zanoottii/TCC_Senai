@@ -16,9 +16,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".CadastroCooperativa2Activity"
+            android:label="Dados da Cooperativa"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CadastroCooperativa1Activity"
+            android:label="Dados Da Cooperativa"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CadastroPaciente3Activity"
@@ -35,7 +37,7 @@
             android:label="Dados do Paciente"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".EmpresaLogadoActivity"
+            android:name=".CooperativaLogadoActivity"
             android:label="Meus Pacientes"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>

@@ -1,12 +1,7 @@
 package br.senai.tcc.nursecarework;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,7 +14,6 @@ import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -27,9 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.util.ArrayList;
-
-public class EmpresaLogadoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class CooperativaLogadoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private String barra;
     private Toolbar toolbar;
@@ -46,7 +38,7 @@ public class EmpresaLogadoActivity extends AppCompatActivity implements Navigati
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EmpresaLogadoActivity.this, CadastroPaciente1Activity.class);
+                Intent intent = new Intent(CooperativaLogadoActivity.this, CadastroPaciente1Activity.class);
                 startActivity(intent);
                 finish();
             }
@@ -110,7 +102,7 @@ public class EmpresaLogadoActivity extends AppCompatActivity implements Navigati
                 break;
 
             case R.id.sairLogin2:
-                Intent intent = new Intent(EmpresaLogadoActivity.this, MainActivity.class);
+                Intent intent = new Intent(CooperativaLogadoActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
                 break;

@@ -77,13 +77,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cnpj" />
 
-    <EditText
+    <Spinner
         android:id="@+id/estadoCooperativa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/borda"
-        android:ems="6"
-        android:inputType="textPersonName"
+        android:entries="@array/spinner_estados"
         app:layout_constraintStart_toStartOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -101,10 +100,10 @@
         android:id="@+id/municipioCooperativa"
         android:layout_width="146dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="104dp"
         android:background="@drawable/borda"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/estadoCooperativa" />
 

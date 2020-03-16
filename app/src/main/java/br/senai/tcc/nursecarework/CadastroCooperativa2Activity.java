@@ -1,8 +1,10 @@
 package br.senai.tcc.nursecarework;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Spinner;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.SimpleMaskTextWatcher;
@@ -18,7 +21,9 @@ public class CadastroCooperativa2Activity extends AppCompatActivity {
 
     private ImageView voltar;
     private Button cadastrar;
-    private EditText email, estado, municipio, cnpj;
+    private EditText email, municipio, cnpj;
+    private ArrayAdapter<CharSequence> adapter;
+    private Spinner uf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +34,18 @@ public class CadastroCooperativa2Activity extends AppCompatActivity {
         cadastrar = findViewById(R.id.cadastrar);
         cnpj = findViewById(R.id.cnpj);
         email = findViewById(R.id.emailCooperativa);
-        estado = findViewById(R.id.estadoCooperativa);
+        uf = findViewById(R.id.estadoCooperativa);
         municipio = findViewById(R.id.municipioCooperativa);
 
         //mascara para o campo cnpj
         SimpleMaskFormatter simpleMaskCnpj = new SimpleMaskFormatter("NN.NNN.NNN/NNNN-NN");
         SimpleMaskTextWatcher maskCnpj = new SimpleMaskTextWatcher(cnpj, simpleMaskCnpj);
         cnpj.addTextChangedListener(maskCnpj);
+
+        adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.spinner_estados, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        uf.setAdapter(adapter);
+        uf.setSelection(0, true);
 
         voltar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +62,6 @@ public class CadastroCooperativa2Activity extends AppCompatActivity {
                 if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches() || email.getText().toString().isEmpty()) {
                     email.setError("Preencha o email corretamente");
                     email.requestFocus();
-                } else if (estado.getText().toString().isEmpty()) {
-                    estado.setError("Preencha o estado");
-                    estado.requestFocus();
                 } else if (municipio.getText().toString().isEmpty()) {
                     municipio.setError("Preencha o municipio");
                     municipio.requestFocus();

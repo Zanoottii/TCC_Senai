@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     editSenha.setError("Preencha a senha corretamente com no minimo 6 caracteres");
                     editSenha.requestFocus();
                 } else {
-                    Intent intent = new Intent(MainActivity.this, EnfermeiroLogadoActivity.class);
+                    Intent intent = new Intent(MainActivity.this, CooperativaLogadoActivity.class);
                     startActivity(intent);
                     finish();
                 }

@@ -48,7 +48,7 @@ public class CadastroPaciente4Activity extends AppCompatActivity {
         concluido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CadastroPaciente4Activity.this, EmpresaLogadoActivity.class);
+                Intent intent = new Intent(CadastroPaciente4Activity.this, CooperativaLogadoActivity.class);
                 startActivity(intent);
                 finish();
             }
