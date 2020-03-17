@@ -15,54 +15,54 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CadastroCooperativa2Activity"
+            android:name=".Views.Cooperativa.CadastroCooperativa2Activity"
             android:label="Dados da Cooperativa"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CadastroCooperativa1Activity"
+            android:name=".Views.Cooperativa.CadastroCooperativa1Activity"
             android:label="Dados Da Cooperativa"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CadastroPaciente3Activity"
+            android:name=".Views.Paciente.CadastroPaciente3Activity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".CadastroPaciente4Activity"
+            android:name=".Views.Paciente.CadastroPaciente4Activity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".CadastroPaciente2Activity"
+            android:name=".Views.Paciente.CadastroPaciente2Activity"
             android:label="Dados do Paciente"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".CadastroPaciente1Activity"
+            android:name=".Views.Paciente.CadastroPaciente1Activity"
             android:label="Dados do Paciente"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".CooperativaLogadoActivity"
+            android:name=".Views.Cooperativa.CooperativaLogadoActivity"
             android:label="Meus Pacientes"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".EnfermeiroLogadoActivity"
+            android:name=".Views.Enfermeiro.EnfermeiroLogadoActivity"
             android:label="Pacientes disponiveis"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".CadastroEnfermeiro2Activity"
+            android:name=".Views.Enfermeiro.CadastroEnfermeiro2Activity"
             android:label="Dados Pessoais"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".CadastroEnfermeiro1Activity"
+            android:name=".Views.Enfermeiro.CadastroEnfermeiro1Activity"
             android:label="Dados Pessoais"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".NovoCadastroActivity"
+            android:name=".Views.NovoCadastroActivity"
             android:label="Novo cadastro"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Views.MainActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".SplashActivity"
+            android:name=".Views.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Fullscreen">
             <intent-filter>
@@ -71,19 +71,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CadastroEnfermeiro4Activity"
+            android:name=".Views.Enfermeiro.CadastroEnfermeiro4Activity"
             android:label="Dados Pessoais"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".CadastroEnfermeiro3Activity"
+            android:name=".Views.Enfermeiro.CadastroEnfermeiro3Activity"
             android:label="Dados Pessoais"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".CadastroEnfermeiro5Activity"
+            android:name=".Views.Enfermeiro.CadastroEnfermeiro5Activity"
             android:label="Dados Pessoais"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".CadastroEnfermeiro6Activity"
+            android:name=".Views.Enfermeiro.CadastroEnfermeiro6Activity"
             android:label="Dados Pessoais"
             android:screenOrientation="portrait"></activity>
     </application>
