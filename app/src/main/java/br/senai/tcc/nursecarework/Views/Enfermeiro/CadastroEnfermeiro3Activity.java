@@ -1,6 +1,7 @@
 package br.senai.tcc.nursecarework.Views.Enfermeiro;
 
 import android.content.Intent;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
 
@@ -8,15 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import br.senai.tcc.nursecarework.Helper.MaskAgencia;
+import br.senai.tcc.nursecarework.Helper.MaskConta;
 import br.senai.tcc.nursecarework.R;
 
 public class CadastroEnfermeiro3Activity extends AppCompatActivity {
 
     private ImageView voltar;
     private Button proximo;
-    private Spinner spinner;
-    // private TextWatcher itauAgencia, bradescoAgencia, santanderAgencia, bancoDoBrasilAgencia, caixaEconomicaAgencia;
-    //private TextWatcher itauConta, bradescoConta, santanderConta, bancoDoBrasilConta, caixaEconomicaConta;
+    private TextWatcher itauAgencia, bradescoAgencia, bancoSantanderAgencia, bancoDoBrasilAgencia, caixaEconomicaAgencia;
+    private TextWatcher itauConta, bradescoConta, bancoSantanderConta, bancoDoBrasilConta, caixaEconomicaConta;
+    private Spinner spinner_banco;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,80 +29,144 @@ public class CadastroEnfermeiro3Activity extends AppCompatActivity {
 
         voltar = findViewById(R.id.voltar4);
         proximo = findViewById(R.id.btnProximo3);
-        final EditText numConta = findViewById(R.id.numConta);
-        final EditText agencia = findViewById(R.id.agenciaBD);
-        spinner = findViewById(R.id.banco);
+        final EditText editText_Conta = findViewById(R.id.numConta);
+        final EditText editText_Agencia = findViewById(R.id.agenciaBD);
+        spinner_banco = findViewById(R.id.banco);
 
-        //Mascaras das agências
-        //O "Mask.insert" é um comando que eu estou chamando da classe que chama "Mask", ele que é responsavel por inserir a mascara no editText
-        /*itauAgencia = MaskBanco.insert("####", agencia);
-        bradescoAgencia = MaskBanco.insert("####-#", agencia);
-        santanderAgencia = MaskBanco.insert("####", agencia);
-        bancoDoBrasilAgencia = MaskBanco.insert("####-#", agencia);
-        caixaEconomicaAgencia = MaskBanco.insert("####", agencia);
 
-        //Adicionando a mascara do Banco Bradesco e Banco do Brasil, deixando ela ativa(padrão)
-        agencia.addTextChangedListener(itauAgencia);
-        agencia.addTextChangedListener(bradescoAgencia);
-        agencia.addTextChangedListener(santanderAgencia);
-        agencia.addTextChangedListener(bancoDoBrasilAgencia);
-        agencia.addTextChangedListener(caixaEconomicaAgencia);*/
 
-        //***************** spinner *****************//
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.spinner_banco, android.R.layout.simple_spinner_item); //Montando o spinner no layout
-        spinner.setAdapter(adapter);
+        /****************** spinner *****************/
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.spinner_banco, android.R.layout.simple_spinner_item);//Montando o spinner no layout
+        spinner_banco.setAdapter(adapter);
 
-       /* AdapterView.OnItemSelectedListener escolheBanco = new AdapterView.OnItemSelectedListener() {
+        //Método automatico que pego a posição e texto que está escrito no spinner
+        AdapterView.OnItemSelectedListener escolha_itemSelected = new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int posicao, long l) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (posicao == 0) {
-                    agencia.removeTextChangedListener(bradescoAgencia);
-                    agencia.removeTextChangedListener(santanderAgencia);
-                    agencia.removeTextChangedListener(bancoDoBrasilAgencia);
-                    agencia.removeTextChangedListener(caixaEconomicaAgencia);
 
-                    agencia.addTextChangedListener(itauAgencia);
-                } else if (posicao == 1) {
-                    agencia.removeTextChangedListener(itauAgencia);
-                    agencia.removeTextChangedListener(santanderAgencia);
-                    agencia.removeTextChangedListener(bancoDoBrasilAgencia);
-                    agencia.removeTextChangedListener(caixaEconomicaAgencia);
+                if (position == 0) {
+                    //Mascara das agencias
+                    itauAgencia = MaskAgencia.insertUm("####", editText_Agencia);
+                    editText_Agencia.addTextChangedListener(itauAgencia);
 
-                    agencia.addTextChangedListener(bradescoAgencia);
-                } else if (posicao == 2) {
-                    agencia.removeTextChangedListener(bradescoAgencia);
-                    agencia.removeTextChangedListener(itauAgencia);
-                    agencia.removeTextChangedListener(bancoDoBrasilAgencia);
-                    agencia.removeTextChangedListener(caixaEconomicaAgencia);
+                    editText_Agencia.removeTextChangedListener(bradescoAgencia);
+                    editText_Agencia.removeTextChangedListener(bancoSantanderAgencia);
+                    editText_Agencia.removeTextChangedListener(bancoDoBrasilAgencia);
+                    editText_Agencia.removeTextChangedListener(caixaEconomicaAgencia);
 
-                    agencia.addTextChangedListener(santanderAgencia);
-                } else if (posicao == 3) {
-                    agencia.removeTextChangedListener(bradescoAgencia);
-                    agencia.removeTextChangedListener(santanderAgencia);
-                    agencia.removeTextChangedListener(itauAgencia);
-                    agencia.removeTextChangedListener(caixaEconomicaAgencia);
-                    agencia.addTextChangedListener(bancoDoBrasilAgencia);
-                } else if (posicao == 4) {
-                    agencia.removeTextChangedListener(bradescoAgencia);
-                    agencia.removeTextChangedListener(santanderAgencia);
-                    agencia.removeTextChangedListener(bancoDoBrasilAgencia);
-                    agencia.removeTextChangedListener(itauAgencia);
+                    //Mascara das contas
+                    itauConta = MaskConta.insertUm("#####-#", editText_Conta);
+                    editText_Conta.addTextChangedListener(itauConta);
 
-                    agencia.addTextChangedListener(caixaEconomicaAgencia);
-                } else {
-                    agencia.setText("");
+                    editText_Conta.removeTextChangedListener(bradescoConta);
+                    editText_Conta.removeTextChangedListener(bancoSantanderConta);
+                    editText_Conta.removeTextChangedListener(bancoDoBrasilConta);
+                    editText_Conta.removeTextChangedListener(caixaEconomicaConta);
+
+                    editText_Agencia.setText("");
+                    editText_Conta.setText("");
+
+                } else if (position == 1) {
+                    //Mascara das agencias
+                    bradescoAgencia = MaskAgencia.insertUm("####-#", editText_Agencia);
+                    editText_Agencia.addTextChangedListener(bradescoAgencia);
+
+                    editText_Agencia.removeTextChangedListener(itauAgencia);
+                    editText_Agencia.removeTextChangedListener(bancoSantanderAgencia);
+                    editText_Agencia.removeTextChangedListener(caixaEconomicaAgencia);
+                    editText_Agencia.removeTextChangedListener(bancoDoBrasilAgencia);
+
+                    //Mascara das contas
+                    bradescoConta = MaskConta.insertUm("#######-#", editText_Conta);
+                    editText_Conta.addTextChangedListener(bradescoConta);
+
+                    editText_Conta.removeTextChangedListener(itauConta);
+                    editText_Conta.removeTextChangedListener(bancoSantanderConta);
+                    editText_Conta.removeTextChangedListener(bancoDoBrasilConta);
+                    editText_Conta.removeTextChangedListener(caixaEconomicaConta);
+
+
+                    editText_Conta.setText("");
+                    editText_Agencia.setText("");
+
+                } else if (position == 2) {
+                    //Mascara das agencias
+                    bancoSantanderAgencia = MaskAgencia.insertUm("####", editText_Agencia);
+                    editText_Agencia.addTextChangedListener(bancoSantanderAgencia);
+
+                    editText_Agencia.removeTextChangedListener(itauAgencia);
+                    editText_Agencia.removeTextChangedListener(bradescoAgencia);
+                    editText_Agencia.removeTextChangedListener(bancoDoBrasilAgencia);
+                    editText_Agencia.removeTextChangedListener(caixaEconomicaAgencia);
+
+                    //Mascara das contas
+                    bancoSantanderConta = MaskConta.insertUm("########-#", editText_Conta);
+                    editText_Conta.addTextChangedListener(bancoSantanderConta);
+
+                    editText_Conta.removeTextChangedListener(bradescoConta);
+                    editText_Conta.removeTextChangedListener(itauConta);
+                    editText_Conta.removeTextChangedListener(bancoDoBrasilConta);
+                    editText_Conta.removeTextChangedListener(caixaEconomicaConta);
+
+                    editText_Conta.setText("");
+                    editText_Agencia.setText("");
+
+                } else if (position == 3) {
+                    //Mascara das agencias
+                    bancoDoBrasilAgencia = MaskAgencia.insertUm("####-#", editText_Agencia);
+                    editText_Agencia.addTextChangedListener(bancoDoBrasilAgencia);
+
+                    editText_Agencia.removeTextChangedListener(itauAgencia);
+                    editText_Agencia.removeTextChangedListener(caixaEconomicaAgencia);
+                    editText_Agencia.removeTextChangedListener(bradescoAgencia);
+                    editText_Agencia.removeTextChangedListener(bancoSantanderAgencia);
+
+                    //Mascara das contas
+                    bancoDoBrasilConta = MaskConta.insertUm("########-#", editText_Conta);
+                    editText_Conta.addTextChangedListener(bancoDoBrasilConta);
+
+                    editText_Conta.removeTextChangedListener(bradescoConta);
+                    editText_Conta.removeTextChangedListener(bancoSantanderConta);
+                    editText_Conta.removeTextChangedListener(itauConta);
+                    editText_Conta.removeTextChangedListener(caixaEconomicaConta);
+
+                    editText_Conta.setText("");
+                    editText_Agencia.setText("");
+
+                } else if (position == 4) {
+                    //Mascara das agencias
+                    caixaEconomicaAgencia = MaskAgencia.insertUm("####", editText_Agencia);
+                    editText_Agencia.addTextChangedListener(caixaEconomicaAgencia);
+
+                    editText_Agencia.removeTextChangedListener(bancoDoBrasilAgencia);
+                    editText_Agencia.removeTextChangedListener(itauAgencia);
+                    editText_Agencia.removeTextChangedListener(bancoSantanderAgencia);
+                    editText_Agencia.removeTextChangedListener(bradescoAgencia);
+
+                    //Mascara das contas
+                    caixaEconomicaConta = MaskConta.insertUm("###########-#", editText_Conta);
+                    editText_Conta.addTextChangedListener(caixaEconomicaConta);
+
+                    editText_Conta.removeTextChangedListener(bradescoConta);
+                    editText_Conta.removeTextChangedListener(bancoSantanderConta);
+                    editText_Conta.removeTextChangedListener(bancoDoBrasilConta);
+                    editText_Conta.removeTextChangedListener(itauConta);
+
+                    editText_Conta.setText("");
+                    editText_Agencia.setText("");
+
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        };*/
+        };
 
         /* Isso é importante */
-        //spinner.setOnItemSelectedListener(escolheBanco); // Aqui que eu faço a integração do spinner os métodos dele
+        spinner_banco.setOnItemSelectedListener(escolha_itemSelected); // Aqui que eu faço a integração do spinner os métodos dele
 
         //Botão para voltar para a tele de cadastro parte 2
         voltar.setOnClickListener(new View.OnClickListener() {
@@ -114,12 +182,12 @@ public class CadastroEnfermeiro3Activity extends AppCompatActivity {
         proximo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (agencia.getText().toString().isEmpty()) {
-                    agencia.setError("Preencha a agencia");
-                    agencia.requestFocus();
-                } else if (numConta.getText().toString().isEmpty()) {
-                    numConta.setError("Preencha o numero da conta");
-                    numConta.requestFocus();
+                if (editText_Agencia.getText().toString().isEmpty()) {
+                    editText_Agencia.setError("Preencha a agencia");
+                    editText_Agencia.requestFocus();
+                } else if (editText_Conta.getText().toString().isEmpty()) {
+                    editText_Conta.setError("Preencha o numero da conta");
+                    editText_Conta.requestFocus();
                 } else {
                     Intent intent = new Intent(CadastroEnfermeiro3Activity.this, CadastroEnfermeiro4Activity.class);
                     startActivity(intent);
