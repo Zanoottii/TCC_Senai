@@ -1,87 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="15dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
     tools:context=".Views.Enfermeiro.CadastroEnfermeiro4Activity">
 
+    <ImageView
+        android:id="@+id/voltar5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/voltar"
+        />
+
     <TextView
+        android:layout_gravity="center"
         android:id="@+id/textView"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="131dp"
-        android:text="Foto do perfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Foto do Perfil"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="62dp"
-        android:text="Numero do Coren:"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fotoCadastro" />
-
-    <ImageView
-        android:id="@+id/voltar5"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/voltar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/numCoren"
-        android:layout_width="300dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="11dp"
-        android:background="@drawable/borda"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <Button
-        android:id="@+id/btnCadConcluido"
-        android:layout_width="137dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginEnd="35dp"
-        android:background="@drawable/botton"
-        android:text="Concluído"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numCoren" />
-
     <com.mikhaellopez.circularimageview.CircularImageView
+        android:layout_gravity="center"
         android:id="@+id/fotoCadastro"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_marginTop="8dp"
         android:src="@drawable/perfil"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        />
 
     <Button
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
         android:id="@+id/btnGaleria"
         android:layout_width="38dp"
         android:layout_height="36dp"
-        android:layout_marginStart="186dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/iconegaleria"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fotoCadastro" />
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_marginLeft="30dp"
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Numero do Coren:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        />
+
+
+
+    <EditText
+        android:layout_marginLeft="30dp"
+        android:id="@+id/numCoren"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/borda"
+        android:ems="10"
+        android:inputType="number"
+        />
+
+    <Button
+        android:layout_gravity="end"
+        android:layout_marginTop="30dp"
+        android:id="@+id/btnCadConcluido"
+        android:layout_width="137dp"
+        android:layout_height="45dp"
+        android:background="@drawable/botton"
+        android:text="Concluído"
+        />
+
+
+</LinearLayout>

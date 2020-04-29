@@ -29,7 +29,8 @@ public class CadastroEnfermeiro4Activity extends AppCompatActivity {
     private CircularImageView foto;
     private Button concluido, galeria;
     private static final int codigo_camera = 1;
-    private EditText numCoren;
+    private EditText edtnumCoren;
+    private String numCoren;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +41,14 @@ public class CadastroEnfermeiro4Activity extends AppCompatActivity {
         concluido = findViewById(R.id.btnCadConcluido);
         galeria = findViewById(R.id.btnGaleria);
         foto = findViewById(R.id.fotoCadastro);
-        numCoren = findViewById(R.id.numCoren);
+        edtnumCoren = findViewById(R.id.numCoren);
+
+        numCoren = edtnumCoren.getText().toString();
 
         //mascara para o campo do NumCoren
         SimpleMaskFormatter simpleMaskCoren = new SimpleMaskFormatter("NNN-NNN");
-        SimpleMaskTextWatcher maskCoren = new SimpleMaskTextWatcher(numCoren, simpleMaskCoren);
-        numCoren.addTextChangedListener(maskCoren);
+        SimpleMaskTextWatcher maskCoren = new SimpleMaskTextWatcher(edtnumCoren, simpleMaskCoren);
+        edtnumCoren.addTextChangedListener(maskCoren);
 
         //Botão para voltar para a tele de cadastro parte 3
         voltar.setOnClickListener(new View.OnClickListener() {
@@ -61,9 +64,9 @@ public class CadastroEnfermeiro4Activity extends AppCompatActivity {
         concluido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (numCoren.getText().toString().isEmpty()) {
-                    numCoren.setError("Preencha o numero do Coren");
-                    numCoren.requestFocus();
+                if (edtnumCoren.getText().toString().isEmpty()) {
+                    edtnumCoren.setError("Preencha o numero do Coren");
+                    edtnumCoren.requestFocus();
                 } else {
                     Intent intent = new Intent(CadastroEnfermeiro4Activity.this, MainActivity.class);
                     startActivity(intent);

@@ -1,6 +1,8 @@
 package br.senai.tcc.nursecarework.Views.Enfermeiro;
 
 import android.content.Intent;
+import android.nfc.Tag;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,21 +11,17 @@ import android.widget.ImageView;
 import  br.senai.tcc.nursecarework.R;
 import br.senai.tcc.nursecarework.Views.NovoCadastroActivity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class CadastroEnfermeiro1Activity extends AppCompatActivity {
 
     private Button proximo;
     private EditText email, senha, conSenha;
     private ImageView voltar;
-
-    //acessando o firestore por essa instancia
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +51,6 @@ public class CadastroEnfermeiro1Activity extends AppCompatActivity {
                     conSenha.setError("As senhas não coincidem");
                     conSenha.requestFocus();
                 } else {
-
-
-
-
-
-
-
                     Intent intent = new Intent(getApplicationContext(), CadastroEnfermeiro2Activity.class);
                     startActivity(intent);
                     finish();

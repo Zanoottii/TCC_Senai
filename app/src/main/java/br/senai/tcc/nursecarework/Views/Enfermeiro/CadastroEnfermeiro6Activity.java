@@ -16,9 +16,10 @@ import br.senai.tcc.nursecarework.R;
 public class CadastroEnfermeiro6Activity extends AppCompatActivity {
 
     private SeekBar distancia;
-    private TextView teste;
+    private TextView txtKm;
     private ImageView voltar;
     private Button proximo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +27,14 @@ public class CadastroEnfermeiro6Activity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro_enfermeiro_parte6);
 
         distancia = findViewById(R.id.distancia);
-        teste = findViewById(R.id.teste);
+        txtKm = findViewById(R.id.txtKm);
         voltar = findViewById(R.id.voltar);
         proximo = findViewById(R.id.proximo);
 
         distancia.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                teste.setText("Distancia: " + i + "Km");
+                txtKm.setText("Distancia: " + i + "Km");
             }
 
             @Override

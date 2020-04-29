@@ -2,12 +2,33 @@ package br.senai.tcc.nursecarework.Views.Enfermeiro;
 
 import android.content.Intent;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentId;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.model.Document;
+import com.google.firebase.firestore.model.DocumentCollections;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import br.senai.tcc.nursecarework.Helper.MaskAgencia;
 import br.senai.tcc.nursecarework.Helper.MaskConta;
@@ -20,7 +41,17 @@ public class CadastroEnfermeiro3Activity extends AppCompatActivity {
     private TextWatcher itauAgencia, bradescoAgencia, bancoSantanderAgencia, bancoDoBrasilAgencia, caixaEconomicaAgencia;
     private TextWatcher itauConta, bradescoConta, bancoSantanderConta, bancoDoBrasilConta, caixaEconomicaConta;
     private Spinner spinner_banco;
+    private String agencia,conta,banco;
+    private static final String TAG = "ENFERMEIRO";
+    private QueryDocumentSnapshot documentSnapshot;
 
+    List<String> id = new ArrayList();
+
+
+    //acessando o firestore por essa instancia
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    FirebaseFirestore teste = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +64,9 @@ public class CadastroEnfermeiro3Activity extends AppCompatActivity {
         final EditText editText_Agencia = findViewById(R.id.agenciaBD);
         spinner_banco = findViewById(R.id.banco);
 
-
+        agencia = editText_Conta.getText().toString();
+        conta = editText_Conta.getText().toString();
+        banco = spinner_banco.getSelectedItem().toString();
 
         /****************** spinner *****************/
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.spinner_banco, android.R.layout.simple_spinner_item);//Montando o spinner no layout
@@ -178,6 +211,8 @@ public class CadastroEnfermeiro3Activity extends AppCompatActivity {
             }
         });
 
+
+
         //Botão para ir para a próxima etapa
         proximo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,6 +224,32 @@ public class CadastroEnfermeiro3Activity extends AppCompatActivity {
                     editText_Conta.setError("Preencha o numero da conta");
                     editText_Conta.requestFocus();
                 } else {
+
+                    Map<String, Object> enfermeiro = new HashMap<>();
+                    enfermeiro.put("agencia", editText_Agencia.getText().toString());
+                    enfermeiro.put("conta", editText_Conta.getText().toString());
+
+                    CadastroEnfermeiro2Activity cadastroEnfermeiro2Activity = new CadastroEnfermeiro2Activity();
+
+                    Object vai;
+
+                    vai = db.collection("enfermeiros").document().getId();
+
+                    db.collection("enfermeiros").document(vai.toString())
+                            .set(enfermeiro, SetOptions.merge())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DEU BOM");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "DEU MERDA", e);
+                                }
+                            });
+
                     Intent intent = new Intent(CadastroEnfermeiro3Activity.this, CadastroEnfermeiro4Activity.class);
                     startActivity(intent);
                     finish();

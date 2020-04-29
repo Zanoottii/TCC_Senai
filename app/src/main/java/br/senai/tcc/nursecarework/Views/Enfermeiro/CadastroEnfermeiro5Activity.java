@@ -26,11 +26,12 @@ import br.senai.tcc.nursecarework.R;
 public class CadastroEnfermeiro5Activity extends AppCompatActivity {
 
     private ImageView voltar;
-    private EditText cep, bairro, rua, numCasa, cidade;
+    private EditText edtcep, edtbairro, edtrua, edtnumCasa, edtcidade;
     private Button proximo;
     private ArrayAdapter<CharSequence> adapter;
     private ProgressDialog progress;
-    private Spinner uf;
+    private Spinner spinnerUf;
+    private String cep, bairro, rua, numCasa, cidade,uf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +39,26 @@ public class CadastroEnfermeiro5Activity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro_enfermeiro_parte5);
 
         voltar = findViewById(R.id.volta);
-        cep = findViewById(R.id.cep);
-        bairro = findViewById(R.id.bairro);
-        rua = findViewById(R.id.rua);
-        numCasa = findViewById(R.id.numCasa);
-        cidade = findViewById(R.id.cidade);
-        uf = findViewById(R.id.uf);
+        edtcep = findViewById(R.id.cep);
+        edtbairro = findViewById(R.id.bairro);
+        edtrua = findViewById(R.id.rua);
+        edtnumCasa = findViewById(R.id.numCasa);
+        edtcidade = findViewById(R.id.cidade);
+        spinnerUf = findViewById(R.id.uf);
         proximo = findViewById(R.id.proximo);
+
+        cep = edtcep.getText().toString();
+        bairro = edtbairro.getText().toString();
+        rua = edtrua.getText().toString();
+        numCasa = edtnumCasa.getText().toString();
+        cidade = edtcidade.getText().toString();
+        uf = spinnerUf.getSelectedItem().toString();
+
 
         adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.spinner_estados, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        uf.setAdapter(adapter);
-        uf.setSelection(0, true);
+        spinnerUf.setAdapter(adapter);
+        spinnerUf.setSelection(0, true);
 
         progress = new ProgressDialog(this);
         progress.setTitle("Carregando");
@@ -65,7 +74,7 @@ public class CadastroEnfermeiro5Activity extends AppCompatActivity {
             }
         });
 
-        cep.setOnKeyListener(new View.OnKeyListener() {
+        edtcep.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 EditText campo = (EditText) view;
@@ -87,12 +96,12 @@ public class CadastroEnfermeiro5Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (cep.getText().toString().isEmpty()) {
-                    cep.setError("Preencha o CEP");
-                    cep.requestFocus();
-                } else if (numCasa.getText().toString().isEmpty()) {
-                    numCasa.setError("Preencha o numero da casa");
-                    numCasa.requestFocus();
+                if (edtcep.getText().toString().isEmpty()) {
+                    edtcep.setError("Preencha o CEP");
+                    edtcep.requestFocus();
+                } else if (edtnumCasa.getText().toString().isEmpty()) {
+                    edtnumCasa.setError("Preencha o numero da casa");
+                    edtnumCasa.requestFocus();
                 } else {
                     Intent intent = new Intent(getApplicationContext(), CadastroEnfermeiro6Activity.class);
                     startActivity(intent);
@@ -109,23 +118,23 @@ public class CadastroEnfermeiro5Activity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            cep.clearFocus();
-                            cep.setText(response.getString("cep"));
-                            rua.setText(response.getString("logradouro"));
-                            bairro.setText(response.getString("bairro"));
-                            cidade.setText(response.getString("localidade"));
-                            uf.setSelection(adapter.getPosition(response.getString("uf")));
-                            numCasa.requestFocus();
+                            edtcep.clearFocus();
+                            edtcep.setText(response.getString("cep"));
+                            edtrua.setText(response.getString("logradouro"));
+                            edtbairro.setText(response.getString("bairro"));
+                            edtcidade.setText(response.getString("localidade"));
+                            spinnerUf.setSelection(adapter.getPosition(response.getString("uf")));
+                            edtnumCasa.requestFocus();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            cep.setText("");
-                            rua.setText("");
-                            numCasa.setText("");
-                            bairro.setText("");
-                            cidade.setText("");
-                            uf.setSelection(adapter.getPosition("AC"));
+                            edtcep.setText("");
+                            edtrua.setText("");
+                            edtnumCasa.setText("");
+                            edtbairro.setText("");
+                            edtcidade.setText("");
+                            spinnerUf.setSelection(adapter.getPosition("AC"));
                         }
-                        cep.setEnabled(true);
+                        edtcep.setEnabled(true);
                         progress.dismiss();
                     }
                 },
