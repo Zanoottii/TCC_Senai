@@ -99,7 +99,6 @@ public class Pacientes {
     public String getUf() {
         return uf;
     }
-
     public void setUf(String uf) {
         this.uf = uf;
     }

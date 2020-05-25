@@ -2,18 +2,7 @@ package br.senai.tcc.nursecarework.Models;
 
 public class Cooperativa {
 
-    private String cnpj;
-    private String nome;
-    private String municipio;
-    private String uf;
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
+    private String nome, cnpj, municipio, uf;
 
     public String getNome() {
         return nome;
@@ -21,6 +10,14 @@ public class Cooperativa {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        this.cnpj = cnpj;
     }
 
     public String getMunicipio() {

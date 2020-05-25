@@ -14,6 +14,7 @@ public class Enfermeiro {
     private String longitude;
     private String latitude;
 
+
     public String getNome() {
         return nome;
     }
@@ -102,3 +103,5 @@ public class Enfermeiro {
         this.latitude = latitude;
     }
 }
+
+
