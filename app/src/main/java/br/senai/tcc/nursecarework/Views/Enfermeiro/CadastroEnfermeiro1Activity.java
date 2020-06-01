@@ -1,8 +1,6 @@
 package br.senai.tcc.nursecarework.Views.Enfermeiro;
 
 import android.content.Intent;
-import android.nfc.Tag;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +9,6 @@ import android.widget.ImageView;
 import  br.senai.tcc.nursecarework.R;
 import br.senai.tcc.nursecarework.Views.NovoCadastroActivity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -52,6 +49,8 @@ public class CadastroEnfermeiro1Activity extends AppCompatActivity {
                     conSenha.requestFocus();
                 } else {
                     Intent intent = new Intent(getApplicationContext(), CadastroEnfermeiro2Activity.class);
+                    intent.putExtra("email", email.getText().toString());
+                    intent.putExtra("senha", senha.getText().toString());
                     startActivity(intent);
                     finish();
                 }
@@ -62,7 +61,6 @@ public class CadastroEnfermeiro1Activity extends AppCompatActivity {
         voltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(getApplicationContext(), NovoCadastroActivity.class);
                 startActivity(intent);
                 finish();

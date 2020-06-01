@@ -13,7 +13,7 @@
         android:layout_marginTop="40dp">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/imgUserEmpresa"
+            android:id="@+id/imgUserEnfer"
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:layout_marginStart="8dp"
@@ -22,10 +22,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/perfil" />
+            app:srcCompat="@drawable/foto" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/perfilEmailEnfer"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginStart="8dp"
@@ -37,7 +37,7 @@
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgUserEmpresa" />
+            app:layout_constraintTop_toBottomOf="@+id/imgUserEnfer" />
 
         <TextView
             android:id="@+id/perfilNomeEnfer"
@@ -49,7 +49,7 @@
             android:textColor="#464646"
             android:textColorHint="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/perfilEmailEnfer" />
 
         <TextView
             android:id="@+id/perfilSobrenomeEnfer"
@@ -64,7 +64,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.21"
             app:layout_constraintStart_toEndOf="@+id/perfilNomeEnfer"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/perfilEmailEnfer" />
 
         <TextView
             android:id="@+id/perfilCpfEnfer"

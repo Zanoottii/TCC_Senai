@@ -1,16 +1,17 @@
 package br.senai.tcc.nursecarework.Models;
 
-public class Pacientes {
+public class Paciente {
 
     private String nome;
     private String sobrenome;
     private String cpf;
     private String celular;
-    private String dataNascimento;
+    private String nascimento;
     private String cep;
     private String bairro;
     private String logradouro;
     private String numero;
+    private String complemento;
     private String municipio;
     private String uf;
     private String longitude;
@@ -48,12 +49,12 @@ public class Pacientes {
         this.celular = celular;
     }
 
-    public String getDataNascimento() {
-        return dataNascimento;
+    public String getNascimento() {
+        return nascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setNascimento(String nascimento) {
+        this.nascimento = nascimento;
     }
 
     public String getCep() {
@@ -88,6 +89,14 @@ public class Pacientes {
         this.numero = numero;
     }
 
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
     public String getMunicipio() {
         return municipio;
     }
@@ -99,6 +108,7 @@ public class Pacientes {
     public String getUf() {
         return uf;
     }
+
     public void setUf(String uf) {
         this.uf = uf;
     }
@@ -118,6 +128,4 @@ public class Pacientes {
     public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
-
-
 }

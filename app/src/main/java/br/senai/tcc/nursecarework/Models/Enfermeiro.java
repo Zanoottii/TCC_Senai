@@ -1,6 +1,8 @@
 package br.senai.tcc.nursecarework.Models;
 
-public class Enfermeiro {
+import java.io.Serializable;
+
+public class Enfermeiro implements Serializable {
 
     private String nome;
     private String sobrenome;
@@ -10,10 +12,9 @@ public class Enfermeiro {
     private String conta;
     private String agencia;
     private String coren;
-    private String distanciaAtendimento;
+    private String distancia;
     private String longitude;
     private String latitude;
-
 
     public String getNome() {
         return nome;
@@ -79,12 +80,12 @@ public class Enfermeiro {
         this.coren = coren;
     }
 
-    public String getDistanciaAtendimento() {
-        return distanciaAtendimento;
+    public String getDistancia() {
+        return distancia;
     }
 
-    public void setDistanciaAtendimento(String distanciaAtendimento) {
-        this.distanciaAtendimento = distanciaAtendimento;
+    public void setDistancia(String distancia) {
+        this.distancia = distancia;
     }
 
     public String getLongitude() {

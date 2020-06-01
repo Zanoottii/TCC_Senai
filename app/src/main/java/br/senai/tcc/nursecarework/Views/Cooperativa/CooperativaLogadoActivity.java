@@ -14,16 +14,18 @@ import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import br.senai.tcc.nursecarework.Models.ServicosFirebase;
+import br.senai.tcc.nursecarework.Models.Usuario;
 import br.senai.tcc.nursecarework.Views.Paciente.CadastroPaciente1Activity;
-import br.senai.tcc.nursecarework.Views.MainActivity;
-import br.senai.tcc.nursecarework.Views.Enfermeiro.MeusPacientesFragment;
 import br.senai.tcc.nursecarework.R;
 
 public class CooperativaLogadoActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +33,7 @@ public class CooperativaLogadoActivity extends AppCompatActivity implements Navi
     private String barra;
     private Toolbar toolbar;
     private FloatingActionButton fab;
+    private ServicosFirebase servicosFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,8 @@ public class CooperativaLogadoActivity extends AppCompatActivity implements Navi
         setContentView(R.layout.activity_empresa_logado);
         toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
+
+        servicosFirebase = new ServicosFirebase(this);
 
         fab = findViewById(R.id.adicionarPaciente);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,10 +61,15 @@ public class CooperativaLogadoActivity extends AppCompatActivity implements Navi
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        Usuario usuario = Usuario.getInstance();
+        View headerView = navigationView.getHeaderView(0);
+        CircularImageView imgUserEmpresa = headerView.findViewById(R.id.imgUserEmpresa);
+        TextView emailEmpresa = headerView.findViewById(R.id.emailEmpresa);
+        //imgUserEmpresa.setImageBitmap(usuario.getFoto());
+        emailEmpresa.setText(usuario.getEmail());
+
         displaySelectedScreen(R.id.meusPacientes);
-
     }
-
 
     @Override
     public void onBackPressed() {
@@ -77,14 +87,14 @@ public class CooperativaLogadoActivity extends AppCompatActivity implements Navi
         return super.onOptionsItemSelected(item);
     }
 
-    private void displaySelectedScreen(int itemId){
+    private void displaySelectedScreen(int itemId) {
 
         Fragment fragment = null;
 
-        switch (itemId){
+        switch (itemId) {
             case R.id.verPerfilEmp:
                 fab.setVisibility(View.INVISIBLE); //deixar o floating button ivisivel
-                barra = "Meu perfil";
+                barra = "Meu foto";
                 fragment = new PerfilEmpFragment();
                 break;
 
@@ -96,18 +106,15 @@ public class CooperativaLogadoActivity extends AppCompatActivity implements Navi
 
             case R.id.pacientesAceitos:
                 fab.setVisibility(View.INVISIBLE);//deixar o floating button ivisivel
-                barra = "Pacientes aceitos";
+                barra = "Paciente aceitos";
                 fragment = new PacientesAceitosFragment();
                 break;
 
             case R.id.sairLogin2:
-                Intent intent = new Intent(CooperativaLogadoActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                break;
+                servicosFirebase.deslogar();
         }
 
-        if(fragment != null){
+        if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragMeusPacientes, fragment);
             ft.commit();
@@ -124,5 +131,9 @@ public class CooperativaLogadoActivity extends AppCompatActivity implements Navi
     public boolean onNavigationItemSelected(MenuItem item) {
         displaySelectedScreen(item.getItemId());
         return true;
+    }
+
+    public ServicosFirebase getServicosFirebase() {
+        return servicosFirebase;
     }
 }

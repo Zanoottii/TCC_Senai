@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -33,8 +33,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.senai.tcc.nursecarework.Views.Cooperativa.CadastroCooperativa2Activity;
+import br.senai.tcc.nursecarework.Views.Enfermeiro.CadastroEnfermeiro4Activity;
 import br.senai.tcc.nursecarework.Views.MainActivity;
-import br.senai.tcc.nursecarework.Views.SplashActivity;
 
 public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
 
@@ -46,19 +47,20 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
     private Usuario usuario;
 
     public ServicosFirebase(Activity activity) {
-        this.activity = activity;
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.addAuthStateListener(this);
         usuario = Usuario.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        if (activity != null) {
+            this.activity = activity;
+            mAuth.addAuthStateListener(this);
+        }
     }
 
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         if (!isLogado() &&
-                !(activity instanceof SplashActivity) &&
-                !(activity instanceof MainActivity) /*&&
-                !(activity instanceof CadastroActivity)*/) {
-            Usuario.clearInstance();
+                !(activity instanceof MainActivity) &&
+                !(activity instanceof CadastroEnfermeiro4Activity) &&
+                !(activity instanceof CadastroCooperativa2Activity)) {
             Usuario.clearInstance();
             Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -68,7 +70,6 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
 
     public interface ResultadoListener<T> {
         void onSucesso(T objeto);
-
         void onErro(String mensagem);
     }
 
@@ -78,8 +79,8 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
     }
 
     public void iniciarBanco() {
-        if (mStorageRef == null) mStorageRef = FirebaseStorage.getInstance().getReference();
         if (db == null) db = FirebaseFirestore.getInstance();
+        if (mStorageRef == null) mStorageRef = FirebaseStorage.getInstance().getReference();
     }
 
     public void logar(String email, String senha, final ResultadoListener resultado) {
@@ -111,34 +112,6 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
 
     public void deslogar() {
         mAuth.signOut();
-    }
-
-    public void trocarEmail(String email, final ResultadoListener resultado) {
-        user.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    resultado.onSucesso("email");
-                } else {
-                    FirebaseAuthException firebaseAuthException = (FirebaseAuthException) task.getException();
-                    resultado.onErro(firebaseAuthException.getErrorCode());
-                }
-            }
-        });
-    }
-
-    public void trocarSenha(String senha, final ResultadoListener resultado) {
-        user.updatePassword(senha).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    resultado.onSucesso("senha");
-                } else {
-                    FirebaseAuthException firebaseAuthException = (FirebaseAuthException) task.getException();
-                    resultado.onErro(firebaseAuthException.getErrorCode());
-                }
-            }
-        });
     }
 
     public void downloadFoto(String id, final ResultadoListener resultado) {
@@ -187,13 +160,15 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                         if (task.isSuccessful()) {
                             QuerySnapshot querySnapshot = task.getResult();
                             if (!querySnapshot.isEmpty()) {
-                                if (querySnapshot.getDocuments().get(0).getString("tipo").equals("pacientes")) {
-                                    usuario.setUid(querySnapshot.getDocuments().get(0).getId());
-                                    usuario.setEmail(user.getEmail());
-                                    carregarPaciente(new ResultadoListener<Pacientes>() {
+                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                                usuario.setUid(documentSnapshot.getId());
+                                usuario.setEmail(user.getEmail());
+                                String tipo = documentSnapshot.getString("tipo");
+                                if ("enfermeiros".equals(tipo)) {
+                                    carregarEnfermeiro(usuario.getUid(), new ResultadoListener<Enfermeiro>() {
                                         @Override
-                                        public void onSucesso(Pacientes paciente) {
-                                            usuario.setPaciente(paciente);
+                                        public void onSucesso(Enfermeiro enfermeiro) {
+                                            usuario.setEnfermeiro(enfermeiro);
                                             downloadFoto(usuario.getUid(), new ResultadoListener<Bitmap>() {
                                                 @Override
                                                 public void onSucesso(Bitmap foto) {
@@ -214,8 +189,21 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                                             resultado.onErro(mensagem);
                                         }
                                     });
+                                } else if ("cooperativas".equals(tipo)) {
+                                    carregarCooperativa(usuario.getUid(), new ResultadoListener<Cooperativa>() {
+                                        @Override
+                                        public void onSucesso(Cooperativa cooperativa) {
+                                            usuario.setCooperativa(cooperativa);
+                                            resultado.onSucesso(null);
+                                        }
+
+                                        @Override
+                                        public void onErro(String mensagem) {
+                                            resultado.onErro(mensagem);
+                                        }
+                                    });
                                 } else {
-                                    resultado.onErro("Este usuário não é um paciente");
+                                    resultado.onErro("Este usuário não é um enfermeiro ou cooperativa");
                                 }
                             } else {
                                 resultado.onErro("Usuário logado não é mais válido");
@@ -227,9 +215,9 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void carregarPaciente(final ResultadoListener resultado) {
+    public void carregarPaciente(String id, final ResultadoListener resultado) {
         db.collection("pacientes")
-                .document(usuario.getUid())
+                .document(id)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -237,7 +225,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                         if (task.isSuccessful()) {
                             DocumentSnapshot documentSnapshot = task.getResult();
                             if (documentSnapshot.exists()) {
-                                resultado.onSucesso(documentSnapshot.toObject(Pacientes.class));
+                                resultado.onSucesso(documentSnapshot.toObject(Paciente.class));
                             } else {
                                 resultado.onErro("Não existe informações deste paciente");
                             }
@@ -292,110 +280,45 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void cadastrarPaciente(final String email, final String senha, final Pacientes paciente, final Bitmap foto, final ResultadoListener resultado) {
+    public void cadastrarEnfermeiro(final String email, final String senha, final Enfermeiro enfermeiro, final Bitmap foto, final ResultadoListener resultado) {
         mAuth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             if (isLogado()) {
-                                obterPacienteId(paciente.getCpf(), new ResultadoListener<String>() {
+                                gravarUsuario("enfermeiros", new ResultadoListener<String>() {
                                     @Override
                                     public void onSucesso(String id) {
-                                        if (id.length() > 0) {
-                                            usuario.setUid(id);
-                                            verificarUsuario(new ResultadoListener() {
-                                                @Override
-                                                public void onSucesso(Object objeto) {
-                                                    atualizarUsuario(new ResultadoListener() {
-                                                        @Override
-                                                        public void onSucesso(Object objeto) {
-                                                            gravarPaciente(paciente, new ResultadoListener() {
-                                                                @Override
-                                                                public void onSucesso(Object objeto) {
-                                                                    uploadFoto(foto, new ResultadoListener() {
-                                                                        @Override
-                                                                        public void onSucesso(Object objeto) {
-                                                                            usuario.setEmail(email);
-                                                                            usuario.setPaciente(paciente);
-                                                                            usuario.setFoto(foto);
-                                                                            resultado.onSucesso(null);
-                                                                        }
+                                        usuario.setUid(id);
+                                        gravarEnfermeiro(enfermeiro, new ResultadoListener() {
+                                            @Override
+                                            public void onSucesso(Object objeto) {
+                                                uploadFoto(foto, new ResultadoListener() {
+                                                    @Override
+                                                    public void onSucesso(Object objeto) {
+                                                        usuario.setEmail(email);
+                                                        usuario.setEnfermeiro(enfermeiro);
+                                                        usuario.setFoto(foto);
+                                                        resultado.onSucesso(null);
+                                                    }
 
-                                                                        @Override
-                                                                        public void onErro(String mensagem) {
-                                                                            apagarUsuario();
-                                                                            user.delete();
-                                                                            resultado.onErro(mensagem);
-                                                                        }
-                                                                    });
-                                                                }
+                                                    @Override
+                                                    public void onErro(String mensagem) {
+                                                        apagarUsuario();
+                                                        user.delete();
+                                                        resultado.onErro(mensagem);
+                                                    }
+                                                });
+                                            }
 
-                                                                @Override
-                                                                public void onErro(String mensagem) {
-                                                                    apagarUsuario();
-                                                                    user.delete();
-                                                                    resultado.onSucesso(mensagem);
-                                                                }
-                                                            });
-                                                        }
-
-                                                        @Override
-                                                        public void onErro(String mensagem) {
-                                                            user.delete();
-                                                            resultado.onSucesso(mensagem);
-                                                        }
-                                                    });
-                                                }
-
-                                                @Override
-                                                public void onErro(String mensagem) {
-                                                    user.delete();
-                                                    resultado.onErro(mensagem);
-                                                }
-                                            });
-                                        } else {
-                                            gravarUsuario(new ResultadoListener<String>() {
-                                                @Override
-                                                public void onSucesso(String id) {
-                                                    usuario.setUid(id);
-                                                    gravarPaciente(paciente, new ResultadoListener() {
-                                                        @Override
-                                                        public void onSucesso(Object objeto) {
-                                                            uploadFoto(foto, new ResultadoListener() {
-                                                                @Override
-                                                                public void onSucesso(Object objeto) {
-                                                                    usuario.setEmail(email);
-                                                                    usuario.setPaciente(paciente);
-                                                                    usuario.setFoto(foto);
-                                                                    resultado.onSucesso(null);
-                                                                }
-
-                                                                @Override
-                                                                public void onErro(String mensagem) {
-                                                                    apagarUsuario();
-                                                                    user.delete();
-                                                                    resultado.onErro(mensagem);
-                                                                }
-                                                            });
-                                                        }
-
-                                                        @Override
-                                                        public void onErro(String mensagem) {
-                                                            apagarUsuario();
-                                                            user.delete();
-                                                            resultado.onErro(mensagem);
-                                                        }
-                                                    });
-                                                }
-
-                                                @Override
-                                                public void onErro(String mensagem) {
-                                                    user.delete();
-                                                    resultado.onErro(mensagem);
-                                                }
-                                            });
-                                        }
+                                            @Override
+                                            public void onErro(String mensagem) {
+                                                apagarUsuario();
+                                                user.delete();
+                                                resultado.onErro(mensagem);
+                                            }
+                                        });
                                     }
 
                                     @Override
@@ -415,9 +338,55 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void gravarUsuario(final ResultadoListener resultado) {
+    public void cadastrarCooperativa(final String email, final String senha, final Cooperativa cooperativa, final ResultadoListener resultado) {
+        mAuth.createUserWithEmailAndPassword(email, senha)
+                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            if (isLogado()) {
+                                gravarUsuario("cooperativas", new ResultadoListener<String>() {
+                                    @Override
+                                    public void onSucesso(String id) {
+                                        usuario.setUid(id);
+                                        gravarCooperativa(cooperativa, new ResultadoListener() {
+                                            @Override
+                                            public void onSucesso(Object objeto) {
+                                                usuario.setEmail(email);
+                                                usuario.setCooperativa(cooperativa);
+                                                resultado.onSucesso(null);
+                                            }
+
+                                            @Override
+                                            public void onErro(String mensagem) {
+                                                apagarUsuario();
+                                                user.delete();
+                                                resultado.onErro(mensagem);
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onErro(String mensagem) {
+                                        user.delete();
+                                        resultado.onErro(mensagem);
+                                    }
+                                });
+                            } else {
+                                user.delete();
+                                resultado.onErro("Erro ao logar como usuário");
+                            }
+                        } else {
+                            resultado.onErro("Erro ao criar o usuário");
+                        }
+                    }
+                });
+    }
+
+    public void gravarUsuario(String tipo, final ResultadoListener resultado) {
+        iniciarBanco();
         Map<String, Object> mUsuario = new HashMap<>();
-        mUsuario.put("tipo", "pacientes");
+        mUsuario.put("tipo", tipo);
         mUsuario.put("id_firebase", user.getUid());
         db.collection("usuarios")
                 .add(mUsuario)
@@ -435,42 +404,40 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void gravarPaciente(Pacientes paciente, final ResultadoListener resultado) {
+    public void gravarEnfermeiro(Enfermeiro enfermeiro, final ResultadoListener resultado) {
         iniciarBanco();
-        db.collection("pacientes")
+        db.collection("enfermeiros")
                 .document(usuario.getUid())
-                .set(paciente)
+                .set(enfermeiro)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        resultado.onSucesso("paciente");
+                        resultado.onSucesso("enfermeiro");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        resultado.onErro("Erro ao gravar o paciente");
+                        resultado.onErro("Erro ao gravar o enfermeiro");
                     }
                 });
     }
 
-    public void atualizarUsuario(final ResultadoListener resultado) {
-        Map<String, Object> mUsuario = new HashMap<>();
-        mUsuario.put("tipo", "pacientes");
-        mUsuario.put("id_firebase", user.getUid());
-        db.collection("usuarios")
+    public void gravarCooperativa(Cooperativa cooperativa, final ResultadoListener resultado) {
+        iniciarBanco();
+        db.collection("cooperativas")
                 .document(usuario.getUid())
-                .set(mUsuario)
+                .set(cooperativa)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        resultado.onSucesso(null);
+                        resultado.onSucesso("cooperativa");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        resultado.onErro("Erro ao atualizar o usuário");
+                        resultado.onErro("Erro ao gravar a cooperativa");
                     }
                 });
     }
@@ -487,78 +454,18 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void verificarUsuario(final ResultadoListener resultado) {
-        db.collection("usuarios")
-                .document(usuario.getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot documentSnapshot = task.getResult();
-                            if (documentSnapshot.exists()) {
-                                String id = documentSnapshot.getString("id_firebase");
-                                if (id.length() > 0) {
-                                    resultado.onErro("Este usuário já está cadastrado");
-                                } else {
-                                    resultado.onSucesso(null);
-                                }
-                            } else {
-                                resultado.onSucesso(null);
-                            }
-                        } else {
-                            resultado.onErro("Não foi possível verificar as informações já cadastradas");
-                        }
-                    }
-                });
-    }
-
-    public void obterPacienteId(String cpf, final ResultadoListener resultado) {
+    public void listarRequisicaoEnfermeiro(final ResultadoListener resultado) {
         iniciarBanco();
-        db.collection("pacientes")
-                .whereEqualTo("cpf", cpf)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            QuerySnapshot querySnapshot = task.getResult();
-                            if (querySnapshot.isEmpty()) {
-                                resultado.onSucesso("");
-                            } else {
-                                resultado.onSucesso(querySnapshot.getDocuments().get(0).getId());
-                            }
-                        } else {
-                            resultado.onErro("Não foi possível verificar se este paciente já existe");
-                        }
-                    }
-                });
-    }
-
-    public void agendarRequisicao(Requisicao requisicao, final ResultadoListener resultado) {
-        iniciarBanco();
+        Enfermeiro enfermeiro = usuario.getEnfermeiro();
+        final float distanciaMaxima = Float.parseFloat(enfermeiro.getDistancia()) * 1000;
+        final Location localEnfermeiro = new Location("");
+        localEnfermeiro.setLatitude(Float.parseFloat(enfermeiro.getLatitude()));
+        localEnfermeiro.setLongitude(Float.parseFloat(enfermeiro.getLongitude()));
+        long datahora = Calendar.getInstance().getTimeInMillis();
         db.collection("requisicoes")
-                .add(requisicao)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        resultado.onSucesso(null);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        resultado.onErro("Erro ao agendar o atendimento");
-                    }
-                });
-    }
-
-    public void listarRequisicao(final ResultadoListener resultado) {
-        iniciarBanco();
-        db.collection("requisicoes")
-                .whereEqualTo("paciente", usuario.getUid())
-                .orderBy("datahora", Query.Direction.DESCENDING)
-                .limit(100)
+                .whereEqualTo("enfermeiro", "")
+                .whereGreaterThan("datahora", datahora)
+                .orderBy("datahora")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -567,23 +474,82 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                             List<Requisicao> requisicoes = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Requisicao requisicao = document.toObject(Requisicao.class);
-                                requisicao.setId(document.getId());
-                                requisicoes.add(requisicao);
+                                Location localPaciente = new Location("");
+                                localPaciente.setLatitude(Float.parseFloat(requisicao.getLatitude()));
+                                localPaciente.setLongitude(Float.parseFloat(requisicao.getLongitude()));
+                                float distancia = localEnfermeiro.distanceTo(localPaciente);
+                                if (distancia <= distanciaMaxima) {
+                                    requisicao.setId(document.getId());
+                                    requisicoes.add(requisicao);
+                                }
                             }
                             resultado.onSucesso(requisicoes);
                         } else {
-                            resultado.onErro("Erro ao obter a lista");
+                            resultado.onErro("Erro ao consultar");
                         }
                     }
                 });
     }
 
-    public void historicoRequisicao(long dataInicial, long dataFinal, final ResultadoListener resultado) {
+    public void listarRequisicaoCooperativa(final ResultadoListener resultado) {
         iniciarBanco();
         db.collection("requisicoes")
-                .whereEqualTo("paciente", usuario.getUid())
-                .whereGreaterThanOrEqualTo("datahora", dataInicial)
-                .whereLessThan("datahora", dataFinal)
+                .whereEqualTo("cooperativa", usuario.getUid())
+                .orderBy("datahora")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<Requisicao> requisicoes = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Requisicao requisicao = document.toObject(Requisicao.class);
+                                if (!"0".equals(requisicao.getEnfermeiro())) {
+                                    requisicao.setId(document.getId());
+                                    requisicoes.add(requisicao);
+                                }
+                            }
+                            resultado.onSucesso(requisicoes);
+                        } else {
+                            resultado.onErro("Erro ao consultar");
+                        }
+                    }
+                });
+    }
+
+    public void requisicaoAceitaEnfermeiro(final ResultadoListener resultado) {
+        iniciarBanco();
+        db.collection("requisicoes")
+                .whereEqualTo("enfermeiro", usuario.getUid())
+                .orderBy("datahora")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            long datahora = Calendar.getInstance().getTimeInMillis();
+                            List<Requisicao> requisicoes = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Requisicao requisicao = document.toObject(Requisicao.class);
+                                if (requisicao.getDatahora() > datahora) {
+                                    requisicao.setId(document.getId());
+                                    requisicoes.add(requisicao);
+                                }
+                            }
+                            resultado.onSucesso(requisicoes);
+                        } else {
+                            resultado.onErro("Erro ao consultar");
+                        }
+                    }
+                });
+    }
+
+    public void requisicaoAceitaCooperativa(final ResultadoListener resultado) {
+        iniciarBanco();
+        long datahora = Calendar.getInstance().getTimeInMillis();
+        db.collection("requisicoes")
+                .whereEqualTo("cooperativa", usuario.getUid())
+                .whereGreaterThan("datahora", datahora)
                 .orderBy("datahora")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -594,15 +560,34 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Requisicao requisicao = document.toObject(Requisicao.class);
                                 String enfermeiro = requisicao.getEnfermeiro();
-                                if (!TextUtils.isEmpty(enfermeiro) && !"0".equals(enfermeiro) && TextUtils.isEmpty(requisicao.getCooperativa())) {
+                                if (!TextUtils.isEmpty(enfermeiro) && !"0".equals(enfermeiro)) {
                                     requisicao.setId(document.getId());
                                     requisicoes.add(requisicao);
                                 }
                             }
                             resultado.onSucesso(requisicoes);
                         } else {
-                            resultado.onErro("Erro ao obter o histórico");
+                            resultado.onErro("Erro ao consultar");
                         }
+                    }
+                });
+    }
+
+    public void aceitarRequisicao(String id, final ResultadoListener resultado) {
+        iniciarBanco();
+        db.collection("requisicoes")
+                .document(id)
+                .update("enfermeiro", usuario.getUid())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        resultado.onSucesso(null);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        resultado.onErro("Erro ao aceitar");
                     }
                 });
     }
@@ -611,7 +596,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
         iniciarBanco();
         db.collection("requisicoes")
                 .document(id)
-                .update("enfermeiro", "0")
+                .update("enfermeiro", usuario.getEnfermeiro() == null ? "0" : "")
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -622,35 +607,6 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         resultado.onErro("Erro ao cancelar");
-                    }
-                });
-    }
-
-    public void proximaRequisicao(final ResultadoListener resultado) {
-        iniciarBanco();
-        db.collection("requisicoes")
-                .whereEqualTo("paciente", usuario.getUid())
-                .orderBy("datahora", Query.Direction.DESCENDING)
-                .limit(20)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            long datahora = Calendar.getInstance().getTimeInMillis();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Requisicao requisicao = document.toObject(Requisicao.class);
-                                if (requisicao != null) {
-                                    String enfermeiro = requisicao.getEnfermeiro();
-                                    if (!TextUtils.isEmpty(enfermeiro) && !"0".equals(enfermeiro) && requisicao.getDatahora() > datahora) {
-                                        resultado.onSucesso(requisicao);
-                                        break;
-                                    }
-                                }
-                            }
-                        } else {
-                            resultado.onErro("Erro ao consultar o próximo atendimento");
-                        }
                     }
                 });
     }

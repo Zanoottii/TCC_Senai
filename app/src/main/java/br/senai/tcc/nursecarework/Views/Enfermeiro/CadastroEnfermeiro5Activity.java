@@ -2,6 +2,8 @@ package br.senai.tcc.nursecarework.Views.Enfermeiro;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,39 +23,42 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
+import br.senai.tcc.nursecarework.Models.Enfermeiro;
 import br.senai.tcc.nursecarework.R;
 
 public class CadastroEnfermeiro5Activity extends AppCompatActivity {
 
     private ImageView voltar;
-    private EditText edtcep, edtbairro, edtrua, edtnumCasa, edtcidade;
+    private EditText edtCep, edtBairro, edtRua, edtNumCasa, edtCidade;
     private Button proximo;
     private ArrayAdapter<CharSequence> adapter;
     private ProgressDialog progress;
     private Spinner spinnerUf;
-    private String cep, bairro, rua, numCasa, cidade,uf;
+    private Enfermeiro enfermeiro;
+    private String email, senha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_enfermeiro_parte5);
 
+        Intent intent = getIntent();
+        enfermeiro = (Enfermeiro) intent.getSerializableExtra("Enfermeiro");
+        email = intent.getStringExtra("email");
+        senha = intent.getStringExtra("senha");
+
         voltar = findViewById(R.id.volta);
-        edtcep = findViewById(R.id.cep);
-        edtbairro = findViewById(R.id.bairro);
-        edtrua = findViewById(R.id.rua);
-        edtnumCasa = findViewById(R.id.numCasa);
-        edtcidade = findViewById(R.id.cidade);
+        edtCep = findViewById(R.id.cep);
+        edtBairro = findViewById(R.id.bairro);
+        edtRua = findViewById(R.id.rua);
+        edtNumCasa = findViewById(R.id.numCasa);
+        edtCidade = findViewById(R.id.cidade);
         spinnerUf = findViewById(R.id.uf);
         proximo = findViewById(R.id.proximo);
-
-        cep = edtcep.getText().toString();
-        bairro = edtbairro.getText().toString();
-        rua = edtrua.getText().toString();
-        numCasa = edtnumCasa.getText().toString();
-        cidade = edtcidade.getText().toString();
-        uf = spinnerUf.getSelectedItem().toString();
-
 
         adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.spinner_estados, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -74,7 +79,7 @@ public class CadastroEnfermeiro5Activity extends AppCompatActivity {
             }
         });
 
-        edtcep.setOnKeyListener(new View.OnKeyListener() {
+        edtCep.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 EditText campo = (EditText) view;
@@ -95,17 +100,40 @@ public class CadastroEnfermeiro5Activity extends AppCompatActivity {
         proximo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (edtcep.getText().toString().isEmpty()) {
-                    edtcep.setError("Preencha o CEP");
-                    edtcep.requestFocus();
-                } else if (edtnumCasa.getText().toString().isEmpty()) {
-                    edtnumCasa.setError("Preencha o numero da casa");
-                    edtnumCasa.requestFocus();
+                if (edtCep.getText().toString().isEmpty()) {
+                    edtCep.setError("Preencha o CEP");
+                    edtCep.requestFocus();
+                } else if (edtNumCasa.getText().toString().isEmpty()) {
+                    edtNumCasa.setError("Preencha o numero da casa");
+                    edtNumCasa.requestFocus();
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), CadastroEnfermeiro6Activity.class);
-                    startActivity(intent);
-                    finish();
+                    Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                    List<Address> addresses = null;
+                    progress.show();
+                    try {
+                        String endereco = edtRua.getText().toString() + ", " +
+                                edtNumCasa.getText().toString() + " - " +
+                                edtBairro.getText().toString() + " - " +
+                                edtCidade.getText().toString() + " - " +
+                                spinnerUf.getSelectedItem().toString();
+                        addresses = geocoder.getFromLocationName(endereco, 1);
+                    } catch (IOException e) {
+                    }
+                    progress.dismiss();
+                    if (addresses != null && addresses.size() > 0) {
+                        Address address = addresses.get(0);
+                        enfermeiro.setLatitude(String.valueOf(address.getLatitude()));
+                        enfermeiro.setLongitude(String.valueOf(address.getLongitude()));
+
+                        Intent intent = new Intent(getApplicationContext(), CadastroEnfermeiro6Activity.class);
+                        intent.putExtra("Enfermeiro", enfermeiro);
+                        intent.putExtra("email", email);
+                        intent.putExtra("senha", senha);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(CadastroEnfermeiro5Activity.this, "Endereço inválido", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -118,23 +146,23 @@ public class CadastroEnfermeiro5Activity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            edtcep.clearFocus();
-                            edtcep.setText(response.getString("cep"));
-                            edtrua.setText(response.getString("logradouro"));
-                            edtbairro.setText(response.getString("bairro"));
-                            edtcidade.setText(response.getString("localidade"));
+                            edtCep.clearFocus();
+                            edtCep.setText(response.getString("cep"));
+                            edtRua.setText(response.getString("logradouro"));
+                            edtBairro.setText(response.getString("bairro"));
+                            edtCidade.setText(response.getString("localidade"));
                             spinnerUf.setSelection(adapter.getPosition(response.getString("uf")));
-                            edtnumCasa.requestFocus();
+                            edtNumCasa.requestFocus();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            edtcep.setText("");
-                            edtrua.setText("");
-                            edtnumCasa.setText("");
-                            edtbairro.setText("");
-                            edtcidade.setText("");
+                            edtCep.setText("");
+                            edtRua.setText("");
+                            edtNumCasa.setText("");
+                            edtBairro.setText("");
+                            edtCidade.setText("");
                             spinnerUf.setSelection(adapter.getPosition("AC"));
                         }
-                        edtcep.setEnabled(true);
+                        edtCep.setEnabled(true);
                         progress.dismiss();
                     }
                 },

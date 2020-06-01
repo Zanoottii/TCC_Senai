@@ -3,6 +3,7 @@ package br.senai.tcc.nursecarework.Views.Enfermeiro;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -12,48 +13,91 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.senai.tcc.nursecarework.Models.InfoPacientes;
+import br.senai.tcc.nursecarework.Models.Paciente;
+import br.senai.tcc.nursecarework.Models.Requisicao;
+import br.senai.tcc.nursecarework.Models.ServicosFirebase;
 import br.senai.tcc.nursecarework.Views.Paciente.ListaPacientesAdapter;
 import br.senai.tcc.nursecarework.R;
 
 public class MeusPacientesFragment extends Fragment {
     private ListView lvListaOpcoes;
     private ArrayList<InfoPacientes> listaOpcoes;
+    private ArrayList<String> listaIDs;
     private ListaPacientesAdapter adapter;
-
-    public MeusPacientesFragment() {
-    }
+    private ServicosFirebase servicosFirebase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meus_pacientes, container, false);
 
+        servicosFirebase = ((EnfermeiroLogadoActivity) getActivity()).getServicosFirebase();
 
-
-
-
-
-        /*
         lvListaOpcoes = view.findViewById(R.id.listaMeusPacientes);
-        listaOpcoes = getListaOpcoes();
+        listaOpcoes = new ArrayList<>();
+        listaIDs = new ArrayList<>();
 
-        adapter = new ListaPacientesAdapter(getActivity(), listaOpcoes);
-        lvListaOpcoes.setAdapter(adapter);
+        servicosFirebase.requisicaoAceitaEnfermeiro(new ServicosFirebase.ResultadoListener<List<Requisicao>>() {
+            @Override
+            public void onSucesso(List<Requisicao> requisicoes) {
+                for (final Requisicao requisicao : requisicoes) {
+                    servicosFirebase.carregarPaciente(requisicao.getPaciente(), new ServicosFirebase.ResultadoListener<Paciente>() {
+                        @Override
+                        public void onSucesso(Paciente paciente) {
+                            InfoPacientes infoPacientes = new InfoPacientes();
+                            infoPacientes.setNome(paciente.getNome());
+                            infoPacientes.setSobrenome(paciente.getSobrenome());
+                            infoPacientes.setDataNasc(paciente.getNascimento());
+                            infoPacientes.setTipoServico(TextUtils.join("\n", requisicao.getServico()));
+                            listaOpcoes.add(infoPacientes);
+                            listaIDs.add(requisicao.getId());
+                            adapter = new ListaPacientesAdapter(getActivity(), listaOpcoes);
+                            lvListaOpcoes.setAdapter(adapter);
+                        }
+
+                        @Override
+                        public void onErro(String mensagem) {
+                            Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+                Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         lvListaOpcoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, final View view, final int i, long l) {
                 final InfoPacientes infoPacientesObj = listaOpcoes.get(i);
+                final String idRequisicao = listaIDs.get(i);
                 final AlertDialog.Builder alertConfig = new AlertDialog.Builder(view.getContext());
 
                 alertConfig.setMessage("Selecione uma opção")
                         .setPositiveButton("Remover paciente", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                adapter.notifyDataSetChanged();
+                            public void onClick(DialogInterface dialogInterface, int j) {
+                                servicosFirebase.cancelarRequisicao(idRequisicao, new ServicosFirebase.ResultadoListener() {
+                                    @Override
+                                    public void onSucesso(Object objeto) {
+                                        listaOpcoes.remove(i);
+                                        adapter.notifyDataSetChanged();
+                                        Toast.makeText(getActivity(), "Paciente removido", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onErro(String mensagem) {
+                                        Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton("Ver informações", new DialogInterface.OnClickListener() {
@@ -82,25 +126,13 @@ public class MeusPacientesFragment extends Fragment {
                         .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
                             }
                         });
                 final AlertDialog alert = alertConfig.create();
                 alert.show();
             }
-        });*/
+        });
         return view;
     }
-
-        /* private ArrayList<InfoPacientes> getListaOpcoes() {
-        ArrayList<InfoPacientes> infoPacientesArray = new ArrayList<>();
-        InfoPacientes infoPacientesObj = new InfoPacientes();
-
-        infoPacientesObj.setNome("Jonathan");
-        infoPacientesObj.setSobrenome("Araujo");
-        infoPacientesObj.setDataNasc("10/01/2003");
-        infoPacientesObj.setTipoServico("retirada de pontos");
-        infoPacientesArray.add(infoPacientesObj);
-
-        return infoPacientesArray;
-    }*/
 }

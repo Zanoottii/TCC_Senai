@@ -1,6 +1,8 @@
 package br.senai.tcc.nursecarework.Models;
 
-public class Cooperativa {
+import java.io.Serializable;
+
+public class Cooperativa implements Serializable {
 
     private String nome, cnpj, municipio, uf;
 

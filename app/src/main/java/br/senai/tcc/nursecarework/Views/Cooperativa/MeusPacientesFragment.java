@@ -25,7 +25,7 @@ import br.senai.tcc.nursecarework.Models.ServicosFirebase;
 import br.senai.tcc.nursecarework.Views.Paciente.ListaPacientesAdapter;
 import br.senai.tcc.nursecarework.R;
 
-public class PacientesAceitosFragment extends Fragment {
+public class MeusPacientesFragment extends Fragment {
     private ListView lvListaOpcoes;
     private ArrayList<InfoPacientes> listaOpcoes;
     private ArrayList<String> listaIDs;
@@ -34,15 +34,15 @@ public class PacientesAceitosFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pacientes_aceitos, container, false);
+        View view = inflater.inflate(R.layout.fragment_meus_pacientes, container, false);
 
         servicosFirebase = ((CooperativaLogadoActivity) getActivity()).getServicosFirebase();
 
-        lvListaOpcoes = view.findViewById(R.id.listaPacientesAceitos);
+        lvListaOpcoes = view.findViewById(R.id.listaMeusPacientes);
         listaOpcoes = new ArrayList<>();
         listaIDs = new ArrayList<>();
 
-        servicosFirebase.requisicaoAceitaCooperativa(new ServicosFirebase.ResultadoListener<List<Requisicao>>() {
+        servicosFirebase.listarRequisicaoCooperativa(new ServicosFirebase.ResultadoListener<List<Requisicao>>() {
             @Override
             public void onSucesso(List<Requisicao> requisicoes) {
                 for (final Requisicao requisicao : requisicoes) {

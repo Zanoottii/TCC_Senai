@@ -1,8 +1,13 @@
 package br.senai.tcc.nursecarework.Views.Enfermeiro;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +18,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
@@ -20,7 +26,10 @@ import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.SimpleMaskTextWatcher;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
-import br.senai.tcc.nursecarework.Views.MainActivity;
+import java.io.IOException;
+
+import br.senai.tcc.nursecarework.Models.Enfermeiro;
+import br.senai.tcc.nursecarework.Models.ServicosFirebase;
 import br.senai.tcc.nursecarework.R;
 
 public class CadastroEnfermeiro4Activity extends AppCompatActivity {
@@ -28,27 +37,34 @@ public class CadastroEnfermeiro4Activity extends AppCompatActivity {
     private ImageView voltar;
     private CircularImageView foto;
     private Button concluido, galeria;
-    private static final int codigo_camera = 1;
-    private EditText edtnumCoren;
-    private String numCoren;
+    private EditText edtNumCoren;
+    private Enfermeiro enfermeiro;
+    private String email, senha;
+    private ServicosFirebase servicosFirebase;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_enfermeiro_parte4);
 
+        servicosFirebase = new ServicosFirebase(this);
+
+        Intent intent = getIntent();
+        enfermeiro = (Enfermeiro) intent.getSerializableExtra("Enfermeiro");
+        email = intent.getStringExtra("email");
+        senha = intent.getStringExtra("senha");
+
         voltar = findViewById(R.id.voltar5);
         concluido = findViewById(R.id.btnCadConcluido);
         galeria = findViewById(R.id.btnGaleria);
         foto = findViewById(R.id.fotoCadastro);
-        edtnumCoren = findViewById(R.id.numCoren);
-
-        numCoren = edtnumCoren.getText().toString();
+        edtNumCoren = findViewById(R.id.numCoren);
 
         //mascara para o campo do NumCoren
         SimpleMaskFormatter simpleMaskCoren = new SimpleMaskFormatter("NNN-NNN");
-        SimpleMaskTextWatcher maskCoren = new SimpleMaskTextWatcher(edtnumCoren, simpleMaskCoren);
-        edtnumCoren.addTextChangedListener(maskCoren);
+        SimpleMaskTextWatcher maskCoren = new SimpleMaskTextWatcher(edtNumCoren, simpleMaskCoren);
+        edtNumCoren.addTextChangedListener(maskCoren);
 
         //Botão para voltar para a tele de cadastro parte 3
         voltar.setOnClickListener(new View.OnClickListener() {
@@ -64,13 +80,25 @@ public class CadastroEnfermeiro4Activity extends AppCompatActivity {
         concluido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtnumCoren.getText().toString().isEmpty()) {
-                    edtnumCoren.setError("Preencha o numero do Coren");
-                    edtnumCoren.requestFocus();
+                if (edtNumCoren.getText().toString().isEmpty()) {
+                    edtNumCoren.setError("Preencha o numero do Coren");
+                    edtNumCoren.requestFocus();
                 } else {
-                    Intent intent = new Intent(CadastroEnfermeiro4Activity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if (bitmap == null)
+                        bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.foto);
+                    enfermeiro.setCoren(edtNumCoren.getText().toString());
+                    servicosFirebase.cadastrarEnfermeiro(email, senha, enfermeiro, bitmap, new ServicosFirebase.ResultadoListener() {
+                        @Override
+                        public void onSucesso(Object objeto) {
+                            startActivity(new Intent(CadastroEnfermeiro4Activity.this, EnfermeiroLogadoActivity.class));
+                            finish();
+                        }
+
+                        @Override
+                        public void onErro(String mensagem) {
+                            Toast.makeText(CadastroEnfermeiro4Activity.this, mensagem, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
@@ -108,13 +136,22 @@ public class CadastroEnfermeiro4Activity extends AppCompatActivity {
         Intent abrirGaleria = new Intent(Intent.ACTION_GET_CONTENT);
         abrirGaleria.setType("image/*");
         abrirGaleria.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(abrirGaleria, codigo_camera);
+        startActivityForResult(abrirGaleria, 1);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == codigo_camera && resultCode == RESULT_OK) {
-            foto.setImageURI(data.getData());
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1) {
+                if (data == null) {
+                    return;
+                }
+                try {
+                    bitmap = ThumbnailUtils.extractThumbnail(MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData()), 300, 300, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+                    foto.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                }
+            }
         }
     }
 }

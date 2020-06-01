@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import br.senai.tcc.nursecarework.Models.Cooperativa;
 import br.senai.tcc.nursecarework.Views.NovoCadastroActivity;
 import br.senai.tcc.nursecarework.R;
 
@@ -55,7 +56,12 @@ public class CadastroCooperativa1Activity extends AppCompatActivity {
                     confirmSenha.setError("As senhas não coincidem");
                     confirmSenha.requestFocus();
                 } else {
+                    Cooperativa cooperativa = new Cooperativa();
+                    cooperativa.setNome(nome.getText().toString());
+
                     Intent intent = new Intent(CadastroCooperativa1Activity.this, CadastroCooperativa2Activity.class);
+                    intent.putExtra("Cooperativa", cooperativa);
+                    intent.putExtra("senha", senha.getText().toString());
                     startActivity(intent);
                     finish();
                 }

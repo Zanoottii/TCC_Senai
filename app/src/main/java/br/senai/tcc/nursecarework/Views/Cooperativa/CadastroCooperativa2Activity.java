@@ -12,11 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.SimpleMaskTextWatcher;
 
-import br.senai.tcc.nursecarework.Views.MainActivity;
+import br.senai.tcc.nursecarework.Models.Cooperativa;
+import br.senai.tcc.nursecarework.Models.ServicosFirebase;
 import br.senai.tcc.nursecarework.R;
 import br.senai.tcc.nursecarework.Helper.Validacao;
 
@@ -27,11 +29,20 @@ public class CadastroCooperativa2Activity extends AppCompatActivity {
     private EditText email, municipio, cnpj;
     private ArrayAdapter<CharSequence> adapter;
     private Spinner uf;
+    private ServicosFirebase servicosFirebase;
+    private Cooperativa cooperativa;
+    private String senha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_cooperativa2);
+
+        servicosFirebase = new ServicosFirebase(this);
+
+        Intent intent = getIntent();
+        cooperativa = (Cooperativa) intent.getSerializableExtra("Cooperativa");
+        senha = intent.getStringExtra("senha");
 
         voltar = findViewById(R.id.voltar);
         cadastrar = findViewById(R.id.cadastrar);
@@ -75,9 +86,22 @@ public class CadastroCooperativa2Activity extends AppCompatActivity {
                     cnpj.setError("O CNPJ digitado não é valido");
                     cnpj.requestFocus();
                 } else {
-                    Intent intent = new Intent(CadastroCooperativa2Activity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    cooperativa.setCnpj(cnpj.getText().toString());
+                    cooperativa.setMunicipio(municipio.getText().toString());
+                    cooperativa.setUf(uf.getSelectedItem().toString());
+
+                    servicosFirebase.cadastrarCooperativa(email.getText().toString(), senha, cooperativa, new ServicosFirebase.ResultadoListener() {
+                        @Override
+                        public void onSucesso(Object objeto) {
+                            startActivity(new Intent(CadastroCooperativa2Activity.this, CooperativaLogadoActivity.class));
+                            finish();
+                        }
+
+                        @Override
+                        public void onErro(String mensagem) {
+                            Toast.makeText(CadastroCooperativa2Activity.this, mensagem, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 

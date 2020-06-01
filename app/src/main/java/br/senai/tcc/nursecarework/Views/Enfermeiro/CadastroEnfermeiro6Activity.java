@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import br.senai.tcc.nursecarework.Models.Enfermeiro;
 import br.senai.tcc.nursecarework.R;
 
 public class CadastroEnfermeiro6Activity extends AppCompatActivity {
@@ -19,12 +20,18 @@ public class CadastroEnfermeiro6Activity extends AppCompatActivity {
     private TextView txtKm;
     private ImageView voltar;
     private Button proximo;
-
+    private Enfermeiro enfermeiro;
+    private String email, senha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_enfermeiro_parte6);
+
+        Intent intent = getIntent();
+        enfermeiro = (Enfermeiro) intent.getSerializableExtra("Enfermeiro");
+        email = intent.getStringExtra("email");
+        senha = intent.getStringExtra("senha");
 
         distancia = findViewById(R.id.distancia);
         txtKm = findViewById(R.id.txtKm);
@@ -58,7 +65,12 @@ public class CadastroEnfermeiro6Activity extends AppCompatActivity {
         proximo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                enfermeiro.setDistancia(String.valueOf(distancia.getProgress()));
+
                 Intent intent = new Intent(getApplicationContext(), CadastroEnfermeiro3Activity.class);
+                intent.putExtra("Enfermeiro", enfermeiro);
+                intent.putExtra("email", email);
+                intent.putExtra("senha", senha);
                 startActivity(intent);
                 finish();
             }

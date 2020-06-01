@@ -8,10 +8,12 @@ public class Usuario {
 
     private String email;
     private String uid;
-    private Pacientes paciente;
+    private Enfermeiro enfermeiro;
+    private Cooperativa cooperativa;
     private Bitmap foto;
 
-    private Usuario() {}
+    private Usuario() {
+    }
 
     public static Usuario getInstance() {
         if (usuario == null)
@@ -21,14 +23,6 @@ public class Usuario {
 
     public static void clearInstance() {
         usuario = null;
-    }
-
-    public static Usuario getUsuario() {
-        return usuario;
-    }
-
-    public static void setUsuario(Usuario usuario) {
-        Usuario.usuario = usuario;
     }
 
     public String getEmail() {
@@ -47,12 +41,20 @@ public class Usuario {
         this.uid = uid;
     }
 
-    public Pacientes getPaciente() {
-        return paciente;
+    public Enfermeiro getEnfermeiro() {
+        return enfermeiro;
     }
 
-    public void setPaciente(Pacientes paciente) {
-        this.paciente = paciente;
+    public void setEnfermeiro(Enfermeiro enfermeiro) {
+        this.enfermeiro = enfermeiro;
+    }
+
+    public Cooperativa getCooperativa() {
+        return cooperativa;
+    }
+
+    public void setCooperativa(Cooperativa cooperativa) {
+        this.cooperativa = cooperativa;
     }
 
     public Bitmap getFoto() {
