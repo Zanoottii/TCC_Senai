@@ -2,8 +2,7 @@ package br.senai.tcc.nursecarework.Models;
 
 public class Paciente {
 
-    private String nome;
-    private String sobrenome;
+    private String nome, sobrenome, tipoServico, dataNasc;
     private String cpf;
     private String celular;
     private String nascimento;
@@ -16,21 +15,62 @@ public class Paciente {
     private String uf;
     private String longitude;
     private String latitude;
+    private String id;
+    private String descricao;
+    private boolean check;
+
+    public Paciente(String id, String descricao) {
+        this.id = id;
+        this.descricao = descricao;
+        this.check = false;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public boolean isChecked() {
+        return check;
+    }
+
+    public void change() {
+        this.check = !this.check;
+    }
 
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getSobrenome() {
         return sobrenome;
     }
 
+    public String getTipoServico() {
+        return tipoServico;
+    }
+
+    public String getDataNasc() {
+        return dataNasc;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public void setSobrenome(String sobrenome) {
         this.sobrenome = sobrenome;
+    }
+
+    public void setTipoServico(String tipoServico) {
+        this.tipoServico = tipoServico;
+    }
+
+    public void setDataNasc(String dataNasc) {
+        this.dataNasc = dataNasc;
     }
 
     public String getCpf() {

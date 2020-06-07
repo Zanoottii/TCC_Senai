@@ -10,15 +10,15 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.senai.tcc.nursecarework.Models.OpcoesServicos;
+import br.senai.tcc.nursecarework.Models.Paciente;
 import br.senai.tcc.nursecarework.R;
 
-public class ListaOpcoesServicosAdapter extends ArrayAdapter<OpcoesServicos> {
+public class ListaOpcoesServicosAdapter extends ArrayAdapter<Paciente> {
 
     private Activity context;
-    private List<OpcoesServicos> listaOpcoes;
+    private List<Paciente> listaOpcoes;
 
-    public ListaOpcoesServicosAdapter(Activity context, List<OpcoesServicos> listaOpcoes) {
+    public ListaOpcoesServicosAdapter(Activity context, List<Paciente> listaOpcoes) {
         super(context, R.layout.adapter_paciente_servicos, listaOpcoes);
         this.context = context;
         this.listaOpcoes = listaOpcoes;
@@ -32,7 +32,7 @@ public class ListaOpcoesServicosAdapter extends ArrayAdapter<OpcoesServicos> {
         ImageView imageView = listViewItem.findViewById(R.id.naoChecado);
         TextView textView = listViewItem.findViewById(R.id.txtDescricao);
 
-        OpcoesServicos opcao = listaOpcoes.get(position);
+        Paciente opcao = listaOpcoes.get(position);
         imageView.setImageResource((opcao.isChecked()) ? R.drawable.chk : R.drawable.unchk);
         textView.setText(opcao.getDescricao());
 

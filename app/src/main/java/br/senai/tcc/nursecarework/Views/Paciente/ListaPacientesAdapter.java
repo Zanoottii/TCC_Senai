@@ -9,15 +9,15 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.senai.tcc.nursecarework.Models.InfoPacientes;
+import br.senai.tcc.nursecarework.Models.Paciente;
 import br.senai.tcc.nursecarework.R;
 
-public class ListaPacientesAdapter extends ArrayAdapter<InfoPacientes> {
+public class ListaPacientesAdapter extends ArrayAdapter<Paciente> {
 
     private Activity context;
-    private List<InfoPacientes> listaOpcoes;
+    private List<Paciente> listaOpcoes;
 
-    public ListaPacientesAdapter(Activity context, List<InfoPacientes> listaOpcoes) {
+    public ListaPacientesAdapter(Activity context, List<Paciente> listaOpcoes) {
         super(context, R.layout.adapter_lista_pacientes, listaOpcoes);
         this.context = context;
         this.listaOpcoes = listaOpcoes;
@@ -31,7 +31,7 @@ public class ListaPacientesAdapter extends ArrayAdapter<InfoPacientes> {
         TextView nome = listViewItem.findViewById(R.id.nomePacienteList);
         TextView sobrenome = listViewItem.findViewById(R.id.sobrenomePacienteList);
 
-        InfoPacientes opcao = listaOpcoes.get(position);
+        Paciente opcao = listaOpcoes.get(position);
         nome.setText(opcao.getNome());
         sobrenome.setText(opcao.getSobrenome());
 
