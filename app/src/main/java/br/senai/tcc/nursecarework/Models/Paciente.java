@@ -11,6 +11,9 @@ public class Paciente {
     private String logradouro;
     private String numero;
     private String complemento;
+    private String dataAtendimento;
+    private String convenio;
+    private String horarioAtendimento;
     private String municipio;
     private String uf;
     private String longitude;

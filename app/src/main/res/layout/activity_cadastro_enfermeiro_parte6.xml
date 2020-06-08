@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="15dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
@@ -11,56 +12,46 @@
         android:id="@+id/voltar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
         android:background="@drawable/voltar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+         />
 
     <TextView
-        android:id="@+id/textView17"
-        android:layout_width="307dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
-        android:layout_marginEnd="52dp"
+        android:layout_gravity="center"
         android:gravity="center"
         android:text="Qual a distância maxima em que deseja atender?"
         android:textColor="@android:color/black"
         android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/voltar" />
+         />
 
     <TextView
+        android:layout_marginTop="30dp"
         android:id="@+id/txtKm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="47dp"
-        android:layout_marginEnd="158dp"
         android:text="Distância: 1Km"
         android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/distancia" />
+        android:textSize="19dp"
+        android:layout_gravity="center"
+        />
 
     <SeekBar
         android:id="@+id/distancia"
-        android:layout_width="200dp"
+        android:layout_width="310dp"
         android:layout_height="30dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="105dp"
         android:max="30"
         android:min="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/proximo"
+        android:layout_gravity="right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="98dp"
-        android:layout_marginEnd="52dp"
         android:background="@drawable/botton"
         android:text="Proximo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/distancia" />
+        android:layout_marginTop="30dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -58,7 +58,7 @@ public class CadastroPaciente1Activity extends AppCompatActivity {
                     dataNacimento.setError("Preencha a data de nascimento");
                     dataNacimento.requestFocus();
                 } else {
-                    Intent intent = new Intent(CadastroPaciente1Activity.this, CadastroPaciente2Activity.class);
+                    Intent intent = new Intent(CadastroPaciente1Activity.this, CadastroPaciente5Activity.class);
                     startActivity(intent);
                     finish();
                 }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    tools:context=".Views.Paciente.CadastroPaciente5Activity">
+
+    <ImageView
+        android:id="@+id/voltar"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/voltar"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CPF:"
+        android:textSize="19dp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="20dp"
+        />
+
+    <EditText
+        android:inputType="number"
+        android:id="@+id/edtCPF"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:background="@drawable/borda"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Convenio:"
+        android:textColor="@android:color/black"
+        android:textSize="19dp"
+        />
+
+    <EditText
+        android:inputType="text"
+        android:id="@+id/edtConvenio"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:background="@drawable/borda"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Data Atendimento:"
+        android:textColor="@android:color/black"
+        android:textSize="19dp"
+        />
+
+    <EditText
+        android:inputType="number"
+        android:id="@+id/edtAgenda"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:background="@drawable/borda"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Horario:"
+        android:textColor="@android:color/black"
+        android:textSize="19dp"
+        />
+
+    <EditText
+        android:inputType="number"
+        android:id="@+id/edtHorario"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:background="@drawable/borda"
+        />
+
+    <Button
+        android:id="@+id/btProximo"
+        android:layout_marginTop="30dp"
+        android:layout_width="135dp"
+        android:layout_height="45dp"
+        android:background="@drawable/botton"
+        android:text="Proximo"
+        android:layout_gravity="right"
+        />
+
+</LinearLayout>
