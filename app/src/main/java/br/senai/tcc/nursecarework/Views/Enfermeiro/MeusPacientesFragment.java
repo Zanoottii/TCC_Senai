@@ -48,9 +48,7 @@ public class MeusPacientesFragment extends Fragment {
                     servicosFirebase.carregarPaciente(requisicao.getPaciente(), new ServicosFirebase.ResultadoListener<Paciente>() {
                         @Override
                         public void onSucesso(Paciente paciente) {
-                            String id = null;
-                            String descricao = null;
-                            Paciente pacientes = new Paciente(id,descricao);
+                            Paciente pacientes = new Paciente();
                             pacientes.setNome(paciente.getNome());
                             pacientes.setSobrenome(paciente.getSobrenome());
                             pacientes.setDataNasc(paciente.getNascimento());
@@ -78,7 +76,7 @@ public class MeusPacientesFragment extends Fragment {
         lvListaOpcoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, final View view, final int i, long l) {
-                final Paciente infoPacientesObj = listaOpcoes.get(i);
+                final Paciente pacientesObj = listaOpcoes.get(i);
                 final String idRequisicao = listaIDs.get(i);
                 final AlertDialog.Builder alertConfig = new AlertDialog.Builder(view.getContext());
 
@@ -114,10 +112,10 @@ public class MeusPacientesFragment extends Fragment {
                                 final TextView txtNasc = layoutInformacoes.findViewById(R.id.dataNascPacienteALert);
                                 final TextView txtServico = layoutInformacoes.findViewById(R.id.tipoServicoAlert);
 
-                                txtNome.setText("Nome: " + infoPacientesObj.getNome());
-                                txtSobrenome.setText("Sobrenome: " + infoPacientesObj.getSobrenome());
-                                txtNasc.setText("Data de nascimento: " + infoPacientesObj.getDataNasc());
-                                txtServico.setText("Tipo de serviço: " + infoPacientesObj.getTipoServico());
+                                txtNome.setText("Nome: " + pacientesObj.getNome());
+                                txtSobrenome.setText("Sobrenome: " + pacientesObj.getSobrenome());
+                                txtNasc.setText("Data de nascimento: " + pacientesObj.getDataNasc());
+                                txtServico.setText("Tipo de serviço: " + pacientesObj.getTipoServico());
 
                                 final AlertDialog alert2 = builder2.create();
                                 alert2.setTitle("Informações do paciente");

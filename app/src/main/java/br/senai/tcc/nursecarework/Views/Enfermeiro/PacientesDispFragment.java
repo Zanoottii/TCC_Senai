@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import br.senai.tcc.nursecarework.Models.Paciente;
 import br.senai.tcc.nursecarework.Models.Requisicao;
 import br.senai.tcc.nursecarework.Models.ServicosFirebase;
@@ -47,9 +48,7 @@ public class PacientesDispFragment extends Fragment {
                     servicosFirebase.carregarPaciente(requisicao.getPaciente(), new ServicosFirebase.ResultadoListener<Paciente>() {
                         @Override
                         public void onSucesso(Paciente paciente) {
-                            String id = null;
-                            String descricao = null;
-                            Paciente pacientes = new Paciente(id,descricao);
+                            Paciente pacientes = new Paciente();
                             pacientes.setNome(paciente.getNome());
                             pacientes.setSobrenome(paciente.getSobrenome());
                             pacientes.setDataNasc(paciente.getNascimento());
@@ -77,15 +76,15 @@ public class PacientesDispFragment extends Fragment {
         lvListaOpcoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, final View view, final int i, long l) {
-                final Paciente infoPacientesObj = listaOpcoes.get(i);
+                final Paciente pacientesObj = listaOpcoes.get(i);
                 final String idRequisicao = listaIDs.get(i);
                 final AlertDialog.Builder alertConfig = new AlertDialog.Builder(view.getContext());
 
                 alertConfig.setTitle("Informações do paciente")
-                        .setMessage("Nome: " + infoPacientesObj.getNome() +
-                                "\nSobrenome: " + infoPacientesObj.getSobrenome() +
-                                "\nData de nascimento: " + infoPacientesObj.getDataNasc() +
-                                "\nServiço: " + infoPacientesObj.getTipoServico())
+                        .setMessage("Nome: " + pacientesObj.getNome() +
+                                "\nSobrenome: " + pacientesObj.getSobrenome() +
+                                "\nData de nascimento: " + pacientesObj.getDataNasc() +
+                                "\nServiço: " + pacientesObj.getTipoServico())
                         .setPositiveButton("Aceitar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int j) {

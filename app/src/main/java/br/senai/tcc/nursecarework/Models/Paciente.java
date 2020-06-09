@@ -18,31 +18,7 @@ public class Paciente {
     private String uf;
     private String longitude;
     private String latitude;
-    private String id;
-    private String descricao;
-    private boolean check;
 
-    public Paciente(String id, String descricao) {
-        this.id = id;
-        this.descricao = descricao;
-        this.check = false;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public boolean isChecked() {
-        return check;
-    }
-
-    public void change() {
-        this.check = !this.check;
-    }
 
     public String getNome() {
         return nome;

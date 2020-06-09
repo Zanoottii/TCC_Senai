@@ -18,6 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import br.senai.tcc.nursecarework.Models.Paciente;
 import br.senai.tcc.nursecarework.Models.Requisicao;
 import br.senai.tcc.nursecarework.Models.ServicosFirebase;
@@ -48,9 +49,7 @@ public class PacientesAceitosFragment extends Fragment {
                     servicosFirebase.carregarPaciente(requisicao.getPaciente(), new ServicosFirebase.ResultadoListener<Paciente>() {
                         @Override
                         public void onSucesso(Paciente paciente) {
-                            String id = null;
-                            String descricao = null;
-                            Paciente pacientes = new Paciente(id,descricao);
+                            Paciente pacientes = new Paciente();
                             pacientes.setNome(paciente.getNome());
                             pacientes.setSobrenome(paciente.getSobrenome());
                             pacientes.setDataNasc(paciente.getNascimento());
