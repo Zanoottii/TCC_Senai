@@ -8,9 +8,9 @@ import java.util.List;
 
 @IgnoreExtraProperties
 public class Requisicao implements Serializable {
-
     private long datahora;
-    private String id, cooperativa, enfermeiro, paciente, endereco, latitude, longitude;
+    private double latitude, longitude, valor;
+    private String id, cooperativa, enfermeiro, paciente, endereco;
     private List<String> servico;
     private int estado;
 
@@ -40,6 +40,30 @@ public class Requisicao implements Serializable {
 
     public void setDatahora(long datahora) {
         this.datahora = datahora;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public String getCooperativa() {
@@ -72,22 +96,6 @@ public class Requisicao implements Serializable {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
     }
 
     public List<String> getServico() {

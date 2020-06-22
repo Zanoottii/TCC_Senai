@@ -65,7 +65,7 @@ public class CadastroEnfermeiro6Activity extends AppCompatActivity {
         proximo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enfermeiro.setDistancia(String.valueOf(distancia.getProgress()));
+                enfermeiro.setDistancia(distancia.getProgress());
 
                 Intent intent = new Intent(getApplicationContext(), CadastroEnfermeiro3Activity.class);
                 intent.putExtra("Enfermeiro", enfermeiro);

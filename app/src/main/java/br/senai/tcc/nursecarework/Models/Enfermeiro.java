@@ -4,17 +4,8 @@ import java.io.Serializable;
 
 public class Enfermeiro implements Serializable {
 
-    private String nome;
-    private String sobrenome;
-    private String celular;
-    private String cpf;
-    private String banco;
-    private String conta;
-    private String agencia;
-    private String coren;
-    private String distancia;
-    private String longitude;
-    private String latitude;
+    private String nome, sobrenome, celular, cpf, coren, banco, agencia, conta;
+    private double distancia, longitude, latitude;
 
     public String getNome() {
         return nome;
@@ -48,20 +39,20 @@ public class Enfermeiro implements Serializable {
         this.cpf = cpf;
     }
 
+    public String getCoren() {
+        return coren;
+    }
+
+    public void setCoren(String coren) {
+        this.coren = coren;
+    }
+
     public String getBanco() {
         return banco;
     }
 
     public void setBanco(String banco) {
         this.banco = banco;
-    }
-
-    public String getConta() {
-        return conta;
-    }
-
-    public void setConta(String conta) {
-        this.conta = conta;
     }
 
     public String getAgencia() {
@@ -72,35 +63,35 @@ public class Enfermeiro implements Serializable {
         this.agencia = agencia;
     }
 
-    public String getCoren() {
-        return coren;
+    public String getConta() {
+        return conta;
     }
 
-    public void setCoren(String coren) {
-        this.coren = coren;
+    public void setConta(String conta) {
+        this.conta = conta;
     }
 
-    public String getDistancia() {
+    public double getDistancia() {
         return distancia;
     }
 
-    public void setDistancia(String distancia) {
+    public void setDistancia(double distancia) {
         this.distancia = distancia;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 }

@@ -37,6 +37,7 @@ import br.senai.tcc.nursecarework.Views.Cooperativa.CadastroCooperativa2Activity
 import br.senai.tcc.nursecarework.Views.Enfermeiro.CadastroEnfermeiro4Activity;
 import br.senai.tcc.nursecarework.Views.MainActivity;
 
+@SuppressWarnings("unchecked")
 public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
 
     private FirebaseAuth mAuth;
@@ -78,7 +79,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
         return user != null;
     }
 
-    public void iniciarBanco() {
+    private void iniciarBanco() {
         if (db == null) db = FirebaseFirestore.getInstance();
         if (mStorageRef == null) mStorageRef = FirebaseStorage.getInstance().getReference();
     }
@@ -104,7 +105,11 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                             }
                         } else {
                             FirebaseAuthException firebaseAuthException = (FirebaseAuthException) task.getException();
-                            resultado.onErro(firebaseAuthException.getErrorCode());
+                            if (firebaseAuthException != null) {
+                                resultado.onErro(firebaseAuthException.getErrorCode());
+                            } else {
+                                resultado.onErro("Erro desconhecido");
+                            }
                         }
                     }
                 });
@@ -114,7 +119,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
         mAuth.signOut();
     }
 
-    public void downloadFoto(String id, final ResultadoListener resultado) {
+    private void downloadFoto(String id, final ResultadoListener resultado) {
         iniciarBanco();
         StorageReference fileRef = mStorageRef.child(id + ".png");
         fileRef.getBytes(1048576).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -130,7 +135,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
         });
     }
 
-    public void uploadFoto(Bitmap foto, final ResultadoListener resultado) {
+    private void uploadFoto(Bitmap foto, final ResultadoListener resultado) {
         iniciarBanco();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         foto.compress(Bitmap.CompressFormat.PNG, 90, stream);
@@ -159,7 +164,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             QuerySnapshot querySnapshot = task.getResult();
-                            if (!querySnapshot.isEmpty()) {
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
                                 DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
                                 usuario.setUid(documentSnapshot.getId());
                                 usuario.setEmail(user.getEmail());
@@ -224,7 +229,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot documentSnapshot = task.getResult();
-                            if (documentSnapshot.exists()) {
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
                                 resultado.onSucesso(documentSnapshot.toObject(Paciente.class));
                             } else {
                                 resultado.onErro("Não existe informações deste paciente");
@@ -236,7 +241,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void carregarEnfermeiro(String id, final ResultadoListener resultado) {
+    private void carregarEnfermeiro(String id, final ResultadoListener resultado) {
         iniciarBanco();
         db.collection("enfermeiros")
                 .document(id)
@@ -246,7 +251,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot documentSnapshot = task.getResult();
-                            if (documentSnapshot.exists()) {
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
                                 resultado.onSucesso(documentSnapshot.toObject(Enfermeiro.class));
                             } else {
                                 resultado.onErro("Não existe informações deste enfermeiro");
@@ -258,7 +263,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void carregarCooperativa(String id, final ResultadoListener resultado) {
+    private void carregarCooperativa(String id, final ResultadoListener resultado) {
         iniciarBanco();
         db.collection("cooperativas")
                 .document(id)
@@ -268,7 +273,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot documentSnapshot = task.getResult();
-                            if (documentSnapshot.exists()) {
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
                                 resultado.onSucesso(documentSnapshot.toObject(Cooperativa.class));
                             } else {
                                 resultado.onErro("Não existe informações desta cooperativa");
@@ -383,7 +388,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void gravarUsuario(String tipo, final ResultadoListener resultado) {
+    private void gravarUsuario(String tipo, final ResultadoListener resultado) {
         iniciarBanco();
         Map<String, Object> mUsuario = new HashMap<>();
         mUsuario.put("tipo", tipo);
@@ -404,7 +409,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void gravarEnfermeiro(Enfermeiro enfermeiro, final ResultadoListener resultado) {
+    private void gravarEnfermeiro(Enfermeiro enfermeiro, final ResultadoListener resultado) {
         iniciarBanco();
         db.collection("enfermeiros")
                 .document(usuario.getUid())
@@ -423,7 +428,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void gravarCooperativa(Cooperativa cooperativa, final ResultadoListener resultado) {
+    private void gravarCooperativa(Cooperativa cooperativa, final ResultadoListener resultado) {
         iniciarBanco();
         db.collection("cooperativas")
                 .document(usuario.getUid())
@@ -442,7 +447,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void apagarUsuario() {
+    private void apagarUsuario() {
         db.collection("usuarios")
                 .document(usuario.getUid())
                 .delete()
@@ -457,10 +462,10 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
     public void listarRequisicaoEnfermeiro(final ResultadoListener resultado) {
         iniciarBanco();
         Enfermeiro enfermeiro = usuario.getEnfermeiro();
-        final float distanciaMaxima = Float.parseFloat(enfermeiro.getDistancia()) * 1000;
+        final double distanciaMaxima = enfermeiro.getDistancia() * 1000;
         final Location localEnfermeiro = new Location("");
-        localEnfermeiro.setLatitude(Float.parseFloat(enfermeiro.getLatitude()));
-        localEnfermeiro.setLongitude(Float.parseFloat(enfermeiro.getLongitude()));
+        localEnfermeiro.setLatitude(enfermeiro.getLatitude());
+        localEnfermeiro.setLongitude(enfermeiro.getLongitude());
         long datahora = Calendar.getInstance().getTimeInMillis();
         db.collection("requisicoes")
                 .whereEqualTo("enfermeiro", "")
@@ -472,15 +477,18 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             List<Requisicao> requisicoes = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Requisicao requisicao = document.toObject(Requisicao.class);
-                                Location localPaciente = new Location("");
-                                localPaciente.setLatitude(Float.parseFloat(requisicao.getLatitude()));
-                                localPaciente.setLongitude(Float.parseFloat(requisicao.getLongitude()));
-                                float distancia = localEnfermeiro.distanceTo(localPaciente);
-                                if (distancia <= distanciaMaxima) {
-                                    requisicao.setId(document.getId());
-                                    requisicoes.add(requisicao);
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null) {
+                                for (QueryDocumentSnapshot document : querySnapshot) {
+                                    Requisicao requisicao = document.toObject(Requisicao.class);
+                                    Location localPaciente = new Location("");
+                                    localPaciente.setLatitude(requisicao.getLatitude());
+                                    localPaciente.setLongitude(requisicao.getLongitude());
+                                    float distancia = localEnfermeiro.distanceTo(localPaciente);
+                                    if (distancia <= distanciaMaxima) {
+                                        requisicao.setId(document.getId());
+                                        requisicoes.add(requisicao);
+                                    }
                                 }
                             }
                             resultado.onSucesso(requisicoes);
@@ -502,11 +510,14 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             List<Requisicao> requisicoes = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Requisicao requisicao = document.toObject(Requisicao.class);
-                                if (!"0".equals(requisicao.getEnfermeiro())) {
-                                    requisicao.setId(document.getId());
-                                    requisicoes.add(requisicao);
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null) {
+                                for (QueryDocumentSnapshot document : querySnapshot) {
+                                    Requisicao requisicao = document.toObject(Requisicao.class);
+                                    if (!"0".equals(requisicao.getEnfermeiro())) {
+                                        requisicao.setId(document.getId());
+                                        requisicoes.add(requisicao);
+                                    }
                                 }
                             }
                             resultado.onSucesso(requisicoes);
@@ -529,11 +540,14 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                         if (task.isSuccessful()) {
                             long datahora = Calendar.getInstance().getTimeInMillis();
                             List<Requisicao> requisicoes = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Requisicao requisicao = document.toObject(Requisicao.class);
-                                if (requisicao.getDatahora() > datahora) {
-                                    requisicao.setId(document.getId());
-                                    requisicoes.add(requisicao);
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null) {
+                                for (QueryDocumentSnapshot document : querySnapshot) {
+                                    Requisicao requisicao = document.toObject(Requisicao.class);
+                                    if (requisicao.getDatahora() > datahora) {
+                                        requisicao.setId(document.getId());
+                                        requisicoes.add(requisicao);
+                                    }
                                 }
                             }
                             resultado.onSucesso(requisicoes);
@@ -557,12 +571,15 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             List<Requisicao> requisicoes = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Requisicao requisicao = document.toObject(Requisicao.class);
-                                String enfermeiro = requisicao.getEnfermeiro();
-                                if (!TextUtils.isEmpty(enfermeiro) && !"0".equals(enfermeiro)) {
-                                    requisicao.setId(document.getId());
-                                    requisicoes.add(requisicao);
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null) {
+                                for (QueryDocumentSnapshot document : querySnapshot) {
+                                    Requisicao requisicao = document.toObject(Requisicao.class);
+                                    String enfermeiro = requisicao.getEnfermeiro();
+                                    if (!TextUtils.isEmpty(enfermeiro) && !"0".equals(enfermeiro)) {
+                                        requisicao.setId(document.getId());
+                                        requisicoes.add(requisicao);
+                                    }
                                 }
                             }
                             resultado.onSucesso(requisicoes);

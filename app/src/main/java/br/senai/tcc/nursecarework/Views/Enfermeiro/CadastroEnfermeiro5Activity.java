@@ -122,8 +122,8 @@ public class CadastroEnfermeiro5Activity extends AppCompatActivity {
                     progress.dismiss();
                     if (addresses != null && addresses.size() > 0) {
                         Address address = addresses.get(0);
-                        enfermeiro.setLatitude(String.valueOf(address.getLatitude()));
-                        enfermeiro.setLongitude(String.valueOf(address.getLongitude()));
+                        enfermeiro.setLatitude(address.getLatitude());
+                        enfermeiro.setLongitude(address.getLongitude());
 
                         Intent intent = new Intent(getApplicationContext(), CadastroEnfermeiro6Activity.class);
                         intent.putExtra("Enfermeiro", enfermeiro);

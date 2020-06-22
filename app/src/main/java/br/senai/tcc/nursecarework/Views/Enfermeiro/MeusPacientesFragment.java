@@ -51,7 +51,7 @@ public class MeusPacientesFragment extends Fragment {
                             Paciente pacientes = new Paciente();
                             pacientes.setNome(paciente.getNome());
                             pacientes.setSobrenome(paciente.getSobrenome());
-                            pacientes.setDataNasc(paciente.getNascimento());
+                            pacientes.setNascimento(paciente.getNascimento());
                             pacientes.setTipoServico(TextUtils.join("\n", requisicao.getServico()));
                             listaOpcoes.add(pacientes);
                             listaIDs.add(requisicao.getId());
@@ -114,7 +114,7 @@ public class MeusPacientesFragment extends Fragment {
 
                                 txtNome.setText("Nome: " + pacientesObj.getNome());
                                 txtSobrenome.setText("Sobrenome: " + pacientesObj.getSobrenome());
-                                txtNasc.setText("Data de nascimento: " + pacientesObj.getDataNasc());
+                                txtNasc.setText("Data de nascimento: " + pacientesObj.getNascimento());
                                 txtServico.setText("Tipo de serviço: " + pacientesObj.getTipoServico());
 
                                 final AlertDialog alert2 = builder2.create();

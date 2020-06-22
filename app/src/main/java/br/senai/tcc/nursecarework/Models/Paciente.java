@@ -1,55 +1,26 @@
 package br.senai.tcc.nursecarework.Models;
 
 public class Paciente {
+    private String nome, sobrenome, cpf, nascimento, celular, cep, logradouro, numero, complemento, bairro, municipio, uf;
+    private double latitude, longitude;
 
-    private String nome, sobrenome, tipoServico, dataNasc;
-    private String cpf;
-    private String celular;
-    private String nascimento;
-    private String cep;
-    private String bairro;
-    private String logradouro;
-    private String numero;
-    private String complemento;
-    private String dataAtendimento;
-    private String convenio;
-    private String horarioAtendimento;
-    private String municipio;
-    private String uf;
-    private String longitude;
-    private String latitude;
-
+    //Dados no modelo errado
+    private String tipoServico;
 
     public String getNome() {
         return nome;
-    }
-
-    public String getSobrenome() {
-        return sobrenome;
-    }
-
-    public String getTipoServico() {
-        return tipoServico;
-    }
-
-    public String getDataNasc() {
-        return dataNasc;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
     public void setSobrenome(String sobrenome) {
         this.sobrenome = sobrenome;
-    }
-
-    public void setTipoServico(String tipoServico) {
-        this.tipoServico = tipoServico;
-    }
-
-    public void setDataNasc(String dataNasc) {
-        this.dataNasc = dataNasc;
     }
 
     public String getCpf() {
@@ -60,14 +31,6 @@ public class Paciente {
         this.cpf = cpf;
     }
 
-    public String getCelular() {
-        return celular;
-    }
-
-    public void setCelular(String celular) {
-        this.celular = celular;
-    }
-
     public String getNascimento() {
         return nascimento;
     }
@@ -76,20 +39,20 @@ public class Paciente {
         this.nascimento = nascimento;
     }
 
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
     public String getCep() {
         return cep;
     }
 
     public void setCep(String cep) {
         this.cep = cep;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
     }
 
     public String getLogradouro() {
@@ -116,6 +79,14 @@ public class Paciente {
         this.complemento = complemento;
     }
 
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
     public String getMunicipio() {
         return municipio;
     }
@@ -132,19 +103,29 @@ public class Paciente {
         this.uf = uf;
     }
 
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    //Getter and Setter de dados no modelo errado
+
+    public String getTipoServico() {
+        return tipoServico;
+    }
+
+    public void setTipoServico(String tipoServico) {
+        this.tipoServico = tipoServico;
     }
 }

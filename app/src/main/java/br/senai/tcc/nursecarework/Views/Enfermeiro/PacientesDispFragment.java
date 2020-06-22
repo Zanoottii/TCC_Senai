@@ -51,7 +51,7 @@ public class PacientesDispFragment extends Fragment {
                             Paciente pacientes = new Paciente();
                             pacientes.setNome(paciente.getNome());
                             pacientes.setSobrenome(paciente.getSobrenome());
-                            pacientes.setDataNasc(paciente.getNascimento());
+                            pacientes.setNascimento(paciente.getNascimento());
                             pacientes.setTipoServico(TextUtils.join("\n", requisicao.getServico()));
                             listaOpcoes.add(pacientes);
                             listaIDs.add(requisicao.getId());
@@ -83,7 +83,7 @@ public class PacientesDispFragment extends Fragment {
                 alertConfig.setTitle("Informações do paciente")
                         .setMessage("Nome: " + pacientesObj.getNome() +
                                 "\nSobrenome: " + pacientesObj.getSobrenome() +
-                                "\nData de nascimento: " + pacientesObj.getDataNasc() +
+                                "\nData de nascimento: " + pacientesObj.getNascimento() +
                                 "\nServiço: " + pacientesObj.getTipoServico())
                         .setPositiveButton("Aceitar", new DialogInterface.OnClickListener() {
                             @Override

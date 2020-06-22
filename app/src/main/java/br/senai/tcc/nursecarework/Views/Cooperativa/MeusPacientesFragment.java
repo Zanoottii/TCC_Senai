@@ -50,7 +50,7 @@ public class MeusPacientesFragment extends Fragment {
                         public void onSucesso(Paciente paciente) {
                             paciente.setNome(paciente.getNome());
                             paciente.setSobrenome(paciente.getSobrenome());
-                            paciente.setDataNasc(paciente.getNascimento());
+                            paciente.setNascimento(paciente.getNascimento());
                             paciente.setTipoServico(TextUtils.join("\n", requisicao.getServico()));
                             listaOpcoes.add(paciente);
                             listaIDs.add(requisicao.getId());
@@ -113,7 +113,7 @@ public class MeusPacientesFragment extends Fragment {
 
                                 txtNome.setText("Nome: " + pacientesObj.getNome());
                                 txtSobrenome.setText("Sobrenome: " + pacientesObj.getSobrenome());
-                                txtNasc.setText("Data de nascimento: " + pacientesObj.getDataNasc());
+                                txtNasc.setText("Data de nascimento: " + pacientesObj.getNascimento());
                                 txtServico.setText("Tipo de serviço: " + pacientesObj.getTipoServico());
 
                                 final AlertDialog alert2 = builder2.create();
