@@ -4,128 +4,142 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
-    tools:context=".Views.Paciente.CadastroPaciente1Activity">
+    android:background="@drawable/fundo"
+    tools:context=".views.paciente.CadastroPaciente1Activity">
 
     <ImageView
-        android:id="@+id/pacienteVoltar1"
-        android:layout_width="40dp"
+        android:id="@+id/ivVoltarPaciente1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.074"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/voltar" />
+        app:srcCompat="@drawable/ic_voltar" />
 
     <TextView
-        android:id="@+id/textView13"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Nome:"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.092"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pacienteVoltar1" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etNomePaciente"
+        app:layout_constraintStart_toStartOf="@+id/etNomePaciente" />
 
     <EditText
-        android:id="@+id/nomePaciente"
-        android:layout_width="300dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:id="@+id/etNomePaciente"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="48dp"
         android:background="@drawable/borda"
         android:digits="abcdefghijklmnopqrstuvxwyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        android:ems="10"
         android:inputType="textCapWords"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView14"
-        android:layout_width="110dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/sobrenome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sobrenome:"
         android:textColor="@android:color/black"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nomePaciente" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etSobrenomePaciente"
+        app:layout_constraintStart_toStartOf="@+id/etSobrenomePaciente" />
 
     <EditText
-        android:id="@+id/sobrenomePaciente"
-        android:layout_width="300dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:id="@+id/etSobrenomePaciente"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
         android:background="@drawable/borda"
         android:digits="abcdefghijklmnopqrstuvxwyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        android:ems="10"
         android:inputType="textCapWords"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/etNomePaciente" />
+
 
     <TextView
-        android:id="@+id/textView15"
-        android:layout_width="200dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
-        android:text="Data de Nascimento:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CPF:"
         android:textColor="@android:color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.137"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sobrenomePaciente" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etCpfPaciente"
+        app:layout_constraintStart_toStartOf="@+id/etCpfPaciente" />
 
     <EditText
-        android:id="@+id/dataNascimentoPaciente"
-        android:layout_width="200dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:id="@+id/etCpfPaciente"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
         android:background="@drawable/borda"
-        android:ems="10"
+        android:inputType="number"
+        android:maxLength="14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSobrenomePaciente" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data de nascimento:"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etDataNascimentoPaciente"
+        app:layout_constraintStart_toStartOf="@+id/etDataNascimentoPaciente" />
+
+    <EditText
+        android:id="@+id/etDataNascimentoPaciente"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/borda"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/etCpfPaciente" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Celular:"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etCelularPaciente"
+        app:layout_constraintStart_toStartOf="@+id/etCelularPaciente" />
+
+    <EditText
+        android:id="@+id/etCelularPaciente"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/borda"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDataNascimentoPaciente" />
 
     <Button
-        android:id="@+id/btnCadPaciente1"
-        android:layout_width="137dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/botton"
-        android:text="Proximo"
+        android:id="@+id/bProximoPaciente1"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/botao"
+        android:text="Próximo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.785"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dataNascimentoPaciente"
-        app:layout_constraintVertical_bias="0.084" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

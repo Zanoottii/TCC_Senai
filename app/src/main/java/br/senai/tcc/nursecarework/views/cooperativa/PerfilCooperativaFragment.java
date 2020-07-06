@@ -1,7 +1,7 @@
 package br.senai.tcc.nursecarework.views.cooperativa;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
@@ -10,18 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mikhaellopez.circularimageview.CircularImageView;
-
 import br.senai.tcc.nursecarework.models.Cooperativa;
-import br.senai.tcc.nursecarework.models.Usuario;
+import br.senai.tcc.nursecarework.helpers.Usuario;
 import br.senai.tcc.nursecarework.R;
 
-public class PerfilEmpFragment extends Fragment {
-
-    private Button btEditar;
-    private CircularImageView fotoPerfilEmp;
-    private TextView perfilEmailEmp, nomePerfilEmp, cnpjPerfilEmp;
-
+public class PerfilCooperativaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_perfil_cooperativa, container, false);
@@ -29,22 +22,23 @@ public class PerfilEmpFragment extends Fragment {
         Usuario usuario = Usuario.getInstance();
         Cooperativa cooperativa = usuario.getCooperativa();
 
-        btEditar = view.findViewById(R.id.btnEditarPerfilEmp);
-        fotoPerfilEmp = view.findViewById(R.id.fotoPerfilEmp);
-        perfilEmailEmp = view.findViewById(R.id.perfilEmailEmp);
-        nomePerfilEmp = view.findViewById(R.id.nomePerfilEmp);
-        cnpjPerfilEmp = view.findViewById(R.id.cnpjPerfilEmp);
+        TextView tvEmail = view.findViewById(R.id.tvEmailPerfilCooperativa);
+        TextView tvNome = view.findViewById(R.id.tvNomePerfilCooperativa);
+        TextView tvCnpj = view.findViewById(R.id.tvCnpjPerfilCooperativa);
+        TextView tvMunicipio = view.findViewById(R.id.tvMunicipioPerfilCooperativa);
 
+        tvEmail.setText(usuario.getEmail());
+        tvNome.setText("Nome: " + cooperativa.getNome());
+        tvCnpj.setText("CNPJ: " + cooperativa.getCnpj());
+        tvMunicipio.setText("Município: " + cooperativa.getMunicipio() + " - " + cooperativa.getUf());
 
-        btEditar.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.bEditarPerfilCooperativa).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(getActivity(), EditarCooperativaActivity.class));
+                getActivity().finish();
             }
         });
-        //fotoPerfilEmp.setImageBitmap(usuario.getFoto());
-        perfilEmailEmp.setText(usuario.getEmail());
-        nomePerfilEmp.setText("Nome: " + cooperativa.getNome());
-        cnpjPerfilEmp.setText("Cnpj: " + cooperativa.getCnpj());
 
         return view;
     }

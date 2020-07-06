@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tvDataRequisicaoCooperativa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="01/01"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvHoraRequisicaoCooperativa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHoraRequisicaoCooperativa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvDataRequisicaoCooperativa"
+        app:layout_constraintStart_toStartOf="@+id/tvDataRequisicaoCooperativa"
+        app:layout_constraintTop_toBottomOf="@+id/tvDataRequisicaoCooperativa" />
+
+    <TextView
+        android:id="@+id/tvServicosRequisicaoCooperativa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Servicos:"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvEnderecoRequisicaoCooperativa"
+        app:layout_constraintStart_toStartOf="@+id/tvEnderecoRequisicaoCooperativa"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvEnderecoRequisicaoCooperativa"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:maxLines="3"
+        android:text="Endereço:"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivEstadoRequisicaoCooperativa"
+        app:layout_constraintStart_toEndOf="@+id/tvDataRequisicaoCooperativa"
+        app:layout_constraintTop_toBottomOf="@+id/tvServicosRequisicaoCooperativa" />
+
+    <ImageView
+        android:id="@+id/ivEstadoRequisicaoCooperativa"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_interrogacao" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

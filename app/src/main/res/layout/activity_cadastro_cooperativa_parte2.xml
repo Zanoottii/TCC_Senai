@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email da cooperativa:"
+        android:text="E-mail:"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/etEmailCooperativa"
@@ -42,7 +42,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CNPJ da cooperativa:"
+        android:text="CNPJ:"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/etCnpjCooperativa"

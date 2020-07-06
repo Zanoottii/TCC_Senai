@@ -1,102 +1,135 @@
 package br.senai.tcc.nursecarework.views.paciente;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.io.IOException;
+
+import br.senai.tcc.nursecarework.helpers.ServicosFirebase;
+import br.senai.tcc.nursecarework.models.Paciente;
 import br.senai.tcc.nursecarework.views.cooperativa.CooperativaLogadoActivity;
 import br.senai.tcc.nursecarework.R;
 
-public class CadastroPaciente4Activity extends AppCompatActivity {
-
-    private ImageView voltar;
-    private CircularImageView foto;
-    private Button concluido, galeria;
-    private static final int codigo_camera = 1;
+public class CadastroPaciente3Activity extends AppCompatActivity {
+    private CircularImageView civFoto;
+    private ImageButton ibGaleria;
+    private Paciente paciente;
+    private ServicosFirebase servicosFirebase;
+    private Bitmap bitmap;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_paciente_parte4);
+        setContentView(R.layout.activity_cadastro_paciente_parte3);
 
-        voltar = findViewById(R.id.pacienteVoltar4);
-        foto = findViewById(R.id.fotoPaciente);
-        concluido = findViewById(R.id.btnCadPaciente4);
-        galeria = findViewById(R.id.btnGaleria2);
+        paciente = (Paciente) getIntent().getSerializableExtra("Paciente");
 
-        //Botão para voltar para a tele de cadastro parte 3
-        voltar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CadastroPaciente4Activity.this, CadastroPaciente3Activity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        servicosFirebase = new ServicosFirebase(this);
 
-        //Botão para concluir o cadastro do enfermeiro
-        concluido.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CadastroPaciente4Activity.this, CooperativaLogadoActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        civFoto = findViewById(R.id.civFotoPaciente);
+        ibGaleria = findViewById(R.id.ibSelecionaFotoPaciente);
 
-        //botão paara abrir a galeria
-        galeria.setOnClickListener(new View.OnClickListener() {
+        ibGaleria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //aqui ele verifica se o usuário já deu a permissão....
-                if (ActivityCompat.checkSelfPermission(CadastroPaciente4Activity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    //e caso ainda não tenha dado, ele solicita...
-                    ActivityCompat.requestPermissions(CadastroPaciente4Activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                if (ActivityCompat.checkSelfPermission(CadastroPaciente3Activity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(CadastroPaciente3Activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
                 } else {
-                    //ao executar novamente ele irá verificar que já foi dado a permissão e irá executar a funcionalidade normalmente
-                    registerForContextMenu(galeria);
-                    openContextMenu(galeria);
+                    registerForContextMenu(ibGaleria);
+                    openContextMenu(ibGaleria);
                 }
+            }
+        });
+
+        progress = new ProgressDialog(this);
+        progress.setTitle("Carregando");
+        progress.setMessage("Aguarde...");
+        progress.setCancelable(false);
+
+        findViewById(R.id.ivVoltarPaciente3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CadastroPaciente3Activity.this, CadastroPaciente2Activity.class);
+                intent.putExtra("Paciente", paciente);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        findViewById(R.id.bCadastrarPaciente).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bitmap == null)
+                    bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.foto);
+
+                progress.show();
+                servicosFirebase.cadastrarPaciente(paciente, bitmap, new ServicosFirebase.ResultadoListener() {
+                    @Override
+                    public void onSucesso(Object objeto) {
+                        progress.dismiss();
+                        startActivity(new Intent(CadastroPaciente3Activity.this, CooperativaLogadoActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void onErro(String mensagem) {
+                        progress.dismiss();
+                        Toast.makeText(CadastroPaciente3Activity.this, mensagem, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        MenuItem carregarImg = menu.add("Galeria");
-        carregarImg.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        MenuItem miGaleria = menu.add("Galeria");
+        miGaleria.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                selecionarGaleria();
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(intent, 1);
                 return false;
             }
         });
     }
 
-    public void selecionarGaleria() {
-        Intent abrirGaleria = new Intent(Intent.ACTION_GET_CONTENT);
-        abrirGaleria.setType("image/*");
-        abrirGaleria.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(abrirGaleria, codigo_camera);
-    }
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == codigo_camera && resultCode == RESULT_OK) {
-            foto.setImageURI(data.getData());
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1) {
+                if (data == null) {
+                    return;
+                }
+                try {
+                    bitmap = ThumbnailUtils.extractThumbnail(MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData()), 300, 300, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+                    civFoto.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                }
+            }
         }
     }
 }

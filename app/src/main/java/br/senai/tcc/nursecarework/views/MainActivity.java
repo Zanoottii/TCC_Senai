@@ -1,28 +1,25 @@
-package br.senai.tcc.nursecarework.Views;
+package br.senai.tcc.nursecarework.views;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.Toast;
 
-import br.senai.tcc.nursecarework.Models.ServicosFirebase;
-import br.senai.tcc.nursecarework.Models.Usuario;
-import br.senai.tcc.nursecarework.Views.Cooperativa.CooperativaLogadoActivity;
-import br.senai.tcc.nursecarework.Views.Enfermeiro.EnfermeiroLogadoActivity;
+import br.senai.tcc.nursecarework.helpers.ServicosFirebase;
+import br.senai.tcc.nursecarework.helpers.Usuario;
+import br.senai.tcc.nursecarework.views.cooperativa.CooperativaLogadoActivity;
+import br.senai.tcc.nursecarework.views.enfermeiro.EnfermeiroLogadoActivity;
 import br.senai.tcc.nursecarework.R;
 
 public class MainActivity extends AppCompatActivity implements ServicosFirebase.ResultadoListener {
-
-    private TextView novoCad;
-    private Button btnLogar;
-    private EditText editEmail, editSenha;
-
+    private EditText etEmail, etSenha;
+    private ProgressDialog progress;
     private ServicosFirebase servicosFirebase;
     private Usuario usuario;
 
@@ -34,33 +31,39 @@ public class MainActivity extends AppCompatActivity implements ServicosFirebase.
         servicosFirebase = new ServicosFirebase(this);
         usuario = Usuario.getInstance();
 
-        if (servicosFirebase.isLogado()) servicosFirebase.carregarUsuario(this);
+        progress = new ProgressDialog(this);
+        progress.setTitle("Carregando");
+        progress.setMessage("Aguarde...");
+        progress.setCancelable(false);
 
-        novoCad = findViewById(R.id.novoCadastro);
-        btnLogar = findViewById(R.id.btnLogar);
-        editEmail = findViewById(R.id.editEmail);
-        editSenha = findViewById(R.id.editSenha);
+        if (servicosFirebase.isLogado()) {
+            progress.show();
+            servicosFirebase.carregarUsuario(this);
+        }
 
-        novoCad.setOnClickListener(new View.OnClickListener() {
+        etEmail = findViewById(R.id.etEmailLogin);
+        etSenha = findViewById(R.id.etSenhaLogin);
+
+        findViewById(R.id.tvNovoCadastro).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NovoCadastroActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, NovoCadastroActivity.class));
                 finish();
             }
         });
 
-        btnLogar.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bLogar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(editEmail.getText().toString()).matches() || editEmail.getText().toString().isEmpty()) {
-                    editEmail.setError("Preencha o email corretamente");
-                    editEmail.requestFocus();
-                } else if (editSenha.getText().toString().isEmpty() || editSenha.length() < 6) {
-                    editSenha.setError("Preencha a senha corretamente com no minimo 6 caracteres");
-                    editSenha.requestFocus();
+                if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches()) {
+                    etEmail.setError("Preencha o e-mail corretamente");
+                    etEmail.requestFocus();
+                } else if (etSenha.length() < 6) {
+                    etSenha.setError("Preencha a senha corretamente");
+                    etSenha.requestFocus();
                 } else {
-                    servicosFirebase.logar(editEmail.getText().toString(), editSenha.getText().toString(), MainActivity.this);
+                    progress.show();
+                    servicosFirebase.logar(etEmail.getText().toString(), etSenha.getText().toString(), MainActivity.this);
                 }
             }
         });
@@ -68,25 +71,27 @@ public class MainActivity extends AppCompatActivity implements ServicosFirebase.
 
     @Override
     public void onSucesso(Object objeto) {
+        progress.dismiss();
         startActivity(new Intent(this, (usuario.getEnfermeiro() == null) ? CooperativaLogadoActivity.class : EnfermeiroLogadoActivity.class));
         finish();
     }
 
     @Override
     public void onErro(String mensagem) {
+        progress.dismiss();
         switch (mensagem) {
             case "ERROR_INVALID_EMAIL":
-                editEmail.setError("E-mail inválido");
-                editEmail.requestFocus();
+                etEmail.setError("E-mail inválido");
+                etEmail.requestFocus();
                 break;
             case "ERROR_USER_NOT_FOUND":
-                editEmail.setError("E-mail não cadastrado");
-                editEmail.requestFocus();
+                etEmail.setError("E-mail não cadastrado");
+                etEmail.requestFocus();
                 break;
             case "ERROR_WRONG_PASSWORD":
-                editSenha.setError("Senha incorreta");
-                editSenha.setText("");
-                editSenha.requestFocus();
+                etSenha.setError("Senha incorreta");
+                etSenha.setText("");
+                etSenha.requestFocus();
                 break;
             default:
                 Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();

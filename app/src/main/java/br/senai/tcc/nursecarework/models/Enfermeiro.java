@@ -1,11 +1,14 @@
-package br.senai.tcc.nursecarework.Models;
+package br.senai.tcc.nursecarework.models;
+
+import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.io.Serializable;
 
+@IgnoreExtraProperties
 public class Enfermeiro implements Serializable {
-
     private String nome, sobrenome, celular, cpf, coren, banco, agencia, conta;
-    private double distancia, longitude, latitude;
+    private double longitude, latitude;
+    private int distancia;
 
     public String getNome() {
         return nome;
@@ -71,11 +74,11 @@ public class Enfermeiro implements Serializable {
         this.conta = conta;
     }
 
-    public double getDistancia() {
+    public int getDistancia() {
         return distancia;
     }
 
-    public void setDistancia(double distancia) {
+    public void setDistancia(int distancia) {
         this.distancia = distancia;
     }
 

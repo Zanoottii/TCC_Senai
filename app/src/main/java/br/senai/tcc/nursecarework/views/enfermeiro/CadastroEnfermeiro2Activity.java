@@ -1,27 +1,26 @@
-package br.senai.tcc.nursecarework.views.Enfermeiro;
+package br.senai.tcc.nursecarework.views.enfermeiro;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.SimpleMaskTextWatcher;
 
-import br.senai.tcc.nursecarework.Helper.Validacao;
-import br.senai.tcc.nursecarework.Models.Enfermeiro;
+import br.senai.tcc.nursecarework.helpers.ServicosFirebase;
+import br.senai.tcc.nursecarework.helpers.Validacao;
+import br.senai.tcc.nursecarework.models.Enfermeiro;
 import br.senai.tcc.nursecarework.R;
 
 public class CadastroEnfermeiro2Activity extends AppCompatActivity {
-
-    private ImageView voltar;
-    private Button proximo;
-    private EditText edtCpf, edtCelular, edtNome, edtSobrenome;
+    private EditText etNome, etSobrenome, etCpf, etCelular;
+    private ServicosFirebase servicosFirebase;
+    private Enfermeiro enfermeiro;
     private String email, senha;
 
     @Override
@@ -29,66 +28,71 @@ public class CadastroEnfermeiro2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_enfermeiro_parte2);
 
+        servicosFirebase = new ServicosFirebase(this);
+
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         senha = intent.getStringExtra("senha");
 
-        voltar = findViewById(R.id.voltar3);
-        proximo = findViewById(R.id.btnProximo);
-        edtCpf = findViewById(R.id.cpfEnfermeiro);
-        edtCelular = findViewById(R.id.foneEnfermeiro);
-        edtNome = findViewById(R.id.nomeEnfermeiro);
-        edtSobrenome = findViewById(R.id.sobrenomeEnfer);
+        etNome = findViewById(R.id.etNomeEnfermeiro);
+        etSobrenome = findViewById(R.id.etSobrenomeEnfermeiro);
+        etCpf = findViewById(R.id.etCpfEnfermeiro);
+        etCelular = findViewById(R.id.etCelularEnfermeiro);
 
-        //mascara para o campo cpf
-        SimpleMaskFormatter simpleMaskCpf = new SimpleMaskFormatter("NNN.NNN.NNN-NN");
-        SimpleMaskTextWatcher maskcpf = new SimpleMaskTextWatcher(edtCpf, simpleMaskCpf);
-        edtCpf.addTextChangedListener(maskcpf);
+        etCpf.addTextChangedListener(new SimpleMaskTextWatcher(etCpf, new SimpleMaskFormatter("NNN.NNN.NNN-NN")));
+        etCelular.addTextChangedListener(new SimpleMaskTextWatcher(etCelular, new SimpleMaskFormatter("(NN) NNNNN-NNNN")));
 
-        //mascara para o campo telefone
-        SimpleMaskFormatter simpleMaskFone = new SimpleMaskFormatter("(NN)NNNNN-NNNN");
-        SimpleMaskTextWatcher maskfone = new SimpleMaskTextWatcher(edtCelular, simpleMaskFone);
-        edtCelular.addTextChangedListener(maskfone);
-
-        //Botão para voltar para a tele de cadastro parte 1
-        voltar.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ivVoltarEnfermeiro2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CadastroEnfermeiro2Activity.this, CadastroEnfermeiro1Activity.class);
-                startActivity(intent);
+                startActivity(new Intent(CadastroEnfermeiro2Activity.this, CadastroEnfermeiro1Activity.class));
                 finish();
             }
         });
 
-        //Botão para ir para a próxima etapa
-        proximo.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bProximoEnfermeiro2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtNome.getText().toString().isEmpty()) {
-                    edtNome.setError("Preencha o nome");
-                    edtNome.requestFocus();
-                } else if (edtSobrenome.getText().toString().isEmpty()) {
-                    edtSobrenome.setError("Preencha o sobrenome");
-                    edtSobrenome.requestFocus();
-                } else if (edtCpf.getText().toString().length() == 0 || !Validacao.isCPF(edtCpf.getText().toString()) || edtCpf.getText().equals("1")) {
-                    edtCpf.setError("Preencha o CPF corretamente");
-                    edtCpf.requestFocus();
-                } else if (edtCelular.getText().toString().isEmpty()) {
-                    edtCelular.setError("Preencha o numero do celular");
-                    edtCelular.requestFocus();
+                if (etNome.getText().toString().trim().length() < 2) {
+                    etNome.setError("Preencha o nome");
+                    etNome.requestFocus();
+                } else if (etSobrenome.getText().toString().trim().length() < 2) {
+                    etSobrenome.setError("Preencha o sobrenome");
+                    etSobrenome.requestFocus();
+                } else if (!Validacao.isCPF(etCpf.getText().toString())) {
+                    etCpf.setError("Preencha o número do CPF corretamente");
+                    etCpf.requestFocus();
+                } else if (etCelular.getText().toString().trim().length() < 15) {
+                    etCelular.setError("Preencha o número do celular");
+                    etCelular.requestFocus();
                 } else {
-                    Enfermeiro enfermeiro = new Enfermeiro();
-                    enfermeiro.setNome(edtNome.getText().toString());
-                    enfermeiro.setSobrenome(edtSobrenome.getText().toString());
-                    enfermeiro.setCelular(edtCelular.getText().toString());
-                    enfermeiro.setCpf(edtCpf.getText().toString());
+                    enfermeiro = new Enfermeiro();
+                    enfermeiro.setNome(etNome.getText().toString().trim());
+                    enfermeiro.setSobrenome(etSobrenome.getText().toString().trim());
+                    enfermeiro.setCpf(etCpf.getText().toString());
+                    enfermeiro.setCelular(etCelular.getText().toString());
 
-                    Intent intent = new Intent(CadastroEnfermeiro2Activity.this, CadastroEnfermeiro5Activity.class);
-                    intent.putExtra("Enfermeiro", enfermeiro);
-                    intent.putExtra("email", email);
-                    intent.putExtra("senha", senha);
-                    startActivity(intent);
-                    finish();
+                    servicosFirebase.obterId(enfermeiro, new ServicosFirebase.ResultadoListener<String>() {
+                        @Override
+                        public void onSucesso(String id) {
+                            if (id.isEmpty()) {
+                                Intent intent = new Intent(CadastroEnfermeiro2Activity.this, CadastroEnfermeiro3Activity.class);
+                                intent.putExtra("Enfermeiro", enfermeiro);
+                                intent.putExtra("email", email);
+                                intent.putExtra("senha", senha);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                etCpf.setError("CPF já cadastrado");
+                                etCpf.requestFocus();
+                            }
+                        }
+
+                        @Override
+                        public void onErro(String mensagem) {
+                            Toast.makeText(CadastroEnfermeiro2Activity.this, mensagem, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

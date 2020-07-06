@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar2"
+            android:id="@+id/tbCooperativa"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/holo_blue_light"
@@ -22,10 +22,10 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/fragment_meus_pacientes" />
+    <include layout="@layout/fragment_lista" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/adicionarPaciente"
+        android:id="@+id/fabAdicionar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

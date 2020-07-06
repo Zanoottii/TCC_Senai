@@ -1,12 +1,11 @@
-package br.senai.tcc.nursecarework.views.Cooperativa;
+package br.senai.tcc.nursecarework.views.cooperativa;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,26 +16,23 @@ import android.widget.Toast;
 import com.github.rtoshiro.util.format.SimpleMaskFormatter;
 import com.github.rtoshiro.util.format.text.SimpleMaskTextWatcher;
 
-import br.senai.tcc.nursecarework.Models.Cooperativa;
-import br.senai.tcc.nursecarework.Models.ServicosFirebase;
+import br.senai.tcc.nursecarework.models.Cooperativa;
+import br.senai.tcc.nursecarework.helpers.ServicosFirebase;
 import br.senai.tcc.nursecarework.R;
-import br.senai.tcc.nursecarework.Helper.Validacao;
+import br.senai.tcc.nursecarework.helpers.Validacao;
 
 public class CadastroCooperativa2Activity extends AppCompatActivity {
-
-    private ImageView voltar;
-    private Button cadastrar;
-    private EditText email, municipio, cnpj;
-    private ArrayAdapter<CharSequence> adapter;
-    private Spinner uf;
+    private EditText etEmail, etMunicipio, etCnpj;
+    private Spinner sUf;
     private ServicosFirebase servicosFirebase;
     private Cooperativa cooperativa;
     private String senha;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_cooperativa2);
+        setContentView(R.layout.activity_cadastro_cooperativa_parte2);
 
         servicosFirebase = new ServicosFirebase(this);
 
@@ -44,62 +40,75 @@ public class CadastroCooperativa2Activity extends AppCompatActivity {
         cooperativa = (Cooperativa) intent.getSerializableExtra("Cooperativa");
         senha = intent.getStringExtra("senha");
 
-        voltar = findViewById(R.id.voltar);
-        cadastrar = findViewById(R.id.cadastrar);
-        cnpj = findViewById(R.id.cnpj);
-        email = findViewById(R.id.emailCooperativa);
-        uf = findViewById(R.id.estadoCooperativa);
-        municipio = findViewById(R.id.municipioCooperativa);
+        etCnpj = findViewById(R.id.etCnpjCooperativa);
+        etEmail = findViewById(R.id.etEmailCooperativa);
+        sUf = findViewById(R.id.sUfCooperativa);
+        etMunicipio = findViewById(R.id.etMunicipioCooperativa);
 
-        //mascara para o campo cnpj
-        SimpleMaskFormatter simpleMaskCnpj = new SimpleMaskFormatter("NN.NNN.NNN/NNNN-NN");
-        SimpleMaskTextWatcher maskCnpj = new SimpleMaskTextWatcher(cnpj, simpleMaskCnpj);
-        cnpj.addTextChangedListener(maskCnpj);
+        etCnpj.addTextChangedListener(new SimpleMaskTextWatcher(etCnpj, new SimpleMaskFormatter("NN.NNN.NNN/NNNN-NN")));
 
-        adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.spinner_estados, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinner_estados, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        uf.setAdapter(adapter);
-        uf.setSelection(0, true);
+        sUf.setAdapter(adapter);
 
-        voltar.setOnClickListener(new View.OnClickListener() {
+        progress = new ProgressDialog(this);
+        progress.setTitle("Carregando");
+        progress.setMessage("Aguarde...");
+        progress.setCancelable(false);
+
+        findViewById(R.id.ivVoltarCooperativa2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CadastroCooperativa2Activity.this, CadastroCooperativa1Activity.class);
-                startActivity(intent);
+                startActivity(new Intent(CadastroCooperativa2Activity.this, CadastroCooperativa1Activity.class));
                 finish();
             }
         });
 
-        cadastrar.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bCadastrarCooperativa).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches() || email.getText().toString().isEmpty()) {
-                    email.setError("Preencha o email corretamente");
-                    email.requestFocus();
-                } else if (municipio.getText().toString().isEmpty()) {
-                    municipio.setError("Preencha o municipio");
-                    municipio.requestFocus();
-                } else if (cnpj.getText().toString().isEmpty()) {
-                    cnpj.setError("Preencha o CNPJ");
-                    cnpj.requestFocus();
-                } else if (!Validacao.isCNPJ(cnpj.getText().toString())) {
-                    cnpj.setError("O CNPJ digitado não é valido");
-                    cnpj.requestFocus();
+                if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString().trim()).matches()) {
+                    etEmail.setError("Preencha o e-mail corretamente");
+                    etEmail.requestFocus();
+                } else if (etMunicipio.getText().toString().trim().length() < 2) {
+                    etMunicipio.setError("Preencha o município");
+                    etMunicipio.requestFocus();
+                } else if (!Validacao.isCNPJ(etCnpj.getText().toString())) {
+                    etCnpj.setError("Preencha o CNPJ corretamente");
+                    etCnpj.requestFocus();
                 } else {
-                    cooperativa.setCnpj(cnpj.getText().toString());
-                    cooperativa.setMunicipio(municipio.getText().toString());
-                    cooperativa.setUf(uf.getSelectedItem().toString());
+                    cooperativa.setCnpj(etCnpj.getText().toString());
+                    cooperativa.setMunicipio(etMunicipio.getText().toString().trim());
+                    cooperativa.setUf(sUf.getSelectedItem().toString());
 
-                    servicosFirebase.cadastrarCooperativa(email.getText().toString(), senha, cooperativa, new ServicosFirebase.ResultadoListener() {
+                    servicosFirebase.obterId(cooperativa, new ServicosFirebase.ResultadoListener<String>() {
                         @Override
-                        public void onSucesso(Object objeto) {
-                            startActivity(new Intent(CadastroCooperativa2Activity.this, CooperativaLogadoActivity.class));
-                            finish();
+                        public void onSucesso(String id) {
+                            if (id.isEmpty()) {
+                                progress.show();
+                                servicosFirebase.cadastrarCooperativa(etEmail.getText().toString().trim(), senha, cooperativa, new ServicosFirebase.ResultadoListener() {
+                                    @Override
+                                    public void onSucesso(Object objeto) {
+                                        progress.dismiss();
+                                        startActivity(new Intent(CadastroCooperativa2Activity.this, CooperativaLogadoActivity.class));
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onErro(String mensagem) {
+                                        progress.dismiss();
+                                        Toast.makeText(CadastroCooperativa2Activity.this, mensagem, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
+                                etCnpj.setError("CNPJ já cadastrado");
+                                etCnpj.requestFocus();
+                            }
                         }
 
                         @Override
                         public void onErro(String mensagem) {
-                            Toast.makeText(CadastroCooperativa2Activity.this, mensagem, Toast.LENGTH_SHORT).show();
+
                         }
                     });
                 }

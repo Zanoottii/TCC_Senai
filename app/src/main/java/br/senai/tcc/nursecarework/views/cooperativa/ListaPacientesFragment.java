@@ -28,7 +28,7 @@ import br.senai.tcc.nursecarework.helpers.ListaPacientesAdapter;
 import br.senai.tcc.nursecarework.R;
 import br.senai.tcc.nursecarework.views.requisicao.CadastroRequisicao1Activity;
 
-public class PacientesFragment extends Fragment {
+public class ListaPacientesFragment extends Fragment {
     private ListView lvLista;
     private List<Paciente> pacientes;
     private ServicosFirebase servicosFirebase;
@@ -50,7 +50,7 @@ public class PacientesFragment extends Fragment {
 
             @Override
             public void onErro(String mensagem) {
-                Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -58,12 +58,12 @@ public class PacientesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final Paciente paciente = pacientes.get(i);
-                new AlertDialog.Builder(getContext())
+                new AlertDialog.Builder(getActivity())
                         .setMessage("Selecione uma opção")
                         .setPositiveButton("Requisitar atendimento", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int j) {
-                                Intent intent = new Intent(getContext(), CadastroRequisicao1Activity.class);
+                                Intent intent = new Intent(getActivity(), CadastroRequisicao1Activity.class);
                                 intent.putExtra("Paciente", paciente);
                                 startActivity(intent);
                                 getActivity().finish();
@@ -72,10 +72,8 @@ public class PacientesFragment extends Fragment {
                         .setNegativeButton("Ver mais informações", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                AlertDialog.Builder alertDialogInformacoes = new AlertDialog.Builder(getContext());
-
                                 View layout = getLayoutInflater().inflate(R.layout.alert_informacoes_paciente, null);
-                                alertDialogInformacoes.setView(layout);
+                                AlertDialog.Builder alertDialogInformacoes = new AlertDialog.Builder(getActivity());
 
                                 final CircularImageView civFoto = layout.findViewById(R.id.civFotoPacienteAlert);
                                 TextView tvNome = layout.findViewById(R.id.tvNomePacienteAlert);
@@ -92,7 +90,7 @@ public class PacientesFragment extends Fragment {
 
                                     @Override
                                     public void onErro(String mensagem) {
-                                        Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
                                     }
                                 });
 
@@ -106,7 +104,7 @@ public class PacientesFragment extends Fragment {
                                 tvTelefone.setText("Telefone: " + paciente.getCelular());
                                 tvEndereco.setText("Endereço: " + endereco);
 
-                                TextView titulo = new TextView(getContext());
+                                TextView titulo = new TextView(getActivity());
                                 titulo.setText("Informações do paciente");
                                 titulo.setPadding(10, 10, 10, 10);
                                 titulo.setGravity(Gravity.CENTER);
@@ -126,7 +124,6 @@ public class PacientesFragment extends Fragment {
                         .create().show();
             }
         });
-
         return view;
     }
 }

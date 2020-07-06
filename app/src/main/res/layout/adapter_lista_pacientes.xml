@@ -1,44 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Views.Paciente.ListaPacientesAdapter">
-
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/fotoPacienteList"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        app:srcCompat="@drawable/foto" />
+    android:padding="8dp"
+    tools:context=".helpers.ListaPacientesAdapter">
 
     <TextView
-        android:id="@+id/nomePacienteList"
+        android:id="@+id/tvNomePacienteLista"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingLeft="10dp"
-        android:paddingTop="25dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:text="Nome: "
+        android:layout_marginStart="8dp"
+        android:lines="1"
+        android:text="Nome"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvCpfPacienteLista"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/sobrenomePacienteList"
+        android:id="@+id/tvCpfPacienteLista"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingLeft="10dp"
-        android:paddingTop="25dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:text="Sobrenome: "
+        android:lines="1"
+        android:text="CPF"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvNomePacienteLista"
+        app:layout_constraintTop_toBottomOf="@+id/tvNomePacienteLista" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

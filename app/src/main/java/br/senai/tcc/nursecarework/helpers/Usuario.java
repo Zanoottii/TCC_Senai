@@ -1,6 +1,9 @@
-package br.senai.tcc.nursecarework.models;
+package br.senai.tcc.nursecarework.helpers;
 
 import android.graphics.Bitmap;
+
+import br.senai.tcc.nursecarework.models.Cooperativa;
+import br.senai.tcc.nursecarework.models.Enfermeiro;
 
 public class Usuario {
 

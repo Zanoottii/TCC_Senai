@@ -1,6 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:paddingStart="8dp"
+    android:paddingTop="4dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:id="@+id/tvEstadoRequisicaoCooperativaAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado:"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDataHoraRequisicaoCooperativaAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data/Hora:"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvEstadoRequisicaoCooperativaAlert"
+        app:layout_constraintTop_toBottomOf="@+id/tvEstadoRequisicaoCooperativaAlert" />
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/civFotoPacienteRequisicaoCooperativaAlert"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_usuario"
+        app:civ_border="true"
+        app:civ_border_color="@android:color/black"
+        app:civ_border_width="1dp"
+        app:layout_constraintStart_toStartOf="@+id/tvEstadoRequisicaoCooperativaAlert"
+        app:layout_constraintTop_toBottomOf="@+id/tvDataHoraRequisicaoCooperativaAlert" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Paciente:"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvNomePacienteRequisicaoCooperativaAlert"
+        app:layout_constraintStart_toStartOf="@+id/tvNomePacienteRequisicaoCooperativaAlert" />
+
+    <TextView
+        android:id="@+id/tvNomePacienteRequisicaoCooperativaAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/civFotoPacienteRequisicaoCooperativaAlert"
+        app:layout_constraintStart_toEndOf="@+id/civFotoPacienteRequisicaoCooperativaAlert"
+        app:layout_constraintTop_toTopOf="@+id/civFotoPacienteRequisicaoCooperativaAlert" />
+
+    <TextView
+        android:id="@+id/tvCpfPacienteRequisicaoCooperativaAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tvNomePacienteRequisicaoCooperativaAlert"
+        app:layout_constraintTop_toBottomOf="@+id/tvNomePacienteRequisicaoCooperativaAlert" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clEnfermeiroRequisicaoCooperativaAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/civFotoPacienteRequisicaoCooperativaAlert"
+        app:layout_constraintTop_toBottomOf="@+id/civFotoPacienteRequisicaoCooperativaAlert">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/civFotoEnfermeiroRequisicaoCooperativaAlert"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_usuario"
+            app:civ_border="true"
+            app:civ_border_color="@android:color/black"
+            app:civ_border_width="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enfermeiro:"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvNomeEnfermeiroRequisicaoCooperativaAlert"
+            app:layout_constraintStart_toStartOf="@+id/tvNomeEnfermeiroRequisicaoCooperativaAlert" />
+
+        <TextView
+            android:id="@+id/tvNomeEnfermeiroRequisicaoCooperativaAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/civFotoEnfermeiroRequisicaoCooperativaAlert"
+            app:layout_constraintStart_toEndOf="@+id/civFotoEnfermeiroRequisicaoCooperativaAlert"
+            app:layout_constraintTop_toTopOf="@+id/civFotoEnfermeiroRequisicaoCooperativaAlert" />
+
+        <TextView
+            android:id="@+id/tvCorenEnfermeiroRequisicaoCooperativaAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/tvNomeEnfermeiroRequisicaoCooperativaAlert"
+            app:layout_constraintTop_toBottomOf="@+id/tvNomeEnfermeiroRequisicaoCooperativaAlert" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Serviços:"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@id/tvServicosRequisicaoCooperativaAlert"
+        app:layout_constraintStart_toStartOf="@+id/tvEstadoRequisicaoCooperativaAlert" />
+
+    <TextView
+        android:id="@+id/tvServicosRequisicaoCooperativaAlert"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="26dp"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@id/clEnfermeiroRequisicaoCooperativaAlert" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

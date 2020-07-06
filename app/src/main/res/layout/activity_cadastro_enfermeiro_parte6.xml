@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fundo"
-    tools:context=".views.enfermeiro.CadastroEnfermeiro4Activity">
+    tools:context=".views.enfermeiro.CadastroEnfermeiro6Activity">
 
     <ImageView
-        android:id="@+id/ivVoltarEnfermeiro4"
+        android:id="@+id/ivVoltarEnfermeiro6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/ibGaleria"
+        android:id="@+id/ibSelecionaFotoEnfermeiro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -51,7 +51,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Número do Coren:"
+        android:text="Coren:"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/etCorenEnfermeiro"
@@ -80,6 +80,5 @@
         android:text="Cadastrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

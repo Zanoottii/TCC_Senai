@@ -1,4 +1,4 @@
-package br.senai.tcc.nursecarework.views.paciente;
+package br.senai.tcc.nursecarework.helpers;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -15,26 +15,26 @@ import br.senai.tcc.nursecarework.R;
 public class ListaPacientesAdapter extends ArrayAdapter<Paciente> {
 
     private Activity context;
-    private List<Paciente> listaOpcoes;
+    private List<Paciente> pacientes;
 
-    public ListaPacientesAdapter(Activity context, List<Paciente> listaOpcoes) {
-        super(context, R.layout.adapter_lista_pacientes, listaOpcoes);
+    public ListaPacientesAdapter(Activity context, List<Paciente> pacientes) {
+        super(context, R.layout.adapter_lista_pacientes, pacientes);
         this.context = context;
-        this.listaOpcoes = listaOpcoes;
+        this.pacientes = pacientes;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View listViewItem = inflater.inflate(R.layout.adapter_lista_pacientes, null, true);
+        View view = inflater.inflate(R.layout.adapter_lista_pacientes, null, true);
 
-        TextView nome = listViewItem.findViewById(R.id.nomePacienteList);
-        TextView sobrenome = listViewItem.findViewById(R.id.sobrenomePacienteList);
+        TextView tvNome = view.findViewById(R.id.tvNomePacienteLista);
+        TextView tvCpf = view.findViewById(R.id.tvCpfPacienteLista);
 
-        Paciente opcao = listaOpcoes.get(position);
-        nome.setText(opcao.getNome());
-        sobrenome.setText(opcao.getSobrenome());
+        Paciente paciente = pacientes.get(position);
+        tvNome.setText(paciente.getNome() + " " + paciente.getSobrenome());
+        tvCpf.setText("CPF: " + paciente.getCpf());
 
-        return listViewItem;
+        return view;
     }
 }

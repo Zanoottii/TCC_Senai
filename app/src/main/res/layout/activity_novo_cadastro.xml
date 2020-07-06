@@ -1,55 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
-    android:background="@drawable/gradient"
-    tools:context=".Views.NovoCadastroActivity">
+    android:background="@drawable/fundo"
+    tools:context=".views.NovoCadastroActivity">
 
     <ImageView
-        android:id="@+id/voltar1"
+        android:id="@+id/ivVoltarCadastro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/voltar" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_voltar" />
 
     <TextView
-        android:id="@+id/txtNovoCad"
+        android:id="@+id/tvTituloNovoCadastro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="64dp"
         android:text="Novo cadastro"
-        android:textColor="@android:color/black"
-        android:textSize="35dp"
-        android:layout_gravity="center"
-        />
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:layout_gravity="center"
-        android:id="@+id/cadastroEnfermeiro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/botton"
-        android:drawableTop="@drawable/iconenfermeiro"
+        android:id="@+id/bCadastroEnfermeiro"
+        android:layout_width="220dp"
+        android:layout_height="150dp"
+        android:background="@drawable/botao"
+        android:drawableTop="@drawable/enfermeiro"
         android:text="Enfermeiro"
-        android:textSize="24dp"
-         />
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/bCadastroCooperativa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTituloNovoCadastro" />
 
     <Button
-        android:layout_gravity="center"
-        android:id="@+id/cadastroCooperativa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/botton"
-        android:drawableTop="@drawable/iconempresa"
+        android:id="@+id/bCadastroCooperativa"
+        android:layout_width="220dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="64dp"
+        android:background="@drawable/botao"
+        android:drawableTop="@drawable/cooperativa"
         android:text="Cooperativa"
-        android:textSize="24dp"
-         />
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bCadastroEnfermeiro" />
 
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

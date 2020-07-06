@@ -1,6 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:paddingStart="8dp"
+    android:paddingTop="4dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:id="@+id/tvEstadoRequisicaoEnfermeiroAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado:"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDataHoraRequisicaoEnfermeiroAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data/Hora:"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/tvEstadoRequisicaoEnfermeiroAlert"
+        app:layout_constraintTop_toBottomOf="@+id/tvEstadoRequisicaoEnfermeiroAlert" />
+
+    <TextView
+        android:id="@+id/tvEnderecoRequisicaoEnfermeiroAlert"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Endereço:"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toStartOf="@+id/ivEnderecoRequisicaoEnfermeiroAlert"
+        app:layout_constraintStart_toStartOf="@+id/tvEstadoRequisicaoEnfermeiroAlert"
+        app:layout_constraintTop_toBottomOf="@+id/tvDataHoraRequisicaoEnfermeiroAlert" />
+
+    <ImageView
+        android:id="@+id/ivEnderecoRequisicaoEnfermeiroAlert"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvEnderecoRequisicaoEnfermeiroAlert"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvEnderecoRequisicaoEnfermeiroAlert"
+        app:layout_constraintTop_toTopOf="@+id/tvEnderecoRequisicaoEnfermeiroAlert"
+        app:srcCompat="@drawable/ic_mapa" />
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/civFotoPacienteRequisicaoEnfermeiroAlert"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_usuario"
+        app:civ_border="true"
+        app:civ_border_color="@android:color/black"
+        app:civ_border_width="1dp"
+        app:layout_constraintStart_toStartOf="@+id/tvEstadoRequisicaoEnfermeiroAlert"
+        app:layout_constraintTop_toBottomOf="@+id/tvEnderecoRequisicaoEnfermeiroAlert" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Paciente:"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvNomePacienteRequisicaoEnfermeiroAlert"
+        app:layout_constraintStart_toStartOf="@+id/tvNomePacienteRequisicaoEnfermeiroAlert" />
+
+    <TextView
+        android:id="@+id/tvNomePacienteRequisicaoEnfermeiroAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/civFotoPacienteRequisicaoEnfermeiroAlert"
+        app:layout_constraintStart_toEndOf="@+id/civFotoPacienteRequisicaoEnfermeiroAlert"
+        app:layout_constraintTop_toTopOf="@+id/civFotoPacienteRequisicaoEnfermeiroAlert" />
+
+    <TextView
+        android:id="@+id/tvIdadePacienteRequisicaoEnfermeiroAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tvNomePacienteRequisicaoEnfermeiroAlert"
+        app:layout_constraintTop_toBottomOf="@+id/tvNomePacienteRequisicaoEnfermeiroAlert" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCooperativaRequisicaoEnfermeiroAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/civFotoPacienteRequisicaoEnfermeiroAlert"
+        app:layout_constraintTop_toBottomOf="@+id/civFotoPacienteRequisicaoEnfermeiroAlert">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/civFotoCooperativaRequisicaoEnfermeiroAlert"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/logotipo"
+            app:civ_border="true"
+            app:civ_border_color="@android:color/black"
+            app:civ_border_width="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cooperativa:"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvNomeCooperativaRequisicaoEnfermeiroAlert"
+            app:layout_constraintStart_toStartOf="@+id/tvNomeCooperativaRequisicaoEnfermeiroAlert" />
+
+        <TextView
+            android:id="@+id/tvNomeCooperativaRequisicaoEnfermeiroAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/civFotoCooperativaRequisicaoEnfermeiroAlert"
+            app:layout_constraintStart_toEndOf="@+id/civFotoCooperativaRequisicaoEnfermeiroAlert"
+            app:layout_constraintTop_toTopOf="@+id/civFotoCooperativaRequisicaoEnfermeiroAlert" />
+
+        <TextView
+            android:id="@+id/tvMunicipioCooperativaRequisicaoEnfermeiroAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/tvNomeCooperativaRequisicaoEnfermeiroAlert"
+            app:layout_constraintTop_toBottomOf="@+id/tvNomeCooperativaRequisicaoEnfermeiroAlert" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Serviços:"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@id/tvServicosRequisicaoEnfermeiroAlert"
+        app:layout_constraintStart_toStartOf="@+id/tvEstadoRequisicaoEnfermeiroAlert" />
+
+    <TextView
+        android:id="@+id/tvServicosRequisicaoEnfermeiroAlert"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="26dp"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@id/clCooperativaRequisicaoEnfermeiroAlert" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

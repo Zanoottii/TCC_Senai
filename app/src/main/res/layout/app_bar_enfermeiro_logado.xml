@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Views.Enfermeiro.EnfermeiroLogadoActivity">
+    tools:context=".views.enfermeiro.EnfermeiroLogadoActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/tbEnfermeiro"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/holo_blue_light"
@@ -22,6 +22,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/fragment_frag_pacientes_disp" />
+    <include layout="@layout/fragment_lista" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

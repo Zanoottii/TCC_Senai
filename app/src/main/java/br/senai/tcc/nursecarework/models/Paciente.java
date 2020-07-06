@@ -1,11 +1,24 @@
-package br.senai.tcc.nursecarework.Models;
+package br.senai.tcc.nursecarework.models;
 
-public class Paciente {
-    private String nome, sobrenome, cpf, nascimento, celular, cep, logradouro, numero, complemento, bairro, municipio, uf;
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
+import java.io.Serializable;
+
+@IgnoreExtraProperties
+public class Paciente implements Serializable {
+    private String id, nome, sobrenome, cpf, nascimento, celular, cep, logradouro, numero, complemento, bairro, municipio, uf;
     private double latitude, longitude;
 
-    //Dados no modelo errado
-    private String tipoServico;
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
+    @Exclude
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -117,15 +130,5 @@ public class Paciente {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
-    }
-
-    //Getter and Setter de dados no modelo errado
-
-    public String getTipoServico() {
-        return tipoServico;
-    }
-
-    public void setTipoServico(String tipoServico) {
-        this.tipoServico = tipoServico;
     }
 }

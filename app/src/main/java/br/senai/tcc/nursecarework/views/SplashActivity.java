@@ -1,4 +1,4 @@
-package br.senai.tcc.nursecarework.Views;
+package br.senai.tcc.nursecarework.views;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,14 +17,10 @@ public class SplashActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mostrarMainActivity();
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         }, 3000);
-    }
-
-    private void mostrarMainActivity() {
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 }

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fundo"
-    tools:context=".views.enfermeiro.CadastroEnfermeiro6Activity">
+    tools:context=".views.enfermeiro.CadastroEnfermeiro5Activity">
 
     <ImageView
-        android:id="@+id/ivVoltarEnfermeiro6"
+        android:id="@+id/ivVoltarEnfermeiro5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvPergunta" />
 
     <Button
-        android:id="@+id/bProximoEnfermeiro6"
+        android:id="@+id/bProximoEnfermeiro5"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"

@@ -4,23 +4,19 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/verPerfilEmp"
+            android:id="@+id/verPerfilCooperativa"
             android:icon="@drawable/ic_usuario"
             android:title="Ver perfil" />
         <item
-            android:id="@+id/meusPacientes"
+            android:id="@+id/listaPacientesCooperativa"
             android:icon="@drawable/ic_usuarios"
-            android:title="Meus pacientes" />
+            android:title="Lista de Pacientes" />
         <item
-            android:id="@+id/pacientesAceitos"
-            android:icon="@drawable/ic_usuarios"
-            android:title="Pacientes aceitos" />
+            android:id="@+id/minhasRequisicoesCooperativa"
+            android:icon="@drawable/ic_data"
+            android:title="Minhas requisições" />
         <item
-            android:id="@+id/pacientesPendentes"
-            android:icon="@drawable/ic_usuarios"
-            android:title="Pacientes pendentes" />
-        <item
-            android:id="@+id/sairLogin2"
+            android:id="@+id/sairCooperativa"
             android:icon="@drawable/ic_sair"
             android:title="Sair" />
     </group>

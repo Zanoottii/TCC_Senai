@@ -1,5 +1,6 @@
 package br.senai.tcc.nursecarework.views.cooperativa;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,19 +20,23 @@ import br.senai.tcc.nursecarework.helpers.Usuario;
 import br.senai.tcc.nursecarework.helpers.Validacao;
 import br.senai.tcc.nursecarework.models.Cooperativa;
 
-public class EditarCooperativa1Activity extends AppCompatActivity {
+public class EditarCooperativaActivity extends AppCompatActivity {
     private EditText etNome, etMunicipio, etCnpj;
     private Spinner sUf;
     private ServicosFirebase servicosFirebase;
+    private Usuario usuario;
     private Cooperativa cooperativa;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editar_cooperativa_parte1);
+        setContentView(R.layout.activity_editar_cooperativa);
 
         servicosFirebase = new ServicosFirebase(this);
-        cooperativa = Usuario.getInstance().getCooperativa();
+        usuario = Usuario.getInstance();
+
+        cooperativa = usuario.getCooperativa();
 
         etNome = findViewById(R.id.etNomeEditarCooperativa);
         etCnpj = findViewById(R.id.etCnpjEditarCooperativa);
@@ -49,10 +54,15 @@ public class EditarCooperativa1Activity extends AppCompatActivity {
         sUf.setSelection(adapter.getPosition(cooperativa.getUf()));
         etMunicipio.setText(cooperativa.getMunicipio());
 
-        findViewById(R.id.ivVoltarCooperativa2).setOnClickListener(new View.OnClickListener() {
+        progress = new ProgressDialog(this);
+        progress.setTitle("Carregando");
+        progress.setMessage("Aguarde...");
+        progress.setCancelable(false);
+
+        findViewById(R.id.ivVoltarEditarCooperativa).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(EditarCooperativa1Activity.this, CooperativaLogadoActivity.class));
+                startActivity(new Intent(EditarCooperativaActivity.this, CooperativaLogadoActivity.class));
                 finish();
             }
         });
@@ -71,26 +81,54 @@ public class EditarCooperativa1Activity extends AppCompatActivity {
                     etCnpj.requestFocus();
                 } else {
                     cooperativa.setNome(etNome.getText().toString().trim());
-                    cooperativa.setCnpj(etCnpj.getText().toString());
                     cooperativa.setMunicipio(etMunicipio.getText().toString().trim());
                     cooperativa.setUf(sUf.getSelectedItem().toString());
 
-                    servicosFirebase.gravarCooperativa(cooperativa, new ServicosFirebase.ResultadoListener() {
-                        @Override
-                        public void onSucesso(Object objeto) {
-                            Toast.makeText(EditarCooperativa1Activity.this, "Salvo", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(EditarCooperativa1Activity.this, CooperativaLogadoActivity.class));
-                            finish();
-                        }
+                    if (!cooperativa.getCnpj().equals(etCnpj.getText().toString())) {
+                        cooperativa.setCnpj(etCnpj.getText().toString());
+                        servicosFirebase.obterId(cooperativa, new ServicosFirebase.ResultadoListener<String>() {
+                            @Override
+                            public void onSucesso(String id) {
+                                if (id.isEmpty()) {
+                                    continuar();
+                                } else {
+                                    etCnpj.setError("CNPJ já cadastrado");
+                                    etCnpj.requestFocus();
+                                }
+                            }
 
-                        @Override
-                        public void onErro(String mensagem) {
-                            Toast.makeText(EditarCooperativa1Activity.this, mensagem, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onErro(String mensagem) {
+                                Toast.makeText(EditarCooperativaActivity.this, mensagem, Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+                    } else {
+                        continuar();
+                    }
                 }
             }
 
+        });
+    }
+
+    private void continuar() {
+        progress.show();
+        servicosFirebase.gravarCooperativa(cooperativa, new ServicosFirebase.ResultadoListener() {
+            @Override
+            public void onSucesso(Object objeto) {
+                usuario.setCooperativa(cooperativa);
+                progress.dismiss();
+                Toast.makeText(EditarCooperativaActivity.this, "Salvo", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(EditarCooperativaActivity.this, CooperativaLogadoActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onErro(String mensagem) {
+                progress.dismiss();
+                Toast.makeText(EditarCooperativaActivity.this, mensagem, Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

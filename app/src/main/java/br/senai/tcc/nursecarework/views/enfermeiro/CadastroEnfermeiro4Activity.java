@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.*;
@@ -30,56 +29,41 @@ import java.util.Locale;
 import br.senai.tcc.nursecarework.models.Enfermeiro;
 import br.senai.tcc.nursecarework.R;
 
-public class CadastroEnfermeiro5Activity extends AppCompatActivity {
-
-    private ImageView voltar;
-    private EditText edtCep, edtBairro, edtRua, edtNumCasa, edtCidade;
-    private Button proximo;
+public class CadastroEnfermeiro4Activity extends AppCompatActivity {
+    private EditText etCep, etBairro, etRua, etNumero, etCidade;
+    private Spinner sUf;
     private ArrayAdapter<CharSequence> adapter;
     private ProgressDialog progress;
-    private Spinner spinnerUf;
     private Enfermeiro enfermeiro;
     private String email, senha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_enfermeiro_parte5);
+        setContentView(R.layout.activity_cadastro_enfermeiro_parte4);
 
         Intent intent = getIntent();
         enfermeiro = (Enfermeiro) intent.getSerializableExtra("Enfermeiro");
         email = intent.getStringExtra("email");
         senha = intent.getStringExtra("senha");
 
-        voltar = findViewById(R.id.volta);
-        edtCep = findViewById(R.id.cep);
-        edtBairro = findViewById(R.id.bairro);
-        edtRua = findViewById(R.id.rua);
-        edtNumCasa = findViewById(R.id.numCasa);
-        edtCidade = findViewById(R.id.cidade);
-        spinnerUf = findViewById(R.id.uf);
-        proximo = findViewById(R.id.proximo);
+        etCep = findViewById(R.id.etCepEnfermeiro);
+        etBairro = findViewById(R.id.etBairroEnfermeiro);
+        etRua = findViewById(R.id.etRuaEnfermeiro);
+        etNumero = findViewById(R.id.etNumeroEnfermeiro);
+        etCidade = findViewById(R.id.etMunicipioEnfermeiro);
+        sUf = findViewById(R.id.sUfEnfermeiro);
 
-        adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.spinner_estados, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.spinner_estados, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerUf.setAdapter(adapter);
-        spinnerUf.setSelection(0, true);
+        sUf.setAdapter(adapter);
 
         progress = new ProgressDialog(this);
         progress.setTitle("Carregando");
         progress.setMessage("Aguarde...");
         progress.setCancelable(false);
 
-        voltar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CadastroEnfermeiro5Activity.this, CadastroEnfermeiro2Activity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        edtCep.setOnKeyListener(new View.OnKeyListener() {
+        etCep.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 EditText campo = (EditText) view;
@@ -97,25 +81,46 @@ public class CadastroEnfermeiro5Activity extends AppCompatActivity {
             }
         });
 
-        proximo.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ivVoltarEnfermeiro4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtCep.getText().toString().isEmpty()) {
-                    edtCep.setError("Preencha o CEP");
-                    edtCep.requestFocus();
-                } else if (edtNumCasa.getText().toString().isEmpty()) {
-                    edtNumCasa.setError("Preencha o numero da casa");
-                    edtNumCasa.requestFocus();
+                Intent intent = new Intent(CadastroEnfermeiro4Activity.this, CadastroEnfermeiro3Activity.class);
+                intent.putExtra("Enfermeiro", enfermeiro);
+                intent.putExtra("email", email);
+                intent.putExtra("senha", senha);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        findViewById(R.id.bProximoEnfermeiro4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (etCep.getText().toString().length() < 9) {
+                    etCep.setError("Preencha o CEP");
+                    etCep.requestFocus();
+                } else if (etRua.getText().toString().trim().length() < 4) {
+                    etRua.setError("Preencha a rua");
+                    etRua.requestFocus();
+                } else if (etBairro.getText().toString().trim().length() < 3) {
+                    etBairro.setError("Preencha o bairro");
+                    etBairro.requestFocus();
+                } else if (etNumero.getText().toString().isEmpty()) {
+                    etNumero.setError("Preencha o número");
+                    etNumero.requestFocus();
+                } else if (etCidade.getText().toString().trim().length() < 3) {
+                    etCidade.setError("Preencha o município");
+                    etCidade.requestFocus();
                 } else {
+                    String endereco = etRua.getText().toString() + ", " +
+                            etNumero.getText().toString() + " - " +
+                            etBairro.getText().toString() + " - " +
+                            etCidade.getText().toString() + " - " +
+                            sUf.getSelectedItem().toString();
+                    progress.show();
                     Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                     List<Address> addresses = null;
-                    progress.show();
                     try {
-                        String endereco = edtRua.getText().toString() + ", " +
-                                edtNumCasa.getText().toString() + " - " +
-                                edtBairro.getText().toString() + " - " +
-                                edtCidade.getText().toString() + " - " +
-                                spinnerUf.getSelectedItem().toString();
                         addresses = geocoder.getFromLocationName(endereco, 1);
                     } catch (IOException e) {
                     }
@@ -125,51 +130,49 @@ public class CadastroEnfermeiro5Activity extends AppCompatActivity {
                         enfermeiro.setLatitude(address.getLatitude());
                         enfermeiro.setLongitude(address.getLongitude());
 
-                        Intent intent = new Intent(getApplicationContext(), CadastroEnfermeiro6Activity.class);
+                        Intent intent = new Intent(CadastroEnfermeiro4Activity.this, CadastroEnfermeiro5Activity.class);
                         intent.putExtra("Enfermeiro", enfermeiro);
                         intent.putExtra("email", email);
                         intent.putExtra("senha", senha);
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(CadastroEnfermeiro5Activity.this, "Endereço inválido", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CadastroEnfermeiro4Activity.this, "Endereço inválido", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
     }
 
-    public void buscaCep(String cepUsuario) {
+    private void buscaCep(String cepUsuario) {
         RequestQueue rq = Volley.newRequestQueue(this);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, "https://viacep.com.br/ws/" + cepUsuario + "/json/", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            edtCep.clearFocus();
-                            edtCep.setText(response.getString("cep"));
-                            edtRua.setText(response.getString("logradouro"));
-                            edtBairro.setText(response.getString("bairro"));
-                            edtCidade.setText(response.getString("localidade"));
-                            spinnerUf.setSelection(adapter.getPosition(response.getString("uf")));
-                            edtNumCasa.requestFocus();
+                            etCep.clearFocus();
+                            etCep.setText(response.getString("cep"));
+                            etRua.setText(response.getString("logradouro"));
+                            etBairro.setText(response.getString("bairro"));
+                            etCidade.setText(response.getString("localidade"));
+                            sUf.setSelection(adapter.getPosition(response.getString("uf")));
+                            etNumero.requestFocus();
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                            edtCep.setText("");
-                            edtRua.setText("");
-                            edtNumCasa.setText("");
-                            edtBairro.setText("");
-                            edtCidade.setText("");
-                            spinnerUf.setSelection(adapter.getPosition("AC"));
+                            etCep.setText("");
+                            etRua.setText("");
+                            etNumero.setText("");
+                            etBairro.setText("");
+                            etCidade.setText("");
+                            sUf.setSelection(0);
                         }
-                        edtCep.setEnabled(true);
+                        etCep.setEnabled(true);
                         progress.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("LOG", "Erro");
                         progress.dismiss();
                     }
                 }

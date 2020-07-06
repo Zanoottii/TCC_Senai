@@ -2,6 +2,7 @@ package br.senai.tcc.nursecarework.views.enfermeiro;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,9 +12,8 @@ import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,24 +29,23 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import java.io.IOException;
 
 import br.senai.tcc.nursecarework.models.Enfermeiro;
-import br.senai.tcc.nursecarework.models.ServicosFirebase;
+import br.senai.tcc.nursecarework.helpers.ServicosFirebase;
 import br.senai.tcc.nursecarework.R;
 
-public class CadastroEnfermeiro4Activity extends AppCompatActivity {
-
-    private ImageView voltar;
-    private CircularImageView foto;
-    private Button concluido, galeria;
-    private EditText edtNumCoren;
+public class CadastroEnfermeiro6Activity extends AppCompatActivity {
+    private CircularImageView civFoto;
+    private ImageButton ibSelecionaFoto;
+    private EditText etCoren;
+    private ServicosFirebase servicosFirebase;
     private Enfermeiro enfermeiro;
     private String email, senha;
-    private ServicosFirebase servicosFirebase;
     private Bitmap bitmap;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_enfermeiro_parte4);
+        setContentView(R.layout.activity_cadastro_enfermeiro_parte6);
 
         servicosFirebase = new ServicosFirebase(this);
 
@@ -55,66 +54,68 @@ public class CadastroEnfermeiro4Activity extends AppCompatActivity {
         email = intent.getStringExtra("email");
         senha = intent.getStringExtra("senha");
 
-        voltar = findViewById(R.id.voltar5);
-        concluido = findViewById(R.id.btnCadConcluido);
-        galeria = findViewById(R.id.btnGaleria);
-        foto = findViewById(R.id.fotoCadastro);
-        edtNumCoren = findViewById(R.id.numCoren);
+        civFoto = findViewById(R.id.civFotoEnfermeiro);
+        ibSelecionaFoto = findViewById(R.id.ibSelecionaFotoEnfermeiro);
+        etCoren = findViewById(R.id.etCorenEnfermeiro);
 
-        //mascara para o campo do NumCoren
-        SimpleMaskFormatter simpleMaskCoren = new SimpleMaskFormatter("NNN-NNN");
-        SimpleMaskTextWatcher maskCoren = new SimpleMaskTextWatcher(edtNumCoren, simpleMaskCoren);
-        edtNumCoren.addTextChangedListener(maskCoren);
+        etCoren.addTextChangedListener(new SimpleMaskTextWatcher(etCoren, new SimpleMaskFormatter("NNN-NNN")));
 
-        //Botão para voltar para a tele de cadastro parte 3
-        voltar.setOnClickListener(new View.OnClickListener() {
+        ibSelecionaFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(CadastroEnfermeiro6Activity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(CadastroEnfermeiro6Activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                } else {
+                    registerForContextMenu(ibSelecionaFoto);
+                    openContextMenu(ibSelecionaFoto);
+                }
+            }
+        });
+
+        progress = new ProgressDialog(this);
+        progress.setTitle("Carregando");
+        progress.setMessage("Aguarde...");
+        progress.setCancelable(false);
+
+        findViewById(R.id.ivVoltarEnfermeiro6).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CadastroEnfermeiro4Activity.this, CadastroEnfermeiro3Activity.class);
+                Intent intent = new Intent(CadastroEnfermeiro6Activity.this, CadastroEnfermeiro5Activity.class);
+                intent.putExtra("Enfermeiro", enfermeiro);
+                intent.putExtra("email", email);
+                intent.putExtra("senha", senha);
                 startActivity(intent);
                 finish();
             }
         });
 
-        //Botão para concluir o cadastro do enfermeiro
-        concluido.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bCadastrarEnfermeiro).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtNumCoren.getText().toString().isEmpty()) {
-                    edtNumCoren.setError("Preencha o numero do Coren");
-                    edtNumCoren.requestFocus();
+                if (etCoren.getText().toString().length() < 7) {
+                    etCoren.setError("Preencha o número do Coren");
+                    etCoren.requestFocus();
                 } else {
                     if (bitmap == null)
                         bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.foto);
-                    enfermeiro.setCoren(edtNumCoren.getText().toString());
+
+                    enfermeiro.setCoren(etCoren.getText().toString());
+
+                    progress.show();
                     servicosFirebase.cadastrarEnfermeiro(email, senha, enfermeiro, bitmap, new ServicosFirebase.ResultadoListener() {
                         @Override
                         public void onSucesso(Object objeto) {
-                            startActivity(new Intent(CadastroEnfermeiro4Activity.this, EnfermeiroLogadoActivity.class));
+                            progress.dismiss();
+                            startActivity(new Intent(CadastroEnfermeiro6Activity.this, EnfermeiroLogadoActivity.class));
                             finish();
                         }
 
                         @Override
                         public void onErro(String mensagem) {
-                            Toast.makeText(CadastroEnfermeiro4Activity.this, mensagem, Toast.LENGTH_SHORT).show();
+                            progress.dismiss();
+                            Toast.makeText(CadastroEnfermeiro6Activity.this, mensagem, Toast.LENGTH_SHORT).show();
                         }
                     });
-                }
-            }
-        });
-
-        //botão paara abrir a galeria
-        galeria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //aqui ele verifica se o usuário já deu a permissão....
-                if (ActivityCompat.checkSelfPermission(CadastroEnfermeiro4Activity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    //e caso ainda não tenha dado, ele solicita...
-                    ActivityCompat.requestPermissions(CadastroEnfermeiro4Activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-                } else {
-                    //ao executar novamente ele irá verificar que já foi dado a permissão e irá executar a funcionalidade normalmente
-                    registerForContextMenu(galeria);
-                    openContextMenu(galeria);
                 }
             }
         });
@@ -122,21 +123,17 @@ public class CadastroEnfermeiro4Activity extends AppCompatActivity {
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        MenuItem carregarImg = menu.add("Galeria");
-        carregarImg.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        MenuItem miGaleria = menu.add("Galeria");
+        miGaleria.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                selecionarGaleria();
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(intent, 1);
                 return false;
             }
         });
-    }
-
-    public void selecionarGaleria() {
-        Intent abrirGaleria = new Intent(Intent.ACTION_GET_CONTENT);
-        abrirGaleria.setType("image/*");
-        abrirGaleria.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(abrirGaleria, 1);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -148,7 +145,7 @@ public class CadastroEnfermeiro4Activity extends AppCompatActivity {
                 }
                 try {
                     bitmap = ThumbnailUtils.extractThumbnail(MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData()), 300, 300, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-                    foto.setImageBitmap(bitmap);
+                    civFoto.setImageBitmap(bitmap);
                 } catch (IOException e) {
                 }
             }

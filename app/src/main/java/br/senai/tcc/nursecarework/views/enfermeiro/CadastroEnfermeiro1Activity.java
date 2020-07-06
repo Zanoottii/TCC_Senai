@@ -1,69 +1,59 @@
-package br.senai.tcc.nursecarework.views.Enfermeiro;
+package br.senai.tcc.nursecarework.views.enfermeiro;
 
 import android.content.Intent;
+import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import  br.senai.tcc.nursecarework.R;
+import br.senai.tcc.nursecarework.R;
 import br.senai.tcc.nursecarework.views.NovoCadastroActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-
 public class CadastroEnfermeiro1Activity extends AppCompatActivity {
-
-    private Button proximo;
-    private EditText email, senha, conSenha;
-    private ImageView voltar;
+    private EditText etEmail, etSenha, etSenha2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_enfermeiro_parte1);
 
-        proximo = findViewById(R.id.btnProximo1);
-        email = findViewById(R.id.emailEnfermeiro);
-        senha = findViewById(R.id.senhaEnfermeiro);
-        conSenha = findViewById(R.id.conSenhaEnfer);
-        voltar = findViewById(R.id.voltar);
+        etEmail = findViewById(R.id.etEmailEnfermeiro);
+        etSenha = findViewById(R.id.etSenhaEnfermeiro);
+        etSenha2 = findViewById(R.id.etSenha2Enfermeiro);
 
-        //Botão para ir para a próxima etapa
-        proximo.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ivVoltarEnfermeiro1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches() || email.getText().toString().isEmpty()) {
-                    email.setError("Preencha o email corretamente");
-                    email.requestFocus();
-                } else if (senha.getText().toString().isEmpty() || senha.length() < 6) {
-                    senha.setError("Preencha a senha Com no minimo 6 caracteres");
-                    senha.requestFocus();
-                } else if (conSenha.getText().toString().isEmpty()) {
-                    conSenha.setError("Preencha o campo");
-                    conSenha.requestFocus();
-                } else if (!conSenha.getText().toString().equals(senha.getText().toString())) {
-                    conSenha.setError("As senhas não coincidem");
-                    conSenha.requestFocus();
-                } else {
-                    Intent intent = new Intent(getApplicationContext(), CadastroEnfermeiro2Activity.class);
-                    intent.putExtra("email", email.getText().toString());
-                    intent.putExtra("senha", senha.getText().toString());
-                    startActivity(intent);
-                    finish();
-                }
+                startActivity(new Intent(CadastroEnfermeiro1Activity.this, NovoCadastroActivity.class));
+                finish();
             }
         });
 
-        //Botão para voltar para a tela de novo cadastro
-        voltar.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bProximoEnfermeiro1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), NovoCadastroActivity.class);
-                startActivity(intent);
-                finish();
+                if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString().trim()).matches()) {
+                    etEmail.setError("Preencha o e-mail corretamente");
+                    etEmail.requestFocus();
+                } else if (etSenha.getText().toString().trim().length() < 6) {
+                    etSenha.setError("Preencha a senha com no minimo 6 caracteres");
+                    etSenha.requestFocus();
+                } else if (etSenha2.getText().toString().trim().length() < 6) {
+                    etSenha2.setError("Repita a senha com no minimo 6 caracteres");
+                    etSenha2.requestFocus();
+                } else if (!etSenha2.getText().toString().equals(etSenha.getText().toString())) {
+                    etSenha2.setError("As senhas não coincidem");
+                    etSenha2.requestFocus();
+                } else {
+                    Intent intent = new Intent(CadastroEnfermeiro1Activity.this, CadastroEnfermeiro2Activity.class);
+                    intent.putExtra("email", etEmail.getText().toString().trim());
+                    intent.putExtra("senha", etSenha.getText().toString().trim());
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }

@@ -1,9 +1,11 @@
-package br.senai.tcc.nursecarework.Models;
+package br.senai.tcc.nursecarework.models;
+
+import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.io.Serializable;
 
+@IgnoreExtraProperties
 public class Cooperativa implements Serializable {
-
     private String nome, cnpj, municipio, uf;
 
     public String getNome() {

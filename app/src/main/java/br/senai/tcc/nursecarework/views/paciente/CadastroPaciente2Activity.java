@@ -2,7 +2,8 @@ package br.senai.tcc.nursecarework.views.paciente;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.util.Log;
+import android.location.Address;
+import android.location.Geocoder;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.*;
@@ -21,51 +22,45 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import br.senai.tcc.nursecarework.R;
+import br.senai.tcc.nursecarework.models.Paciente;
 
-public class CadastroPaciente3Activity extends AppCompatActivity {
-
-    private ImageView voltar;
-    private EditText cep, bairro, rua, numCasa, cidade;
-    private Button proximo;
+public class CadastroPaciente2Activity extends AppCompatActivity {
+    private EditText etCep, etBairro, etRua, etNumero, etComlemento, etCidade;
+    private Spinner sUf;
     private ArrayAdapter<CharSequence> adapter;
     private ProgressDialog progress;
-    private Spinner uf;
+    private Paciente paciente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_enfermeiro_parte4);
+        setContentView(R.layout.activity_cadastro_paciente_parte2);
 
-        voltar = findViewById(R.id.volta);
-        cep = findViewById(R.id.cep);
-        bairro = findViewById(R.id.bairro);
-        rua = findViewById(R.id.rua);
-        numCasa = findViewById(R.id.numCasa);
-        cidade = findViewById(R.id.cidade);
-        uf = findViewById(R.id.uf);
-        proximo = findViewById(R.id.proximo);
+        paciente = (Paciente) getIntent().getSerializableExtra("Paciente");
 
-        adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.spinner_estados, android.R.layout.simple_spinner_item);
+        etCep = findViewById(R.id.etCepPaciente);
+        etBairro = findViewById(R.id.etBairroPaciente);
+        etRua = findViewById(R.id.etRuaPaciente);
+        etNumero = findViewById(R.id.etNumeroPaciente);
+        etComlemento = findViewById(R.id.etComplementoPaciente);
+        etCidade = findViewById(R.id.etMunicipioPaciente);
+        sUf = findViewById(R.id.sUfPaciente);
+
+        adapter = ArrayAdapter.createFromResource(this, R.array.spinner_estados, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        uf.setAdapter(adapter);
-        uf.setSelection(0, true);
+        sUf.setAdapter(adapter);
 
         progress = new ProgressDialog(this);
         progress.setTitle("Carregando");
         progress.setMessage("Aguarde...");
         progress.setCancelable(false);
 
-        voltar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CadastroPaciente3Activity.this, CadastroPaciente2Activity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        cep.setOnKeyListener(new View.OnKeyListener() {
+        etCep.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 EditText campo = (EditText) view;
@@ -83,55 +78,100 @@ public class CadastroPaciente3Activity extends AppCompatActivity {
             }
         });
 
-        proximo.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ivVoltarPaciente2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (cep.getText().toString().isEmpty()) {
-                    cep.setError("Preencha o CEP");
-                    cep.requestFocus();
-                } else if (numCasa.getText().toString().isEmpty()) {
-                    numCasa.setError("Preencha o numero da casa");
-                    numCasa.requestFocus();
+                startActivity(new Intent(CadastroPaciente2Activity.this, CadastroPaciente1Activity.class));
+                finish();
+            }
+        });
+
+        findViewById(R.id.bProximoPaciente2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (etCep.getText().toString().length() < 9) {
+                    etCep.setError("Preencha o CEP");
+                    etCep.requestFocus();
+                } else if (etRua.getText().toString().trim().length() < 6) {
+                    etRua.setError("Preencha a rua");
+                    etRua.requestFocus();
+                } else if (etBairro.getText().toString().trim().length() < 3) {
+                    etBairro.setError("Preencha o bairro");
+                    etBairro.requestFocus();
+                } else if (etNumero.getText().toString().isEmpty()) {
+                    etNumero.setError("Preencha o número");
+                    etNumero.requestFocus();
+                } else if (etCidade.getText().toString().trim().length() < 3) {
+                    etCidade.setError("Preencha o município");
+                    etCidade.requestFocus();
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), CadastroPaciente4Activity.class);
-                    startActivity(intent);
-                    finish();
+                    String endereco = etRua.getText().toString() + ", " +
+                            etNumero.getText().toString() + " - " +
+                            etBairro.getText().toString() + " - " +
+                            etCidade.getText().toString() + " - " +
+                            sUf.getSelectedItem().toString();
+                    progress.show();
+                    Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                    List<Address> addresses = null;
+                    try {
+                        addresses = geocoder.getFromLocationName(endereco, 1);
+                    } catch (IOException e) {
+                    }
+                    progress.dismiss();
+                    if (addresses != null && addresses.size() > 0) {
+                        Address address = addresses.get(0);
+                        paciente.setCep(etCep.getText().toString());
+                        paciente.setLogradouro(etRua.getText().toString());
+                        paciente.setBairro(etBairro.getText().toString());
+                        paciente.setNumero(etNumero.getText().toString());
+                        paciente.setComplemento(etComlemento.getText().toString());
+                        paciente.setMunicipio(etCidade.getText().toString());
+                        paciente.setUf(sUf.getSelectedItem().toString());
+                        paciente.setLatitude(address.getLatitude());
+                        paciente.setLongitude(address.getLongitude());
+
+                        Intent intent = new Intent(CadastroPaciente2Activity.this, CadastroPaciente3Activity.class);
+                        intent.putExtra("Paciente", paciente);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(CadastroPaciente2Activity.this, "Endereço inválido", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
     }
 
-    public void buscaCep(String cepUsuario) {
+    private void buscaCep(String cepUsuario) {
         RequestQueue rq = Volley.newRequestQueue(this);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, "https://viacep.com.br/ws/" + cepUsuario + "/json/", null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            cep.clearFocus();
-                            cep.setText(response.getString("cep"));
-                            rua.setText(response.getString("logradouro"));
-                            bairro.setText(response.getString("bairro"));
-                            cidade.setText(response.getString("localidade"));
-                            uf.setSelection(adapter.getPosition(response.getString("uf")));
-                            numCasa.requestFocus();
+                            etCep.clearFocus();
+                            etCep.setText(response.getString("cep"));
+                            etRua.setText(response.getString("logradouro"));
+                            etBairro.setText(response.getString("bairro"));
+                            etCidade.setText(response.getString("localidade"));
+                            sUf.setSelection(adapter.getPosition(response.getString("uf")));
+                            etNumero.requestFocus();
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                            cep.setText("");
-                            rua.setText("");
-                            numCasa.setText("");
-                            bairro.setText("");
-                            cidade.setText("");
-                            uf.setSelection(adapter.getPosition("AC"));
+                            etCep.setText("");
+                            etRua.setText("");
+                            etNumero.setText("");
+                            etComlemento.setText("");
+                            etBairro.setText("");
+                            etCidade.setText("");
+                            sUf.setSelection(0);
                         }
-                        cep.setEnabled(true);
+                        etCep.setEnabled(true);
                         progress.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("LOG", "Erro");
                         progress.dismiss();
                     }
                 }

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fundo"
-    tools:context=".views.enfermeiro.CadastroEnfermeiro5Activity">
+    tools:context=".views.enfermeiro.CadastroEnfermeiro4Activity">
 
     <ImageView
-        android:id="@+id/ivVoltarEnfermeiro5"
+        android:id="@+id/ivVoltarEnfermeiro4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -53,7 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="48dp"
         android:background="@drawable/borda"
         android:inputType="text"
@@ -75,7 +75,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="48dp"
         android:background="@drawable/borda"
         android:inputType="text"
@@ -97,7 +97,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="48dp"
         android:background="@drawable/borda"
         android:inputType="number"
@@ -108,18 +108,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cidade:"
+        android:text="Município:"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/etCidadeEnfermeiro"
-        app:layout_constraintStart_toStartOf="@+id/etCidadeEnfermeiro" />
+        app:layout_constraintBottom_toTopOf="@+id/etMunicipioEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/etMunicipioEnfermeiro" />
 
     <EditText
-        android:id="@+id/etCidadeEnfermeiro"
+        android:id="@+id/etMunicipioEnfermeiro"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="48dp"
         android:background="@drawable/borda"
         android:inputType="text"
@@ -141,16 +141,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/borda"
-        android:enabled="true"
         android:entries="@array/spinner_estados"
-        android:focusable="false"
+        android:spinnerMode="dialog"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCidadeEnfermeiro" />
+        app:layout_constraintTop_toBottomOf="@+id/etMunicipioEnfermeiro" />
 
     <Button
-        android:id="@+id/bProximoEnfermeiro5"
+        android:id="@+id/bProximoEnfermeiro4"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginEnd="16dp"

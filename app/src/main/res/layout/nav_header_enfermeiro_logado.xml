@@ -13,22 +13,22 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:layout_marginTop="10dp"
-        android:id="@+id/imgUserEnfermeiro"
+        android:id="@+id/civFotoEnfermeiroLogado"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:contentDescription="@string/nav_header_desc"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/foto" />
+        app:srcCompat="@drawable/foto"
+        app:civ_border="true"
+        app:civ_border_color="@android:color/white"
+        app:civ_border_width="2dp" />
 
     <TextView
-        android:id="@+id/emailEnfermeiro"
+        android:id="@+id/tvEmailEnfermeiroLogado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="nursecare@email.com"
+        android:text="enfermeiro@email.com"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/white"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
 </LinearLayout>

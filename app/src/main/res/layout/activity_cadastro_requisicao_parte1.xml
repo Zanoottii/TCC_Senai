@@ -1,96 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="15dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fundo"
-    tools:context=".views.paciente.CadastroPacienteLixoActivity">
+    tools:context=".views.requisicao.CadastroRequisicao1Activity">
 
     <ImageView
-        android:id="@+id/bVoltarCooperativa2"
-        android:layout_width="40dp"
+        android:id="@+id/ivVoltarRequisicao1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/ic_voltar"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CPF:"
-        android:textSize="19dp"
+        android:text="Data do atendimento:"
         android:textColor="@android:color/black"
-        android:layout_marginTop="20dp"
-        />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etDataRequisicao"
+        app:layout_constraintStart_toStartOf="@+id/etDataRequisicao" />
 
     <EditText
-        android:inputType="number"
-        android:id="@+id/edtCPF"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:id="@+id/etDataRequisicao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/borda"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Convenio:"
-        android:textColor="@android:color/black"
-        android:textSize="19dp"
-        />
-
-    <EditText
         android:inputType="text"
-        android:id="@+id/edtConvenio"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:background="@drawable/borda"
-        />
+        app:layout_constraintEnd_toStartOf="@+id/ibDataRequisicao"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ibDataRequisicao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/ic_data"
+        app:layout_constraintBottom_toBottomOf="@+id/etDataRequisicao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etDataRequisicao" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Data Atendimento:"
+        android:text="Horário do atendimento:"
         android:textColor="@android:color/black"
-        android:textSize="19dp"
-        />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etHorarioRequisicao"
+        app:layout_constraintStart_toStartOf="@+id/etHorarioRequisicao" />
 
     <EditText
-        android:inputType="number"
-        android:id="@+id/edtAgenda"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:id="@+id/etHorarioRequisicao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/borda"
-        />
+        android:inputType="number"
+        app:layout_constraintEnd_toStartOf="@+id/ibHorarioRequisicao"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDataRequisicao" />
 
-    <TextView
+    <ImageButton
+        android:id="@+id/ibHorarioRequisicao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Horario:"
-        android:textColor="@android:color/black"
-        android:textSize="19dp"
-        />
-
-    <EditText
-        android:inputType="number"
-        android:id="@+id/edtHorario"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:background="@drawable/borda"
-        />
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/ic_hora"
+        app:layout_constraintBottom_toBottomOf="@+id/etHorarioRequisicao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etHorarioRequisicao" />
 
     <Button
-        android:id="@+id/btProximo"
-        android:layout_marginTop="30dp"
-        android:layout_width="135dp"
-        android:layout_height="45dp"
+        android:id="@+id/bProximoRequisicao1"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/botao"
-        android:text="Proximo"
-        android:layout_gravity="right"
-        />
+        android:text="Próximo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fundo"
-    tools:context=".views.cooperativa.EditarCooperativa1Activity">
+    tools:context=".views.cooperativa.EditarCooperativaActivity">
 
     <ImageView
-        android:id="@+id/ivVoltarEditarCooperativa1"
+        android:id="@+id/ivVoltarEditarCooperativa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

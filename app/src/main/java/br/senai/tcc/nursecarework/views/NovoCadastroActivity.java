@@ -1,58 +1,42 @@
-package br.senai.tcc.nursecarework.Views;
+package br.senai.tcc.nursecarework.views;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import br.senai.tcc.nursecarework.Views.Cooperativa.CadastroCooperativa1Activity;
-import br.senai.tcc.nursecarework.Views.Enfermeiro.CadastroEnfermeiro1Activity;
+import br.senai.tcc.nursecarework.views.cooperativa.CadastroCooperativa1Activity;
+import br.senai.tcc.nursecarework.views.enfermeiro.CadastroEnfermeiro1Activity;
 import br.senai.tcc.nursecarework.R;
 
 public class NovoCadastroActivity extends AppCompatActivity {
-
-    ImageView voltar;
-    Button cadastroEnfermeiro, cadastroCooperativa;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_cadastro);
 
-        voltar = findViewById(R.id.voltar1);
-        cadastroEnfermeiro = findViewById(R.id.cadastroEnfermeiro);
-        cadastroCooperativa = findViewById(R.id.cadastroCooperativa);
-
-        //Botão para voltar para a tela de login
-        voltar.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.ivVoltarCadastro).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NovoCadastroActivity.this, MainActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(NovoCadastroActivity.this, MainActivity.class));
                 finish();
             }
         });
 
-        //Botão para cadastro do enfermeiro
-        cadastroEnfermeiro.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bCadastroEnfermeiro).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NovoCadastroActivity.this, CadastroEnfermeiro1Activity.class);
-                startActivity(intent);
+                startActivity(new Intent(NovoCadastroActivity.this, CadastroEnfermeiro1Activity.class));
                 finish();
             }
         });
 
-        //Botão para cadastro da Cooperativas
-        cadastroCooperativa.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.bCadastroCooperativa).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(NovoCadastroActivity.this, CadastroCooperativa1Activity.class);
-                startActivity(intent);
+                startActivity(new Intent(NovoCadastroActivity.this, CadastroCooperativa1Activity.class));
                 finish();
             }
         });

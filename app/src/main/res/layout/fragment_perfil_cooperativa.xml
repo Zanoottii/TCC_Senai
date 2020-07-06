@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.cooperativa.PerfilEmpFragment">
+    tools:context=".views.cooperativa.PerfilCooperativaFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -12,70 +12,86 @@
         android:background="@drawable/fundo">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/fotoPerfilEmp"
+            android:id="@+id/civFotoPerfilCooperativa"
             android:layout_width="110dp"
             android:layout_height="110dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="68dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/foto"
+            android:layout_marginTop="64dp"
+            android:src="@drawable/logotipo"
+            app:civ_border="true"
+            app:civ_border_color="@android:color/black"
+            app:civ_border_width="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnEditarPerfilEmp"
-            android:layout_width="142dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="88dp"
-            android:background="@drawable/botao"
-            android:drawableStart="@drawable/ic_editar"
-            android:text="Editar Perfil"
-            android:textColor="#464646"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.928"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <TextView
-            android:id="@+id/perfilEmailEmp"
+            android:id="@+id/tvEmailPerfilCooperativa"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="nursecare@gmail.com"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
+            android:text="cooperativa@email.com"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fotoPerfilEmp" />
+            app:layout_constraintTop_toBottomOf="@+id/civFotoPerfilCooperativa" />
 
         <TextView
-            android:id="@+id/nomePerfilEmp"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvNomePerfilCooperativa"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="48dp"
             android:text="Nome:"
             android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/perfilEmailEmp" />
+            app:layout_constraintTop_toBottomOf="@+id/tvEmailPerfilCooperativa" />
 
         <TextView
-            android:id="@+id/cnpjPerfilEmp"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvCnpjPerfilCooperativa"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="8dp"
-            android:text="Cnpj:"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="48dp"
+            android:text="CNPJ:"
             android:textColor="@android:color/black"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.472"
-            app:layout_constraintStart_toEndOf="@+id/nomePerfilEmp"
-            app:layout_constraintTop_toBottomOf="@+id/perfilEmailEmp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNomePerfilCooperativa" />
+
+        <TextView
+            android:id="@+id/tvMunicipioPerfilCooperativa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="48dp"
+            android:text="Município:"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCnpjPerfilCooperativa" />
+
+        <Button
+            android:id="@+id/bEditarPerfilCooperativa"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/botao"
+            android:drawableStart="@drawable/ic_editar"
+            android:drawableTint="@android:color/black"
+            android:text="Editar Perfil"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
