@@ -1,81 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="15dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
-    tools:context=".Views.Enfermeiro.CadastroEnfermeiro4Activity">
+    android:background="@drawable/fundo"
+    tools:context=".views.enfermeiro.CadastroEnfermeiro5Activity">
 
     <ImageView
-        android:id="@+id/voltar5"
+        android:id="@+id/ivVoltarEnfermeiro5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/voltar"
-        />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_voltar" />
 
     <TextView
-        android:layout_gravity="center"
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Foto do Perfil"
+        android:text="CEP:"
         android:textColor="@android:color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:layout_gravity="center"
-        android:id="@+id/fotoCadastro"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:src="@drawable/perfil"
-        />
-
-    <Button
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        android:id="@+id/btnGaleria"
-        android:layout_width="38dp"
-        android:layout_height="36dp"
-        android:background="@drawable/iconegaleria"
-        />
-
-    <TextView
-        android:layout_marginLeft="30dp"
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Numero do Coren:"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        />
-
-
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etCepEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/etCepEnfermeiro" />
 
     <EditText
-        android:layout_marginLeft="30dp"
-        android:id="@+id/numCoren"
+        android:id="@+id/etCepEnfermeiro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/borda"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Rua:"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etRuaEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/etRuaEnfermeiro" />
+
+    <EditText
+        android:id="@+id/etRuaEnfermeiro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
         android:background="@drawable/borda"
-        android:ems="10"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCepEnfermeiro" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bairro:"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etBairroEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/etBairroEnfermeiro" />
+
+    <EditText
+        android:id="@+id/etBairroEnfermeiro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/borda"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etRuaEnfermeiro" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Número:"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etNumeroEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/etNumeroEnfermeiro" />
+
+    <EditText
+        android:id="@+id/etNumeroEnfermeiro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/borda"
         android:inputType="number"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etBairroEnfermeiro" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cidade:"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etCidadeEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/etCidadeEnfermeiro" />
+
+    <EditText
+        android:id="@+id/etCidadeEnfermeiro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/borda"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNumeroEnfermeiro" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UF:"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/sUfEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/sUfEnfermeiro" />
+
+    <Spinner
+        android:id="@+id/sUfEnfermeiro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/borda"
+        android:enabled="true"
+        android:entries="@array/spinner_estados"
+        android:focusable="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCidadeEnfermeiro" />
 
     <Button
-        android:layout_gravity="end"
-        android:layout_marginTop="30dp"
-        android:id="@+id/btnCadConcluido"
-        android:layout_width="137dp"
-        android:layout_height="45dp"
-        android:background="@drawable/botton"
-        android:text="Concluído"
-        />
+        android:id="@+id/bProximoEnfermeiro5"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/botao"
+        android:text="Próximo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

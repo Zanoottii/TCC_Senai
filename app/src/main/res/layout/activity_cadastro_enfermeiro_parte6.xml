@@ -1,57 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:padding="15dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
-    tools:context=".Views.Enfermeiro.CadastroEnfermeiro6Activity">
+    android:background="@drawable/fundo"
+    tools:context=".views.enfermeiro.CadastroEnfermeiro4Activity">
 
     <ImageView
-        android:id="@+id/voltar"
+        android:id="@+id/ivVoltarEnfermeiro4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/voltar"
-         />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_voltar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="310dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="Qual a distância maxima em que deseja atender?"
-        android:textColor="@android:color/black"
-        android:textSize="20dp"
-         />
-
-    <TextView
-        android:layout_marginTop="30dp"
-        android:id="@+id/txtKm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Distância: 1Km"
+        android:layout_marginBottom="8dp"
+        android:text="Foto do Perfil"
         android:textColor="@android:color/black"
-        android:textSize="19dp"
-        android:layout_gravity="center"
-        />
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/civFotoEnfermeiro"
+        app:layout_constraintEnd_toEndOf="@+id/civFotoEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/civFotoEnfermeiro" />
 
-    <SeekBar
-        android:id="@+id/distancia"
-        android:layout_width="310dp"
-        android:layout_height="30dp"
-        android:max="30"
-        android:min="1"
-        android:layout_gravity="center"/>
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/civFotoEnfermeiro"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="112dp"
+        android:src="@drawable/ic_usuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ibGaleria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/ic_galeria"
+        app:layout_constraintEnd_toEndOf="@+id/civFotoEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/civFotoEnfermeiro"
+        app:layout_constraintTop_toBottomOf="@+id/civFotoEnfermeiro" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Número do Coren:"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/etCorenEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/etCorenEnfermeiro" />
+
+    <EditText
+        android:id="@+id/etCorenEnfermeiro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="48dp"
+        android:background="@drawable/borda"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/civFotoEnfermeiro" />
 
     <Button
-        android:id="@+id/proximo"
-        android:layout_gravity="right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/botton"
-        android:text="Proximo"
-        android:layout_marginTop="30dp" />
+        android:id="@+id/bCadastrarEnfermeiro"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/botao"
+        android:text="Cadastrar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

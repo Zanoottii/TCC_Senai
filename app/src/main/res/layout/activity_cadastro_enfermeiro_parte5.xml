@@ -1,154 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
-    android:orientation="vertical"
-    android:padding="15dp"
-    tools:context=".Views.Enfermeiro.CadastroEnfermeiro5Activity">
+    android:background="@drawable/fundo"
+    tools:context=".views.enfermeiro.CadastroEnfermeiro6Activity">
 
     <ImageView
-        android:id="@+id/volta"
+        android:id="@+id/ivVoltarEnfermeiro6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/voltar" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_voltar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/tvPergunta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="48dp"
+        android:gravity="center"
+        android:text="Qual a distância máxima em que deseja atender?"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDistanciaEnfermeiro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="55dp"
-        android:text="CEP:"
+        android:text="Distância: 1 Km"
         android:textColor="@android:color/black"
-        android:textSize="16dp" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/sbDistanciaEnfermeiro"
+        app:layout_constraintEnd_toEndOf="@+id/sbDistanciaEnfermeiro"
+        app:layout_constraintStart_toStartOf="@+id/sbDistanciaEnfermeiro" />
 
-    <EditText
-        android:id="@+id/cep"
-        android:layout_width="wrap_content"
+    <SeekBar
+        android:id="@+id/sbDistanciaEnfermeiro"
+        android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="55dp"
-        android:background="@drawable/borda"
-        android:ems="11"
-        android:inputType="number" />
-
-    <TextView
-        android:id="@+id/textView20"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="55dp"
-        android:text="Rua:"
-        android:textColor="@android:color/black"
-        android:textSize="16dp" />
-
-    <EditText
-        android:id="@+id/rua"
-
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginLeft="55dp"
-        android:background="@drawable/borda"
-        android:ems="11"
-        android:enabled="true"
-        android:focusable="false"
-        android:inputType="text" />
-
-
-    <TextView
-        android:id="@+id/textView19"
-
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="55dp"
-        android:text="Bairro:"
-        android:textColor="@android:color/black"
-        android:textSize="16dp" />
-
-
-    <EditText
-        android:layout_marginLeft="55dp"
-        android:id="@+id/bairro"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:background="@drawable/borda"
-        android:ems="11"
-        android:enabled="true"
-        android:focusable="false"
-        android:inputType="text" />
-
-
-    <TextView
-        android:layout_marginLeft="55dp"
-
-        android:id="@+id/textView22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Numero:"
-        android:textColor="@android:color/black"
-        android:textSize="16dp" />
-
-    <EditText
-        android:layout_marginLeft="55dp"
-
-        android:id="@+id/numCasa"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:background="@drawable/borda"
-        android:ems="11"
-        android:inputType="number" />
-
-
-    <TextView
-        android:layout_marginLeft="55dp"
-
-        android:id="@+id/textView21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cidade:"
-        android:textColor="@android:color/black"
-        android:textSize="16dp" />
-
-    <EditText
-        android:layout_marginLeft="55dp"
-
-        android:id="@+id/cidade"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:background="@drawable/borda"
-        android:ems="11"
-        android:enabled="true"
-        android:focusable="false"
-        android:inputType="text" />
-
-    <TextView
-        android:layout_marginLeft="55dp"
-
-        android:id="@+id/textView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UF:"
-        android:textColor="@android:color/black"
-        android:textSize="16dp" />
-
-    <Spinner
-        android:layout_marginLeft="55dp"
-        android:id="@+id/uf"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/borda"
-        android:enabled="true"
-        android:entries="@array/spinner_estados"
-        android:focusable="false" />
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="48dp"
+        android:max="30"
+        android:min="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPergunta" />
 
     <Button
-        android:layout_gravity="center"
-        android:id="@+id/proximo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/botton"
-        android:text="Proximo" />
+        android:id="@+id/bProximoEnfermeiro6"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/botao"
+        android:text="Próximo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
