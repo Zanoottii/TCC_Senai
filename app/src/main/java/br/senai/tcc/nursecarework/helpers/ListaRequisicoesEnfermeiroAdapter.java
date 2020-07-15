@@ -61,10 +61,14 @@ public class ListaRequisicoesEnfermeiroAdapter extends ArrayAdapter<Requisicao> 
         }
 
         int servicos = requisicao.getServico().size();
-        String distancia = (requisicao.getDistancia() > 999) ?
+        if (requisicao.getDistancia() > 0) {
+            String distancia = (requisicao.getDistancia() > 999) ?
                     String.format("%.1f Km", (float) requisicao.getDistancia() / 1000) :
                     requisicao.getDistancia() + " m";
-        tvDistancia.setText("Distância: " + distancia);
+            tvDistancia.setText("Distância: " + distancia);
+        } else {
+            tvDistancia.setVisibility(View.GONE);
+        }
         tvServicos.setText("Serviços: " + servicos);
         tvValor.setText("R$ " + numberFormat.format(servicos * 45));
 

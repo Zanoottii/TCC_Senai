@@ -564,7 +564,7 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                 });
     }
 
-    public void listarRequisicaoEnfermeiro(String id, final ResultadoListener resultado) {
+    public void listarRequisicaoEnfermeiro(final String id, final ResultadoListener resultado) {
         iniciarBanco();
         Enfermeiro enfermeiro = usuario.getEnfermeiro();
         final int distanciaMaxima = enfermeiro.getDistancia() * 1000;
@@ -584,15 +584,20 @@ public class ServicosFirebase implements FirebaseAuth.AuthStateListener {
                     if (querySnapshot != null) {
                         for (QueryDocumentSnapshot document : querySnapshot) {
                             Requisicao requisicao = document.toObject(Requisicao.class);
+                            requisicao.setId(document.getId());
                             Location localPaciente = new Location("");
                             localPaciente.setLatitude(requisicao.getLatitude());
                             localPaciente.setLongitude(requisicao.getLongitude());
-                            int distancia = (int) localEnfermeiro.distanceTo(localPaciente);
-                            if (distancia <= distanciaMaxima) {
-                                requisicao.setId(document.getId());
-                                requisicao.setDistancia(distancia);
+                            if (id.isEmpty()) {
+                                int distancia = (int) localEnfermeiro.distanceTo(localPaciente);
+                                if (distancia <= distanciaMaxima) {
+                                    requisicao.setDistancia(distancia);
+                                    requisicoes.add(requisicao);
+                                }
+                            } else {
                                 requisicoes.add(requisicao);
                             }
+
                         }
                     }
                     resultado.onSucesso(requisicoes);
