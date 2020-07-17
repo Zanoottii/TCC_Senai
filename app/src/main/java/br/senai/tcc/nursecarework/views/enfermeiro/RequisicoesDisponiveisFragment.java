@@ -112,6 +112,9 @@ public class RequisicoesDisponiveisFragment extends Fragment {
                         final TextView tvMunicipioCooperativa = layout.findViewById(R.id.tvMunicipioCooperativaRequisicaoEnfermeiroAlert);
                         TextView tvServicos = layout.findViewById(R.id.tvServicosRequisicaoEnfermeiroAlert);
 
+                        tvEndereco.setVisibility(View.GONE);
+                        ivEndereco.setVisibility(View.GONE);
+
                         if (!TextUtils.isEmpty(requisicao.getCooperativa())) {
                             servicosFirebase.carregarCooperativa(requisicao.getCooperativa(), new ServicosFirebase.ResultadoListener<Cooperativa>() {
                                 @Override
@@ -145,7 +148,7 @@ public class RequisicoesDisponiveisFragment extends Fragment {
                         servicosFirebase.carregarPaciente(requisicao.getPaciente(), new ServicosFirebase.ResultadoListener<Paciente>() {
                             @Override
                             public void onSucesso(Paciente paciente) {
-                                tvNomePaciente.setText(paciente.getNome() + " " + paciente.getSobrenome());
+                                tvNomePaciente.setText(paciente.getNome());
                                 Calendar calendar = Calendar.getInstance();
                                 Date nascimento = null;
                                 try {
@@ -168,17 +171,7 @@ public class RequisicoesDisponiveisFragment extends Fragment {
 
                         tvEstado.setText("Estado: Aguardando aceitação");
                         tvDataHora.setText("Data/Hora: " + new SimpleDateFormat("dd/MM/yyyy HH:mm", locale).format(requisicao.getDatahora()));
-                        tvEndereco.setText("Endereço: " + requisicao.getEndereco());
                         tvServicos.setText("\u2022 " + TextUtils.join("\n\u2022 ", requisicao.getServico()));
-
-                        ivEndereco.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(getActivity(), MapaActivity.class);
-                                intent.putExtra("Requisicao", requisicao);
-                                startActivity(intent);
-                            }
-                        });
 
                         TextView titulo = new TextView(getActivity());
                         titulo.setText("Informações da requisição");
